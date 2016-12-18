@@ -188,6 +188,7 @@ void nmix::Stage::changeListenerCallback(juce::ChangeBroadcaster *source)
         }
         
         (*n)->repaint();
+        repaint();
     }
 }
 
@@ -205,6 +206,21 @@ void nmix::Stage::paint(juce::Graphics& g)
     for (int i = 0; i <= 3; i++)
     {
         g.drawEllipse((w/8)*i, (h/8)*i, w - (w/4 * i), h - (h/4 * i), 0.5f);
+    }
+    
+    if (selectedNodes.getNumSelected() > 0)
+    {
+        for (Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
+        {
+            int nWidth  = (*n)->getWidth();
+            int nHeight = (*n)->getHeight();
+            
+            int radius = (*n)->getPosition().translated(nWidth/2, nHeight/2).getDistanceFrom(juce::Point<int>(w/2, h/2));
+            
+            g.setColour((*n)->findColour(nmix::Node::backgroundColourId));
+            g.drawEllipse((w/2) - radius, (h/2) - radius, radius*2, radius*2, 1);
+            g.drawLine(w/2, h/2, (*n)->getX() + nWidth/2, (*n)->getY() + nHeight/2, 1);
+        }
     }
 }
 
