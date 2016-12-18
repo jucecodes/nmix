@@ -28,7 +28,6 @@ struct Stage;
     
 struct Node : public juce::Component
 {
-    
     Node(nmix::Stage& s);
     ~Node();
     
@@ -40,9 +39,10 @@ struct Node : public juce::Component
     
     enum StatusIds
     {
-        none     = 0,
-        hovered  = 1 << 0,
-        selected = 1 << 1,
+        None     = 0,
+        Hovered  = 1 << 0,
+        Selected = 1 << 1,
+        Locked   = 1 << 2,
     };
     
     uint8_t status;

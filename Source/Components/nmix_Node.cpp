@@ -20,7 +20,7 @@
 #include "nmix_Stage.h"
 #include "nmix_Colours.h"
 
-nmix::Node::Node(nmix::Stage& s) : stage(s)
+nmix::Node::Node(nmix::Stage& s) : juce::Component("Unnamed"), stage(s)
 {
     status = 0;
     
@@ -37,12 +37,12 @@ nmix::Node::~Node()
 
 void nmix::Node::mouseEnter(const juce::MouseEvent &e)
 {
-    status |= hovered;
+    status |= Hovered;
 }
 
 void nmix::Node::mouseExit(const juce::MouseEvent &e)
 {
-    status &= ~hovered;
+    status &= ~Hovered;
 }
 
 void nmix::Node::mouseDown(const juce::MouseEvent &e)
@@ -66,22 +66,23 @@ void nmix::Node::paint(juce::Graphics &g)
     int w = getWidth();
     int h = getHeight();
     
-    juce::Colour body      = juce::Colour(0x00000000);
-    juce::Colour highlight = juce::Colour(0x00000000);
+    juce::Colour body      = findColour(backgroundColourId);
+    juce::Colour highlight = findColour(highlightColourId).withAlpha(0.0f);
     
-    if (status & hovered)
+    if (status & Hovered)
     {
-        body      = findColour(backgroundColourId).brighter();
+        body = body.brighter();
     }
     
-    if (status & selected)
+    if (status & Selected)
     {
-        body      = findColour(backgroundColourId).brighter();
-        highlight = findColour(highlightColourId);
+        body      = body.brighter();
+        highlight = highlight.withAlpha(1.0f);
     }
-    if (status == 0)
+    
+    if (status & Locked)
     {
-        body = findColour(backgroundColourId);
+        body = body.darker();
     }
     
     g.setColour(body);

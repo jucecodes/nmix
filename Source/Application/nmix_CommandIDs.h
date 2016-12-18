@@ -29,12 +29,15 @@ enum CommandIds
     SelectAll = 1,
     DeselectAll,
     
+    LockSelection,
+    
 };
     
 namespace CommandCategories
 {
  
-    static const char* const stage       = "Stage";
+    static const char* const Stage       = "Stage";
+    static const char* const Node        = "Node";
     
 };
 

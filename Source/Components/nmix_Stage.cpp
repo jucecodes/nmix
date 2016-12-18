@@ -56,7 +56,9 @@ void nmix::Stage::getAllCommands(juce::Array<juce::CommandID> &commands)
     const juce::CommandID ids[] =
     {
         nmix::CommandIds::SelectAll,
-        nmix::CommandIds::DeselectAll
+        nmix::CommandIds::DeselectAll,
+        
+        nmix::CommandIds::LockSelection
     };
     
     commands.addArray(ids, juce::numElementsInArray(ids));
@@ -67,7 +69,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
     switch (commandID) {
         case nmix::CommandIds::SelectAll:
             
-            result.setInfo("Select All", "Select All Nodes", nmix::CommandCategories::stage, 0);
+            result.setInfo("Select All", "Select All Nodes", nmix::CommandCategories::Stage, 0);
             
             result.addDefaultKeypress('a', juce::ModifierKeys::commandModifier);
             
@@ -75,9 +77,20 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
         case nmix::CommandIds::DeselectAll:
             
-            result.setInfo("Deselect All", "Deselect All Nodes", nmix::CommandCategories::stage, 0);
+            result.setInfo("Deselect All", "Deselect All Nodes", nmix::CommandCategories::Stage, 0);
             
             result.addDefaultKeypress('d', juce::ModifierKeys::commandModifier);
+            
+            break;
+            
+            
+        case nmix::CommandIds::LockSelection:
+            
+            result.setInfo("Lock Selection", "Lock All Selected Nodes", nmix::CommandCategories::Node, 0);
+            
+            result.addDefaultKeypress('l', juce::ModifierKeys::commandModifier);
+            
+            break;
             
         default:
             break;
@@ -100,6 +113,16 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
         case nmix::CommandIds::DeselectAll:
             
             selectedNodes.deselectAll();
+            
+            break;
+            
+        case nmix::CommandIds::LockSelection:
+            
+            for (Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
+            {
+                (*n)->status ^= nmix::Node::Locked;
+                (*n)->repaint();
+            }
             
             break;
             
@@ -157,11 +180,11 @@ void nmix::Stage::changeListenerCallback(juce::ChangeBroadcaster *source)
     {
         if (selectedNodes.isSelected(*n))
         {
-            (*n)->status |= nmix::Node::selected;
+            (*n)->status |= nmix::Node::Selected;
         }
         else
         {
-            (*n)->status &= ~nmix::Node::selected;
+            (*n)->status &= ~nmix::Node::Selected;
         }
         
         (*n)->repaint();
