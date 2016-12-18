@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="DBoZYz" name="nmix" projectType="guiapp" version="1.0.0"
+              bundleIdentifier="com.lassandro.nmix" includeBinaryInAppConfig="1"
+              jucerVersion="4.2.3" defines="DONT_SET_USING_JUCE_NAMESPACE=1"
+              companyWebsite="http://www.github.com/lassandroan" companyName="lassandro"
+              companyEmail="lassandroan@gmail.com">
+  <MAINGROUP id="LjDTsh" name="nmix">
+    <GROUP id="{2ECEF94E-7572-0002-CD73-BFC1B578DD69}" name="Source">
+      <GROUP id="{DD297031-FC98-2ACA-A28D-8239858C1146}" name="Application">
+        <FILE id="p6pW7f" name="nmix_Application.h" compile="0" resource="0"
+              file="Source/Application/nmix_Application.h"/>
+        <FILE id="S03nEr" name="nmix_Application.cpp" compile="1" resource="0"
+              file="Source/Application/nmix_Application.cpp"/>
+        <FILE id="Tncg0V" name="nmix_CommandIDs.h" compile="0" resource="0"
+              file="Source/Application/nmix_CommandIDs.h"/>
+        <FILE id="Hwo9Ke" name="nmix_MainComponent.h" compile="0" resource="0"
+              file="Source/Application/nmix_MainComponent.h"/>
+        <FILE id="j5HF9X" name="nmix_MainComponent.cpp" compile="1" resource="0"
+              file="Source/Application/nmix_MainComponent.cpp"/>
+        <FILE id="i6GKTU" name="nmix_MainWindow.h" compile="0" resource="0"
+              file="Source/Application/nmix_MainWindow.h"/>
+        <FILE id="khicok" name="nmix_MainWindow.cpp" compile="1" resource="0"
+              file="Source/Application/nmix_MainWindow.cpp"/>
+      </GROUP>
+      <GROUP id="{4B11DA52-4249-FD05-6D66-636D30610F62}" name="Common">
+        <FILE id="vXphQg" name="nmix_Colours.h" compile="0" resource="0" file="Source/Common/nmix_Colours.h"/>
+        <FILE id="Tz9LBA" name="nmix_Colours.cpp" compile="1" resource="0"
+              file="Source/Common/nmix_Colours.cpp"/>
+      </GROUP>
+      <GROUP id="{162380F6-867D-697E-0B72-3E829FCE75E3}" name="Components">
+        <FILE id="pa6o1M" name="nmix_Node.h" compile="0" resource="0" file="Source/Components/nmix_Node.h"/>
+        <FILE id="VJSLV8" name="nmix_Node.cpp" compile="1" resource="0" file="Source/Components/nmix_Node.cpp"/>
+        <FILE id="BvFtjL" name="nmix_Stage.h" compile="0" resource="0" file="Source/Components/nmix_Stage.h"/>
+        <FILE id="wpDpE5" name="nmix_Stage.cpp" compile="1" resource="0" file="Source/Components/nmix_Stage.cpp"/>
+      </GROUP>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="n-mix"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="n-mix"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../Xcode/Plugin Development/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <XCODE_IPHONE targetFolder="Builds/iOS" iosScreenOrientation="portraitlandscape">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" isDebug="1" optimisation="1" targetName="n-mix"/>
+        <CONFIGURATION name="Release" isDebug="0" optimisation="3" targetName="n-mix"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../Xcode/Plugin Development/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_IPHONE>
+    <VS2015 targetFolder="Builds/VisualStudio2015">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="nmix"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="3" targetName="nmix"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_video" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2015>
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" libraryPath="/usr/X11R6/lib/" isDebug="1" optimisation="1"
+                       targetName="nmix"/>
+        <CONFIGURATION name="Release" libraryPath="/usr/X11R6/lib/" isDebug="0" optimisation="3"
+                       targetName="nmix"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_video" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+    <ANDROIDSTUDIO targetFolder="Builds/AndroidStudio">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" androidArchitectures="armeabi armeabi-v7a x86" isDebug="1"
+                       optimisation="1" targetName="nmix"/>
+        <CONFIGURATION name="Release" androidArchitectures="armeabi armeabi-v7a x86"
+                       isDebug="0" optimisation="3" targetName="nmix"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_video" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../Xcode/Plugin Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../Xcode/Plugin Development/JUCE/modules"/>
+      </MODULEPATHS>
+    </ANDROIDSTUDIO>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0"/>
+    <MODULE id="juce_video" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>
