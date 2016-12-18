@@ -29,6 +29,7 @@ enum CommandIds
     SelectAll = 1,
     DeselectAll,
     
+    MoveSelection,
     LockSelection,
     
 };

@@ -58,7 +58,8 @@ void nmix::Stage::getAllCommands(juce::Array<juce::CommandID> &commands)
         nmix::CommandIds::SelectAll,
         nmix::CommandIds::DeselectAll,
         
-        nmix::CommandIds::LockSelection
+        nmix::CommandIds::MoveSelection,
+        nmix::CommandIds::LockSelection,
     };
     
     commands.addArray(ids, juce::numElementsInArray(ids));
@@ -83,6 +84,22 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
             break;
             
+            
+        case nmix::CommandIds::MoveSelection:
+            
+            result.setInfo("Move", "Move Node", nmix::CommandCategories::Node, 0);
+            
+            result.addDefaultKeypress(juce::KeyPress::upKey,    juce::ModifierKeys::noModifiers);
+            result.addDefaultKeypress(juce::KeyPress::downKey,  juce::ModifierKeys::noModifiers);
+            result.addDefaultKeypress(juce::KeyPress::leftKey,  juce::ModifierKeys::noModifiers);
+            result.addDefaultKeypress(juce::KeyPress::rightKey, juce::ModifierKeys::noModifiers);
+            
+            result.addDefaultKeypress(juce::KeyPress::upKey,    juce::ModifierKeys::shiftModifier);
+            result.addDefaultKeypress(juce::KeyPress::downKey,  juce::ModifierKeys::shiftModifier);
+            result.addDefaultKeypress(juce::KeyPress::leftKey,  juce::ModifierKeys::shiftModifier);
+            result.addDefaultKeypress(juce::KeyPress::rightKey, juce::ModifierKeys::shiftModifier);
+            
+            break;
             
         case nmix::CommandIds::LockSelection:
             
@@ -115,6 +132,35 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
             selectedNodes.deselectAll();
             
             break;
+            
+        case nmix::CommandIds::MoveSelection:
+        {
+            
+            int moveValue = (info.keyPress.getModifiers().isShiftDown()) ? 10 : 1;
+            
+            int deltaX =
+              (info.keyPress.getKeyCode() == juce::KeyPress::upKey)    ? 0
+            : (info.keyPress.getKeyCode() == juce::KeyPress::downKey)  ? 0
+            : (info.keyPress.getKeyCode() == juce::KeyPress::leftKey)  ? -moveValue
+            : (info.keyPress.getKeyCode() == juce::KeyPress::rightKey) ? moveValue
+            : 0;
+            
+            int deltaY =
+              (info.keyPress.getKeyCode() == juce::KeyPress::upKey)    ? -moveValue
+            : (info.keyPress.getKeyCode() == juce::KeyPress::downKey)  ? moveValue
+            : (info.keyPress.getKeyCode() == juce::KeyPress::leftKey)  ? 0
+            : (info.keyPress.getKeyCode() == juce::KeyPress::rightKey) ? 0
+            : 0;
+            
+            for (Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
+            {
+                (*n)->setTopLeftPosition((*n)->getPosition().translated(deltaX, deltaY));
+            }
+            
+            repaint();
+            
+            break;
+        }
             
         case nmix::CommandIds::LockSelection:
             
