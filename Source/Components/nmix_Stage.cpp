@@ -58,7 +58,7 @@ void nmix::Stage::getAllCommands(juce::Array<juce::CommandID> &commands)
         nmix::CommandIds::SelectAll,
         nmix::CommandIds::DeselectAll,
         
-        nmix::CommandIds::MoveSelection,
+        nmix::CommandIds::NudgeSelection,
         nmix::CommandIds::LockSelection,
     };
     
@@ -85,9 +85,9 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             break;
             
             
-        case nmix::CommandIds::MoveSelection:
+        case nmix::CommandIds::NudgeSelection:
             
-            result.setInfo("Move", "Move Node", nmix::CommandCategories::Node, 0);
+            result.setInfo("Nudge", "Nudge Selected Nodes", nmix::CommandCategories::Stage, 0);
             
             result.addDefaultKeypress(juce::KeyPress::upKey,    juce::ModifierKeys::noModifiers);
             result.addDefaultKeypress(juce::KeyPress::downKey,  juce::ModifierKeys::noModifiers);
@@ -103,7 +103,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
         case nmix::CommandIds::LockSelection:
             
-            result.setInfo("Lock Selection", "Lock All Selected Nodes", nmix::CommandCategories::Node, 0);
+            result.setInfo("Lock Selection", "Lock Selected Nodes", nmix::CommandCategories::Stage, 0);
             
             result.addDefaultKeypress('l', juce::ModifierKeys::commandModifier);
             
@@ -133,21 +133,21 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
             
             break;
             
-        case nmix::CommandIds::MoveSelection:
+        case nmix::CommandIds::NudgeSelection:
         {
             
-            int moveValue = (info.keyPress.getModifiers().isShiftDown()) ? 10 : 1;
+            int nudgeValue = (info.keyPress.getModifiers().isShiftDown()) ? 10 : 1;
             
             int deltaX =
               (info.keyPress.getKeyCode() == juce::KeyPress::upKey)    ? 0
             : (info.keyPress.getKeyCode() == juce::KeyPress::downKey)  ? 0
-            : (info.keyPress.getKeyCode() == juce::KeyPress::leftKey)  ? -moveValue
-            : (info.keyPress.getKeyCode() == juce::KeyPress::rightKey) ? moveValue
+            : (info.keyPress.getKeyCode() == juce::KeyPress::leftKey)  ? -nudgeValue
+            : (info.keyPress.getKeyCode() == juce::KeyPress::rightKey) ? nudgeValue
             : 0;
             
             int deltaY =
-              (info.keyPress.getKeyCode() == juce::KeyPress::upKey)    ? -moveValue
-            : (info.keyPress.getKeyCode() == juce::KeyPress::downKey)  ? moveValue
+              (info.keyPress.getKeyCode() == juce::KeyPress::upKey)    ? -nudgeValue
+            : (info.keyPress.getKeyCode() == juce::KeyPress::downKey)  ? nudgeValue
             : (info.keyPress.getKeyCode() == juce::KeyPress::leftKey)  ? 0
             : (info.keyPress.getKeyCode() == juce::KeyPress::rightKey) ? 0
             : 0;
