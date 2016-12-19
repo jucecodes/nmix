@@ -120,7 +120,7 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
     {
         case nmix::CommandIds::SelectAll:
             
-            for (Node** n = stagedNodes.begin(); n != stagedNodes.end(); ++n)
+            for (nmix::Node** n = stagedNodes.begin(); n != stagedNodes.end(); ++n)
             {
                 selectedNodes.addToSelection(*n);
             }
@@ -152,7 +152,7 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
             : (info.keyPress.getKeyCode() == juce::KeyPress::rightKey) ? 0
             : 0;
             
-            for (Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
+            for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
             {
                 (*n)->setTopLeftPosition((*n)->getPosition().translated(deltaX, deltaY));
             }
@@ -164,7 +164,7 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
             
         case nmix::CommandIds::LockSelection:
             
-            for (Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
+            for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
             {
                 (*n)->status ^= nmix::Node::Locked;
                 (*n)->repaint();
@@ -206,7 +206,7 @@ void nmix::Stage::mouseUp(const juce::MouseEvent &e)
 
 void nmix::Stage::findLassoItemsInArea(juce::Array<nmix::Node *>& results, const juce::Rectangle<int> &area)
 {
-    for (Node** n = stagedNodes.begin(); n != stagedNodes.end(); ++n)
+    for (nmix::Node** n = stagedNodes.begin(); n != stagedNodes.end(); ++n)
     {
         if ((*n)->getBounds().intersects(area))
         {
@@ -222,7 +222,7 @@ juce::SelectedItemSet<nmix::Node*>& nmix::Stage::getLassoSelection()
 
 void nmix::Stage::changeListenerCallback(juce::ChangeBroadcaster *source)
 {
-    for (Node** n = stagedNodes.begin(); n != stagedNodes.end(); ++n)
+    for (nmix::Node** n = stagedNodes.begin(); n != stagedNodes.end(); ++n)
     {
         if (selectedNodes.isSelected(*n))
         {
@@ -256,7 +256,7 @@ void nmix::Stage::paint(juce::Graphics& g)
     
     if (selectedNodes.getNumSelected() > 0)
     {
-        for (Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
+        for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
         {
             int nWidth  = (*n)->getWidth();
             int nHeight = (*n)->getHeight();
