@@ -155,6 +155,7 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
         case nmix::CommandIds::NudgeSelection:
         {
             
+            status = OperationStates::NudgeSelection;
             int nudgeValue = (info.keyPress.getModifiers().isShiftDown()) ? 10 : 1;
             
             int deltaX =
@@ -291,7 +292,6 @@ void nmix::Stage::paint(juce::Graphics& g)
         {
             int nWidth  = (*n)->getWidth();
             int nHeight = (*n)->getHeight();
-            
             
             int radius;
             if (status == OperationStates::AdjustBalance)

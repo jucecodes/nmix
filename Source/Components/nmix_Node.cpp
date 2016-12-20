@@ -121,6 +121,7 @@ void nmix::Node::mouseUp(const juce::MouseEvent &e)
 {
     stage.selectedNodes.addToSelectionOnMouseUp(this, e.mods, e.mouseWasDraggedSinceMouseDown(), mouseDownResult);
     stage.status = nmix::Stage::OperationStates::None;
+    stage.repaint();
 }
 
 void nmix::Node::paint(juce::Graphics &g)

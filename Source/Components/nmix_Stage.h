@@ -44,6 +44,7 @@ public:
     enum OperationStates
     {
         None = 0,
+        NudgeSelection,
         AdjustVolume,
         AdjustBalance,
     };
