@@ -48,12 +48,26 @@ void nmix::Node::mouseExit(const juce::MouseEvent &e)
 void nmix::Node::mouseDown(const juce::MouseEvent &e)
 {
     toFront(true);
+    
     mouseDownResult = stage.selectedNodes.addToSelectionOnMouseDown(this, e.mods);
+    
+    for (nmix::Node** n = stage.selectedNodes.begin(); n != stage.selectedNodes.end(); ++n)
+    {
+        (*n)->currentOpOrigin = (*n)->getPosition();
+    }
 }
 
 void nmix::Node::mouseDrag(const juce::MouseEvent &e)
 {
-    
+    if(e.mouseWasDraggedSinceMouseDown())
+    {
+        for (nmix::Node** n = stage.selectedNodes.begin(); n != stage.selectedNodes.end(); ++n)
+        {
+            (*n)->setTopLeftPosition((*n)->currentOpOrigin.x + e.getDistanceFromDragStartX(), (*n)->currentOpOrigin.y + e.getDistanceFromDragStartY());
+        }
+        
+        stage.repaint();
+    }
 }
 
 void nmix::Node::mouseUp(const juce::MouseEvent &e)

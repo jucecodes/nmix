@@ -56,7 +56,9 @@ struct Node : public juce::Component
     void paint(juce::Graphics& g) override;
     void resized() override;
     
-    bool mouseDownResult;    
+    bool mouseDownResult;
+    
+    juce::Point<int> currentOpOrigin;
     
     nmix::Stage& stage;
     
