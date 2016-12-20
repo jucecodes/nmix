@@ -292,7 +292,16 @@ void nmix::Stage::paint(juce::Graphics& g)
             int nWidth  = (*n)->getWidth();
             int nHeight = (*n)->getHeight();
             
-            int radius = (*n)->getPosition().translated(nWidth/2, nHeight/2).getDistanceFrom(juce::Point<int>(w/2, h/2));
+            
+            int radius;
+            if (status == OperationStates::AdjustBalance)
+            {
+                radius = (*n)->currentOpOrigin.translated(nWidth/2, nHeight/2).getDistanceFrom(juce::Point<int>(w/2, h/2));
+            }
+            else
+            {
+                radius = (*n)->getPosition().translated(nWidth/2, nHeight/2).getDistanceFrom(juce::Point<int>(w/2, h/2));
+            }
             
             g.setColour((*n)->findColour(nmix::Node::backgroundColourId));
             g.drawEllipse((w/2) - radius, (h/2) - radius, radius*2, radius*2, 1);
