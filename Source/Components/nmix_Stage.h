@@ -41,6 +41,15 @@ public:
         foregroundColourId
     };
     
+    enum OperationStates
+    {
+        None = 0,
+        AdjustVolume,
+        AdjustBalance,
+    };
+    
+    uint8_t status;
+    
     juce::ApplicationCommandTarget* getNextCommandTarget() override;
     void getAllCommands(juce::Array<juce::CommandID>& commands) override;
     void getCommandInfo(juce::CommandID commandID, juce::ApplicationCommandInfo& result) override;

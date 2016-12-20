@@ -24,6 +24,8 @@
 
 nmix::Stage::Stage()
 {
+    status = 0;
+    
     setColour(backgroundColourId, nmix::Colours::DarkerGrey);
     setColour(foregroundColourId, nmix::Colours::DarkGrey);
     
@@ -60,6 +62,9 @@ void nmix::Stage::getAllCommands(juce::Array<juce::CommandID> &commands)
         
         nmix::CommandIds::NudgeSelection,
         nmix::CommandIds::LockSelection,
+        
+        nmix::CommandIds::AdjustVolume,
+        nmix::CommandIds::AdjustBalance
     };
     
     commands.addArray(ids, juce::numElementsInArray(ids));
@@ -108,6 +113,20 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             result.addDefaultKeypress('l', juce::ModifierKeys::commandModifier);
             
             break;
+            
+        case nmix::CommandIds::AdjustVolume:
+            
+            result.setInfo("Adjust Volume", "Adjust Selected Node Volumes", nmix::CommandCategories::Stage, 0);
+            
+            result.addDefaultKeypress('v', juce::ModifierKeys::noModifiers);
+            
+            break;
+            
+        case nmix::CommandIds::AdjustBalance:
+            
+            result.setInfo("Adjust Balance", "Adjust Selected Node Balances", nmix::CommandCategories::Stage, 0);
+            
+            result.addDefaultKeypress('b', juce::ModifierKeys::noModifiers);
             
         default:
             break;
@@ -169,6 +188,18 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
                 (*n)->status ^= nmix::Node::Locked;
                 (*n)->repaint();
             }
+            
+            break;
+            
+        case nmix::CommandIds::AdjustVolume:
+            
+            status = OperationStates::AdjustVolume;
+            
+            break;
+            
+        case nmix::CommandIds::AdjustBalance:
+            
+            status = OperationStates::AdjustBalance;
             
             break;
             

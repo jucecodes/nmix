@@ -32,6 +32,9 @@ enum CommandIds
     NudgeSelection,
     LockSelection,
     
+    AdjustVolume,
+    AdjustBalance,
+    
 };
     
 namespace CommandCategories
