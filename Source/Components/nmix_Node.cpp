@@ -73,7 +73,7 @@ void nmix::Node::mouseDrag(const juce::MouseEvent &e)
             {
                 juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2).translated(-center.x, -center.y);
                 
-                juce::Point<int> pOffset = juce::Point<int>((*n)->currentOpOrigin.x + e.getDistanceFromDragStartX() - center.x, (*n)->currentOpOrigin.y + e.getDistanceFromDragStartY() - center.y);
+                juce::Point<int> pOffset = juce::Point<int>((*n)->currentOpOrigin.x + (*n)->getWidth()/2 + e.getDistanceFromDragStartX() - center.x, (*n)->currentOpOrigin.y + (*n)->getHeight()/2 + e.getDistanceFromDragStartY() - center.y);
                 
                 double dot = p.getDotProduct(pOffset);
                 double len = p.x * p.x + p.y * p.y;
@@ -89,7 +89,7 @@ void nmix::Node::mouseDrag(const juce::MouseEvent &e)
                 
                 juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2);
                 
-                float opOriginAngle     = center.getAngleToPoint((*n)->currentOpOrigin);
+                float opOriginAngle     = center.getAngleToPoint(p);
                 float mouseOriginAngle  = center.getAngleToPoint(k.getMouseDownPosition());
                 float mouseCurrentAngle = center.getAngleToPoint(k.getPosition());
                 
