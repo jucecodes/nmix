@@ -62,6 +62,8 @@ void nmix::Node::mouseDrag(const juce::MouseEvent &e)
     if(e.mouseWasDraggedSinceMouseDown())
     {
         
+        juce::MouseEvent k = e.getEventRelativeTo(&stage);
+        
         juce::Point<int> center = juce::Point<int>(stage.getWidth()/2, stage.getHeight()/2);
         
         for (nmix::Node** n = stage.selectedNodes.begin(); n != stage.selectedNodes.end(); ++n)
@@ -85,17 +87,11 @@ void nmix::Node::mouseDrag(const juce::MouseEvent &e)
                 
             case nmix::Stage::OperationStates::AdjustBalance:
             {
-                juce::MouseEvent k = e.getEventRelativeTo(&stage);
-                
                 juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2);
                 
                 float opOriginAngle     = center.getAngleToPoint(p);
                 float mouseOriginAngle  = center.getAngleToPoint(k.getMouseDownPosition());
                 float mouseCurrentAngle = center.getAngleToPoint(k.getPosition());
-                
-                opOriginAngle     += (opOriginAngle < 0)     ? 2 * M_PI : -2 * M_PI;
-                mouseOriginAngle  += (mouseOriginAngle < 0)  ? 2 * M_PI : -2 * M_PI;
-                mouseCurrentAngle += (mouseCurrentAngle < 0) ? 2 * M_PI : -2 * M_PI;
                 
                 juce::Point<float> final = center.getPointOnCircumference(center.getDistanceFrom(p), opOriginAngle - (mouseOriginAngle - mouseCurrentAngle));
                 
