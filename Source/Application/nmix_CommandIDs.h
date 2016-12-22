@@ -27,6 +27,7 @@ enum CommandIds
     // Stage Operations
     
     SelectAll = 1,
+    InverseSelect,
     DeselectAll,
     
     AddNode,

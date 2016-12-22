@@ -58,6 +58,7 @@ void nmix::Stage::getAllCommands(juce::Array<juce::CommandID> &commands)
     const juce::CommandID ids[] =
     {
         nmix::CommandIds::SelectAll,
+        nmix::CommandIds::InverseSelect,
         nmix::CommandIds::DeselectAll,
         
         nmix::CommandIds::AddNode,
@@ -81,6 +82,15 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             result.setInfo("Select All", "Select All Nodes", nmix::CommandCategories::Stage, 0);
             
             result.addDefaultKeypress('a', juce::ModifierKeys::commandModifier);
+            
+            break;
+            
+        case nmix::CommandIds::InverseSelect:
+            
+            result.setInfo("Invert Selection", "Invert Selection", nmix::CommandCategories::Stage, 0);
+            
+            result.addDefaultKeypress('a', juce::ModifierKeys::commandModifier | juce::ModifierKeys::altModifier);
+            result.addDefaultKeypress('i', juce::ModifierKeys::commandModifier);
             
             break;
             
@@ -164,6 +174,16 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
             }
             
             break;
+            
+        case nmix::CommandIds::InverseSelect:
+        
+            for (nmix::Node** n = stagedNodes.begin(); n != stagedNodes.end(); ++n)
+            {
+                (selectedNodes.isSelected(*n)) ? selectedNodes.deselect(*n) : selectedNodes.addToSelection(*n);
+            }
+            
+            break;
+        
             
         case nmix::CommandIds::DeselectAll:
             
