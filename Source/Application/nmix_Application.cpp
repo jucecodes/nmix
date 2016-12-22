@@ -63,18 +63,12 @@ void nmix::Application::systemRequestedQuit()
     quit();
 }
 
-nmix::Application& nmix::Application::getApp()
-{
-    nmix::Application* const p = dynamic_cast<nmix::Application*>(JUCEApplication::getInstance());
-    jassert(p != nullptr);
-    return *p;
-}
-
 juce::ApplicationCommandManager& nmix::Application::getCommandManager()
 {
-    juce::ApplicationCommandManager* p = nmix::Application::getApp().commandManager;
-    jassert(p != nullptr);
-    return *p;
+    nmix::Application* const app = dynamic_cast<nmix::Application*>(JUCEApplication::getInstance());    
+    juce::ApplicationCommandManager* cmd = app->commandManager;
+    jassert(cmd != nullptr);
+    return *cmd;
 }
 
 START_JUCE_APPLICATION (nmix::Application)
