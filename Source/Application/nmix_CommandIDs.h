@@ -34,6 +34,8 @@ enum CommandIds
     NudgeSelection,
     LockSelection,
     
+    AdjustX,
+    AdjustY,
     AdjustVolume,
     AdjustBalance,
     

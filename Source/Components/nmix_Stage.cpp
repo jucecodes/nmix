@@ -67,6 +67,8 @@ void nmix::Stage::getAllCommands(juce::Array<juce::CommandID> &commands)
         nmix::CommandIds::NudgeSelection,
         nmix::CommandIds::LockSelection,
         
+        nmix::CommandIds::AdjustX,
+        nmix::CommandIds::AdjustY,
         nmix::CommandIds::AdjustVolume,
         nmix::CommandIds::AdjustBalance
     };
@@ -139,6 +141,22 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             result.setInfo("Lock Selection", "Lock Selected Nodes", "", 0);
             
             result.addDefaultKeypress('l', juce::ModifierKeys::commandModifier);
+            
+            break;
+            
+        case nmix::CommandIds::AdjustX:
+            
+            result.setInfo("Adjust X", "Adjust Selected Node X Position", "", 0);
+            
+            result.addDefaultKeypress('x', juce::ModifierKeys::noModifiers);
+            
+            break;
+            
+        case nmix::CommandIds::AdjustY:
+            
+            result.setInfo("Adjust Y", "Adjust Selected Node Y Position", "", 0);
+            
+            result.addDefaultKeypress('y', juce::ModifierKeys::noModifiers);
             
             break;
             
@@ -251,6 +269,18 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
                 (*n)->status ^= nmix::Node::Locked;
                 (*n)->repaint();
             }
+            
+            break;
+            
+        case nmix::CommandIds::AdjustX:
+            
+            status = OperationStates::AdjustX;
+            
+            break;
+            
+        case nmix::CommandIds::AdjustY:
+            
+            status = OperationStates::AdjustY;
             
             break;
             

@@ -45,6 +45,8 @@ public:
     {
         None = 0,
         NudgeSelection,
+        AdjustX,
+        AdjustY,
         AdjustVolume,
         AdjustBalance,
     };

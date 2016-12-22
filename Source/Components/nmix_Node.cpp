@@ -102,6 +102,18 @@ void nmix::Node::mouseDrag(const juce::MouseEvent &e)
                     break;
                 }
                     
+                case nmix::Stage::OperationStates::AdjustX:
+                    
+                    (*n)->setTopLeftPosition((*n)->currentOpOrigin.x + e.getDistanceFromDragStartX(), (*n)->currentOpOrigin.y);
+                    
+                    break;
+                
+                case nmix::Stage::OperationStates::AdjustY:
+                        
+                    (*n)->setTopLeftPosition((*n)->currentOpOrigin.x, (*n)->currentOpOrigin.y + e.getDistanceFromDragStartY());
+                        
+                    break;
+                        
                 default:
                     
                     (*n)->setTopLeftPosition((*n)->currentOpOrigin.x + e.getDistanceFromDragStartX(), (*n)->currentOpOrigin.y + e.getDistanceFromDragStartY());
