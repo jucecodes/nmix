@@ -89,7 +89,6 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
             result.setInfo("Invert Selection", "Invert Selection", "", 0);
             
-            result.addDefaultKeypress('a', juce::ModifierKeys::commandModifier | juce::ModifierKeys::altModifier);
             result.addDefaultKeypress('i', juce::ModifierKeys::commandModifier);
             
             break;
@@ -205,7 +204,7 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
         {
             while (selectedNodes.getNumSelected() > 0)
             {
-                Node* n =selectedNodes.getSelectedItem(0);
+                Node* n = selectedNodes.getSelectedItem(0);
                 selectedNodes.deselect(n);
                 stagedNodes.removeObject(n);
             }
