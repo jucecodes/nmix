@@ -12,8 +12,8 @@
               file="Source/Application/nmix_Application.h"/>
         <FILE id="S03nEr" name="nmix_Application.cpp" compile="1" resource="0"
               file="Source/Application/nmix_Application.cpp"/>
-        <FILE id="Tncg0V" name="nmix_CommandIDs.h" compile="0" resource="0"
-              file="Source/Application/nmix_CommandIDs.h"/>
+        <FILE id="Tncg0V" name="nmix_Operations.h" compile="0" resource="0"
+              file="Source/Application/nmix_Operations.h"/>
         <FILE id="Hwo9Ke" name="nmix_MainComponent.h" compile="0" resource="0"
               file="Source/Application/nmix_MainComponent.h"/>
         <FILE id="j5HF9X" name="nmix_MainComponent.cpp" compile="1" resource="0"

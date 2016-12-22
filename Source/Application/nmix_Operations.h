@@ -22,9 +22,10 @@
 namespace nmix
 {
 
-enum CommandIds
+enum Operations
 {
-    Escape = 1,
+    None = 0,
+    Escape,
     
     SelectAll,
     InverseSelect,

@@ -41,17 +41,7 @@ public:
         foregroundColourId
     };
     
-    enum OperationStates
-    {
-        None = 0,
-        NudgeSelection,
-        AdjustX,
-        AdjustY,
-        AdjustVolume,
-        AdjustBalance,
-    };
-    
-    uint8_t status;
+    int currentOperation;
     
     juce::ApplicationCommandTarget* getNextCommandTarget() override;
     void getAllCommands(juce::Array<juce::CommandID>& commands) override;

@@ -18,6 +18,7 @@
 
 #include "nmix_Node.h"
 #include "nmix_Stage.h"
+#include "nmix_Operations.h"
 #include "nmix_Colours.h"
 
 nmix::Node::Node(nmix::Stage& s) : juce::Component("Unnamed"), stage(s)
@@ -59,7 +60,7 @@ void nmix::Node::mouseDown(const juce::MouseEvent &e)
 
 void nmix::Node::mouseDrag(const juce::MouseEvent &e)
 {
-    if(e.mouseWasDraggedSinceMouseDown())
+    if(e.mouseWasDraggedSinceMouseDown() && stage.currentOperation != nmix::Operations::Escape)
     {
         juce::MouseEvent k = e.getEventRelativeTo(&stage);
         
@@ -70,10 +71,10 @@ void nmix::Node::mouseDrag(const juce::MouseEvent &e)
             if (!((*n)->status & StatusIds::Locked))
             {
             
-                switch (stage.status)
+                switch (stage.currentOperation)
                 {
                         
-                case nmix::Stage::OperationStates::AdjustVolume:
+                case nmix::Operations::AdjustVolume:
                 {
                     juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2).translated(-center.x, -center.y);
                     
@@ -87,7 +88,7 @@ void nmix::Node::mouseDrag(const juce::MouseEvent &e)
                     break;
                 }
                     
-                case nmix::Stage::OperationStates::AdjustBalance:
+                case nmix::Operations::AdjustBalance:
                 {
                     juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2);
                     
@@ -102,13 +103,13 @@ void nmix::Node::mouseDrag(const juce::MouseEvent &e)
                     break;
                 }
                     
-                case nmix::Stage::OperationStates::AdjustX:
+                case nmix::Operations::AdjustX:
                     
                     (*n)->setTopLeftPosition((*n)->currentOpOrigin.x + e.getDistanceFromDragStartX(), (*n)->currentOpOrigin.y);
                     
                     break;
                 
-                case nmix::Stage::OperationStates::AdjustY:
+                case nmix::Operations::AdjustY:
                         
                     (*n)->setTopLeftPosition((*n)->currentOpOrigin.x, (*n)->currentOpOrigin.y + e.getDistanceFromDragStartY());
                         
@@ -122,16 +123,22 @@ void nmix::Node::mouseDrag(const juce::MouseEvent &e)
                 }
             }
         }
-        
-        stage.repaint();
-        
     }
+    else
+    {
+        for (nmix::Node** n = stage.selectedNodes.begin(); n != stage.selectedNodes.end(); ++n)
+        {
+            (*n)->setTopLeftPosition((*n)->currentOpOrigin);
+        }
+    }
+    
+    stage.repaint();
 }
 
 void nmix::Node::mouseUp(const juce::MouseEvent &e)
 {
     stage.selectedNodes.addToSelectionOnMouseUp(this, e.mods, e.mouseWasDraggedSinceMouseDown(), mouseDownResult);
-    stage.status = nmix::Stage::OperationStates::None;
+    stage.currentOperation = nmix::Operations::None;
     stage.repaint();
 }
 

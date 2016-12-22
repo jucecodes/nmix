@@ -18,7 +18,7 @@
 
 #include "nmix_MainWindow.h"
 #include "nmix_Application.h"
-#include "nmix_CommandIDs.h"
+#include "nmix_Operations.h"
 #include "nmix_MainComponent.h"
 
 nmix::MainWindow::MainWindow(juce::String name) : juce::DocumentWindow(name, juce::Colours::lightgrey, DocumentWindow::allButtons)
