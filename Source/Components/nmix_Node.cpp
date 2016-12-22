@@ -61,55 +61,58 @@ void nmix::Node::mouseDrag(const juce::MouseEvent &e)
 {
     if(e.mouseWasDraggedSinceMouseDown())
     {
-        
         juce::MouseEvent k = e.getEventRelativeTo(&stage);
         
         juce::Point<int> center = juce::Point<int>(stage.getWidth()/2, stage.getHeight()/2);
         
         for (nmix::Node** n = stage.selectedNodes.begin(); n != stage.selectedNodes.end(); ++n)
         {
-            switch (stage.status)
+            if (!((*n)->status & StatusIds::Locked))
             {
-                    
-            case nmix::Stage::OperationStates::AdjustVolume:
-            {
-                juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2).translated(-center.x, -center.y);
-                
-                juce::Point<int> pOffset = juce::Point<int>((*n)->currentOpOrigin.x + (*n)->getWidth()/2 + e.getDistanceFromDragStartX() - center.x, (*n)->currentOpOrigin.y + (*n)->getHeight()/2 + e.getDistanceFromDragStartY() - center.y);
-                
-                double dot = p.getDotProduct(pOffset);
-                double len = p.x * p.x + p.y * p.y;
-                
-                (*n)->setCentrePosition((int)(center.x + (dot * p.x) / len), (int)(center.y + (dot * p.y) / len));
-                
-                break;
-            }
-                
-            case nmix::Stage::OperationStates::AdjustBalance:
-            {
-                juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2);
-                
-                float opOriginAngle     = center.getAngleToPoint(p);
-                float mouseOriginAngle  = center.getAngleToPoint(k.getMouseDownPosition());
-                float mouseCurrentAngle = center.getAngleToPoint(k.getPosition());
-                
-                juce::Point<float> final = center.getPointOnCircumference(center.getDistanceFrom(p), opOriginAngle - (mouseOriginAngle - mouseCurrentAngle));
-                
-                (*n)->setCentrePosition(final.x, final.y);
-                
-                break;
-            }
-                
-            default:
-                
-                (*n)->setTopLeftPosition((*n)->currentOpOrigin.x + e.getDistanceFromDragStartX(), (*n)->currentOpOrigin.y + e.getDistanceFromDragStartY());
-                
-                break;
-            }
             
+                switch (stage.status)
+                {
+                        
+                case nmix::Stage::OperationStates::AdjustVolume:
+                {
+                    juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2).translated(-center.x, -center.y);
+                    
+                    juce::Point<int> pOffset = juce::Point<int>((*n)->currentOpOrigin.x + (*n)->getWidth()/2 + e.getDistanceFromDragStartX() - center.x, (*n)->currentOpOrigin.y + (*n)->getHeight()/2 + e.getDistanceFromDragStartY() - center.y);
+                    
+                    double dot = p.getDotProduct(pOffset);
+                    double len = p.x * p.x + p.y * p.y;
+                    
+                    (*n)->setCentrePosition((int)(center.x + (dot * p.x) / len), (int)(center.y + (dot * p.y) / len));
+                    
+                    break;
+                }
+                    
+                case nmix::Stage::OperationStates::AdjustBalance:
+                {
+                    juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2);
+                    
+                    float opOriginAngle     = center.getAngleToPoint(p);
+                    float mouseOriginAngle  = center.getAngleToPoint(k.getMouseDownPosition());
+                    float mouseCurrentAngle = center.getAngleToPoint(k.getPosition());
+                    
+                    juce::Point<float> final = center.getPointOnCircumference(center.getDistanceFrom(p), opOriginAngle - (mouseOriginAngle - mouseCurrentAngle));
+                    
+                    (*n)->setCentrePosition(final.x, final.y);
+                    
+                    break;
+                }
+                    
+                default:
+                    
+                    (*n)->setTopLeftPosition((*n)->currentOpOrigin.x + e.getDistanceFromDragStartX(), (*n)->currentOpOrigin.y + e.getDistanceFromDragStartY());
+                    
+                    break;
+                }
+            }
         }
         
         stage.repaint();
+        
     }
 }
 
