@@ -24,8 +24,6 @@ namespace nmix
 
 enum CommandIds
 {
-    // Stage Operations
-    
     SelectAll = 1,
     InverseSelect,
     DeselectAll,
@@ -38,14 +36,6 @@ enum CommandIds
     
     AdjustVolume,
     AdjustBalance,
-    
-};
-    
-namespace CommandCategories
-{
- 
-    static const char* const Stage       = "Stage";
-    static const char* const Node        = "Node";
     
 };
 

@@ -79,7 +79,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
     switch (commandID) {
         case nmix::CommandIds::SelectAll:
             
-            result.setInfo("Select All", "Select All Nodes", nmix::CommandCategories::Stage, 0);
+            result.setInfo("Select All", "Select All Nodes", "", 0);
             
             result.addDefaultKeypress('a', juce::ModifierKeys::commandModifier);
             
@@ -87,7 +87,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
         case nmix::CommandIds::InverseSelect:
             
-            result.setInfo("Invert Selection", "Invert Selection", nmix::CommandCategories::Stage, 0);
+            result.setInfo("Invert Selection", "Invert Selection", "", 0);
             
             result.addDefaultKeypress('a', juce::ModifierKeys::commandModifier | juce::ModifierKeys::altModifier);
             result.addDefaultKeypress('i', juce::ModifierKeys::commandModifier);
@@ -96,7 +96,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
         case nmix::CommandIds::DeselectAll:
             
-            result.setInfo("Deselect All", "Deselect All Nodes", nmix::CommandCategories::Stage, 0);
+            result.setInfo("Deselect All", "Deselect All Nodes", "", 0);
             
             result.addDefaultKeypress('d', juce::ModifierKeys::commandModifier);
             
@@ -104,7 +104,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
         case nmix::CommandIds::AddNode:
             
-            result.setInfo("Add Node", "Add a New Node", nmix::CommandCategories::Stage, 0);
+            result.setInfo("Add Node", "Add a New Node", "", 0);
             
             result.addDefaultKeypress('n', juce::ModifierKeys::commandModifier | juce::ModifierKeys::shiftModifier);
             
@@ -112,7 +112,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
         case nmix::CommandIds::RemoveNode:
             
-            result.setInfo("Remove Node", "Remove Selected Nodes", nmix::CommandCategories::Stage, 0);
+            result.setInfo("Remove Node", "Remove Selected Nodes", "", 0);
             
             result.addDefaultKeypress(juce::KeyPress::backspaceKey, juce::ModifierKeys::noModifiers);
             result.addDefaultKeypress(juce::KeyPress::deleteKey,    juce::ModifierKeys::noModifiers);
@@ -121,7 +121,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
         case nmix::CommandIds::NudgeSelection:
             
-            result.setInfo("Nudge", "Nudge Selected Nodes", nmix::CommandCategories::Stage, 0);
+            result.setInfo("Nudge", "Nudge Selected Nodes", "", 0);
             
             result.addDefaultKeypress(juce::KeyPress::upKey,    juce::ModifierKeys::noModifiers);
             result.addDefaultKeypress(juce::KeyPress::downKey,  juce::ModifierKeys::noModifiers);
@@ -137,7 +137,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
         case nmix::CommandIds::LockSelection:
             
-            result.setInfo("Lock Selection", "Lock Selected Nodes", nmix::CommandCategories::Stage, 0);
+            result.setInfo("Lock Selection", "Lock Selected Nodes", "", 0);
             
             result.addDefaultKeypress('l', juce::ModifierKeys::commandModifier);
             
@@ -145,7 +145,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
         case nmix::CommandIds::AdjustVolume:
             
-            result.setInfo("Adjust Volume", "Adjust Selected Node Volumes", nmix::CommandCategories::Stage, 0);
+            result.setInfo("Adjust Volume", "Adjust Selected Node Volumes", "", 0);
             
             result.addDefaultKeypress('v', juce::ModifierKeys::noModifiers);
             
@@ -153,7 +153,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
         case nmix::CommandIds::AdjustBalance:
             
-            result.setInfo("Adjust Balance", "Adjust Selected Node Balances", nmix::CommandCategories::Stage, 0);
+            result.setInfo("Adjust Balance", "Adjust Selected Node Balances", "", 0);
             
             result.addDefaultKeypress('b', juce::ModifierKeys::noModifiers);
             
