@@ -196,7 +196,18 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
     {
         case nmix::Operations::Escape:
             
-            currentOperation = nmix::Operations::Escape;
+            if (currentOperation == nmix::Operations::None)
+            {
+                currentOperation = nmix::Operations::Escape;
+            }
+            else if (currentOperation == nmix::Operations::Escape)
+            {
+                break;
+            }
+            else
+            {
+                currentOperation = nmix::Operations::None;
+            }
             
             break;
             
