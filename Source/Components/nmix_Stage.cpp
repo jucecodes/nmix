@@ -57,6 +57,8 @@ void nmix::Stage::getAllCommands(juce::Array<juce::CommandID> &commands)
 {
     const juce::CommandID ids[] =
     {
+        nmix::CommandIds::Escape,
+        
         nmix::CommandIds::SelectAll,
         nmix::CommandIds::InverseSelect,
         nmix::CommandIds::DeselectAll,
@@ -79,6 +81,15 @@ void nmix::Stage::getAllCommands(juce::Array<juce::CommandID> &commands)
 void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCommandInfo &result)
 {
     switch (commandID) {
+            
+        case nmix::CommandIds::Escape:
+            
+            result.setInfo("Escape", "Cancel Current Operation", "", 0);
+            
+            result.addDefaultKeypress(juce::KeyPress::escapeKey, juce::ModifierKeys::noModifiers);
+            
+            break;
+            
         case nmix::CommandIds::SelectAll:
             
             result.setInfo("Select All", "Select All Nodes", "", 0);
@@ -183,6 +194,12 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
 {
     switch (info.commandID)
     {
+        case nmix::CommandIds::Escape:
+            
+            status = OperationStates::None;
+            
+            break;
+            
         case nmix::CommandIds::SelectAll:
             
             for (nmix::Node** n = stagedNodes.begin(); n != stagedNodes.end(); ++n)

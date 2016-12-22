@@ -24,7 +24,9 @@ namespace nmix
 
 enum CommandIds
 {
-    SelectAll = 1,
+    Escape = 1,
+    
+    SelectAll,
     InverseSelect,
     DeselectAll,
     
