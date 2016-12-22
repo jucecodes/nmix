@@ -29,6 +29,9 @@ enum CommandIds
     SelectAll = 1,
     DeselectAll,
     
+    AddNode,
+    RemoveNode,
+    
     NudgeSelection,
     LockSelection,
     

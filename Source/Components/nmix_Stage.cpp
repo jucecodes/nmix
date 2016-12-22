@@ -60,6 +60,9 @@ void nmix::Stage::getAllCommands(juce::Array<juce::CommandID> &commands)
         nmix::CommandIds::SelectAll,
         nmix::CommandIds::DeselectAll,
         
+        nmix::CommandIds::AddNode,
+        nmix::CommandIds::RemoveNode,
+        
         nmix::CommandIds::NudgeSelection,
         nmix::CommandIds::LockSelection,
         
@@ -89,6 +92,22 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
             break;
             
+        case nmix::CommandIds::AddNode:
+            
+            result.setInfo("Add Node", "Add a New Node", nmix::CommandCategories::Stage, 0);
+            
+            result.addDefaultKeypress('n', juce::ModifierKeys::commandModifier | juce::ModifierKeys::shiftModifier);
+            
+            break;
+            
+        case nmix::CommandIds::RemoveNode:
+            
+            result.setInfo("Remove Node", "Remove Selected Nodes", nmix::CommandCategories::Stage, 0);
+            
+            result.addDefaultKeypress(juce::KeyPress::backspaceKey, juce::ModifierKeys::noModifiers);
+            result.addDefaultKeypress(juce::KeyPress::deleteKey,    juce::ModifierKeys::noModifiers);
+            
+            break;
             
         case nmix::CommandIds::NudgeSelection:
             
@@ -151,6 +170,30 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
             selectedNodes.deselectAll();
             
             break;
+            
+        case nmix::CommandIds::AddNode:
+        {
+            nmix::Node* n = new nmix::Node(*this);
+            n->setBounds(getWidth()/2, getHeight()/2, 32, 32);
+            addAndMakeVisible(n);
+            stagedNodes.add(n);
+            
+            break;
+        }
+            
+        case nmix::CommandIds::RemoveNode:
+        {
+            while (selectedNodes.getNumSelected() > 0)
+            {
+                Node* n =selectedNodes.getSelectedItem(0);
+                selectedNodes.deselect(n);
+                stagedNodes.removeObject(n);
+            }
+            
+            repaint();
+            
+            break;
+        }
             
         case nmix::CommandIds::NudgeSelection:
         {
