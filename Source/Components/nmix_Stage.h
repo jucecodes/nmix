@@ -64,6 +64,8 @@ public:
     
     juce::LassoComponent<nmix::Node*> lasso;
     
+    juce::Label infoDisplay;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Stage)
 };
     

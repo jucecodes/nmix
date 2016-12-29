@@ -37,6 +37,12 @@ nmix::Stage::Stage()
     commandManager.registerAllCommandsForTarget(this);
     addKeyListener(commandManager.getKeyMappings());
     
+    infoDisplay.setText("", juce::dontSendNotification);
+    infoDisplay.setColour(juce::Label::ColourIds::textColourId, nmix::Colours::White);
+    infoDisplay.setInterceptsMouseClicks(false, false);
+    infoDisplay.setJustificationType(juce::Justification::centredLeft);
+    addAndMakeVisible(infoDisplay);
+    
     nmix::Node* n = new nmix::Node(*this);
     n->setBounds(32, 32, 32, 32);
     addAndMakeVisible(n);
@@ -388,6 +394,22 @@ void nmix::Stage::changeListenerCallback(juce::ChangeBroadcaster *source)
         (*n)->repaint();
         repaint();
     }
+    
+    if (selectedNodes.getNumSelected() > 1)
+    {
+        infoDisplay.setText(juce::String(selectedNodes.getNumSelected()) + " nodes selected", juce::dontSendNotification);
+    }
+    else if (selectedNodes.getNumSelected() == 1)
+    {
+        nmix::Node* n = selectedNodes.getSelectedItem(0);
+        infoDisplay.setText(n->getName(), juce::dontSendNotification);
+        infoDisplay.setColour(juce::Label::ColourIds::textColourId, n->findColour(nmix::Node::backgroundColourId));
+    }
+    else
+    {
+        infoDisplay.setText("", juce::dontSendNotification);
+        infoDisplay.setColour(juce::Label::ColourIds::textColourId, nmix::Colours::White);
+    }
 }
 
 void nmix::Stage::paint(juce::Graphics& g)
@@ -428,9 +450,11 @@ void nmix::Stage::paint(juce::Graphics& g)
             g.drawLine(w/2, h/2, (*n)->getX() + nWidth/2, (*n)->getY() + nHeight/2, 1);
         }
     }
+    
+    infoDisplay.toFront(false);
 }
 
 void nmix::Stage::resized()
 {
-    
+    infoDisplay.setBounds(0, getHeight() - 20, getWidth(), 20);
 }
