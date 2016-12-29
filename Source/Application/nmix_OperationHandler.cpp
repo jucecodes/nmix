@@ -185,6 +185,8 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
             (*n)->setTopLeftPosition((*n)->currentOpOrigin);
         }
     }
+    
+    currentStage->repaint();
 }
 
 void nmix::OperationHandler::changeListenerCallback(juce::ChangeBroadcaster *source)

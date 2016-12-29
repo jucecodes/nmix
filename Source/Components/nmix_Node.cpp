@@ -62,14 +62,12 @@ void nmix::Node::mouseDown(const juce::MouseEvent &e)
 void nmix::Node::mouseDrag(const juce::MouseEvent &e)
 {
     operationHandler.positionSelection(e);
-    stage.repaint();
 }
 
 void nmix::Node::mouseUp(const juce::MouseEvent &e)
 {
     operationHandler.selectedNodes.addToSelectionOnMouseUp(this, e.mods, e.mouseWasDraggedSinceMouseDown(), mouseDownResult);
     operationHandler.currentOperation = nmix::Operation::None;
-    stage.repaint();
 }
 
 void nmix::Node::paint(juce::Graphics &g)
