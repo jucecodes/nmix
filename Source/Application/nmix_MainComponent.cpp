@@ -23,11 +23,11 @@
 nmix::MainComponent::MainComponent()
 {
     viewport = new nmix::Viewport();
-    viewport->setBounds(0, 0, 675, 675);
+//    viewport->setBounds(0, 0, 675, 675);
     addAndMakeVisible(viewport);
     
     stage = new nmix::Stage(*viewport);
-    stage->setBounds(0, 0, 675, 675);
+//    stage->setBounds(0, 0, 675, 675);
     addAndMakeVisible(stage);
     
     setSize (675, 675);
@@ -63,5 +63,8 @@ void nmix::MainComponent::paint(juce::Graphics &g)
 
 void nmix::MainComponent::resized()
 {
+    stage->setBounds(getBounds());
+    
+    viewport->setBounds(getBounds());
     viewport->toFront(false);
 }
