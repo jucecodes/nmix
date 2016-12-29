@@ -60,6 +60,7 @@ struct Node : public juce::Component
     bool mouseDownResult;
     
     juce::Point<int> currentOpOrigin;
+    juce::Point<int> currentModOrigin;
     
     nmix::Stage& stage;
     nmix::OperationHandler& operationHandler;

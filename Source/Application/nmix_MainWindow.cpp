@@ -286,6 +286,11 @@ bool nmix::MainWindow::perform(const juce::ApplicationCommandTarget::InvocationI
     return true;
 }
 
+void nmix::MainWindow::modifierKeysChanged(const juce::ModifierKeys& mods)
+{
+    nmix::Application::getOperationHandler().modifierKeysChanged(mods);
+}
+
 void nmix::MainWindow::closeButtonPressed()
 {
     juce::JUCEApplication::getInstance()->systemRequestedQuit();

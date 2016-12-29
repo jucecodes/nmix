@@ -52,10 +52,12 @@ void nmix::Node::mouseDown(const juce::MouseEvent &e)
     toFront(true);
     
     mouseDownResult = operationHandler.selectedNodes.addToSelectionOnMouseDown(this, e.mods);
-    
+
+    operationHandler.mouseModOrigin = operationHandler.mouseOpOrigin = stage.getLocalPoint(this, e.getMouseDownPosition());
+
     for (nmix::Node** n = operationHandler.selectedNodes.begin(); n != operationHandler.selectedNodes.end(); ++n)
     {
-        (*n)->currentOpOrigin = (*n)->getPosition();
+        (*n)->currentModOrigin = (*n)->currentOpOrigin = (*n)->getPosition();
     }
 }
 

@@ -34,7 +34,7 @@ struct OperationHandler : public juce::ChangeListener
  
     OperationHandler();
     ~OperationHandler();
-    
+
     void selectAll();
     void invertSelection();
     void deselectAll();
@@ -45,11 +45,16 @@ struct OperationHandler : public juce::ChangeListener
     
     void nudgeSelection(const juce::KeyPress& k);
     void positionSelection(const juce::MouseEvent& e);
-    
+
+    void modifierKeysChanged(const juce::ModifierKeys& mods);
     void changeListenerCallback(juce::ChangeBroadcaster* source);
     
-    nmix::Operation currentOperation;
-    
+    nmix::Operation    currentOperation;
+    juce::ModifierKeys currentModifiers;
+
+    juce::Point<int> mouseOpOrigin;
+    juce::Point<int> mouseModOrigin;
+
     juce::OwnedArray<nmix::Node>       stagedNodes;
     juce::SelectedItemSet<nmix::Node*> selectedNodes;
     

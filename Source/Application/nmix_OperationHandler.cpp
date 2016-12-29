@@ -119,7 +119,9 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
         juce::MouseEvent k = e.getEventRelativeTo(currentStage);
         
         juce::Point<int> center = juce::Point<int>(currentStage->getWidth()/2, currentStage->getHeight()/2);
-        
+
+        float precision = (currentModifiers.isShiftDown()) ? 0.25 : 1;
+
         for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
         {
             if (!((*n)->status & nmix::Node::StatusIds::Locked))
@@ -159,19 +161,19 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
                         
                     case nmix::Operation::PositionSelectionX:
                         
-                        (*n)->setTopLeftPosition((*n)->currentOpOrigin.x + e.getDistanceFromDragStartX(), (*n)->currentOpOrigin.y);
+                        (*n)->setTopLeftPosition((*n)->currentModOrigin.x + e.getDistanceFromDragStartX(), (*n)->currentOpOrigin.y);
                         
                         break;
                         
                     case nmix::Operation::PositionSelectionY:
                         
-                        (*n)->setTopLeftPosition((*n)->currentOpOrigin.x, (*n)->currentOpOrigin.y + e.getDistanceFromDragStartY());
+                        (*n)->setTopLeftPosition((*n)->currentModOrigin.x, (*n)->currentModOrigin.y + e.getDistanceFromDragStartY());
                         
                         break;
                         
                     default:
                         
-                        (*n)->setTopLeftPosition((*n)->currentOpOrigin.x + e.getDistanceFromDragStartX(), (*n)->currentOpOrigin.y + e.getDistanceFromDragStartY());
+                        (*n)->setTopLeftPosition((*n)->currentModOrigin.x + (k.x - mouseModOrigin.x) * precision, (*n)->currentModOrigin.y + (k.y - mouseModOrigin.y) * precision);
                         
                         break;
                 }
@@ -187,6 +189,21 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
     }
     
     currentStage->repaint();
+}
+
+void nmix::OperationHandler::modifierKeysChanged(const juce::ModifierKeys &mods)
+{
+    if (mods.isShiftDown() && juce::Desktop::getInstance().getNumDraggingMouseSources())
+    {
+        for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
+        {
+            (*n)->currentModOrigin = (*n)->getPosition();
+        }
+
+        mouseModOrigin = currentStage->getLocalPoint(nullptr, juce::Desktop::getMousePosition());
+    }
+
+    currentModifiers = mods;
 }
 
 void nmix::OperationHandler::changeListenerCallback(juce::ChangeBroadcaster *source)

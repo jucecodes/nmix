@@ -33,6 +33,8 @@ struct MainWindow : public juce::DocumentWindow,
     void getAllCommands(juce::Array<juce::CommandID>& commands) override;
     void getCommandInfo(juce::CommandID commandID, juce::ApplicationCommandInfo& result) override;
     bool perform(const InvocationInfo& info) override;
+
+    void modifierKeysChanged(const juce::ModifierKeys& mods) override;
     
     void closeButtonPressed() override;
     
