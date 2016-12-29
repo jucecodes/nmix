@@ -339,13 +339,16 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
 
 void nmix::Stage::mouseDown(const juce::MouseEvent &e)
 {
-    addAndMakeVisible(lasso);
-    lasso.beginLasso(e, this);
+    if (e.mods.isLeftButtonDown())
+    {
+        addAndMakeVisible(lasso);
+        lasso.beginLasso(e, this);
+    }
 }
 
 void nmix::Stage::mouseDrag(const juce::MouseEvent &e)
 {
-    if (e.mouseWasDraggedSinceMouseDown())
+    if (e.mouseWasDraggedSinceMouseDown() && e.mods.isLeftButtonDown())
     {
         lasso.dragLasso(e);
         lasso.toFront(true);
@@ -354,11 +357,14 @@ void nmix::Stage::mouseDrag(const juce::MouseEvent &e)
 
 void nmix::Stage::mouseUp(const juce::MouseEvent &e)
 {
-    lasso.endLasso();
-    removeChildComponent(&lasso);
-    if (!e.mouseWasDraggedSinceMouseDown())
+    if (e.mods.isLeftButtonDown())
     {
-        selectedNodes.deselectAll();
+        lasso.endLasso();
+        removeChildComponent(&lasso);
+        if (!e.mouseWasDraggedSinceMouseDown())
+        {
+            selectedNodes.deselectAll();
+        }
     }
 }
 
