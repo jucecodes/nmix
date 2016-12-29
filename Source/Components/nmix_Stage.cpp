@@ -17,13 +17,12 @@
  */
 
 #include "nmix_Stage.h"
-#include "nmix_Application.h"
 #include "nmix_Colours.h"
 #include "nmix_Operations.h"
 #include "nmix_Node.h"
 #include "nmix_OperationHandler.h"
 
-nmix::Stage::Stage(nmix::Viewport& v, nmix::OperationHandler& o) : viewport(v), operationHandler(o)
+nmix::Stage::Stage(nmix::OperationHandler& o) : operationHandler(o)
 {
     setColour(backgroundColourId, nmix::Colours::DarkerGrey);
     setColour(foregroundColourId, nmix::Colours::DarkGrey);

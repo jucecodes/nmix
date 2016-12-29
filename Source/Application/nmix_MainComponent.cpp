@@ -29,7 +29,7 @@ nmix::MainComponent::MainComponent()
     
     nmix::OperationHandler& op = nmix::Application::getOperationHandler();
     
-    stage = new nmix::Stage(*viewport, op);
+    stage = new nmix::Stage(op);
     addAndMakeVisible(stage);
     
     op.currentStage    = stage;
