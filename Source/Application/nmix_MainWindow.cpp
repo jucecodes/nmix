@@ -59,10 +59,10 @@ void nmix::MainWindow::getAllCommands(juce::Array<juce::CommandID> &commands)
         nmix::Operation::NudgeSelection,
         nmix::Operation::LockSelection,
         
-        nmix::Operation::AdjustX,
-        nmix::Operation::AdjustY,
-        nmix::Operation::AdjustVolume,
-        nmix::Operation::AdjustBalance
+        nmix::Operation::PositionSelectionX,
+        nmix::Operation::PositionSelectionY,
+        nmix::Operation::PositionSelectionDistance,
+        nmix::Operation::PositionSelectionAzimuth
     };
     
     commands.addArray(ids, juce::numElementsInArray(ids));
@@ -145,7 +145,7 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
             
             break;
             
-        case nmix::Operation::AdjustX:
+        case nmix::Operation::PositionSelectionX:
             
             result.setInfo("Adjust X", "Adjust Selected Node X Position", "", 0);
             
@@ -153,7 +153,7 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
             
             break;
             
-        case nmix::Operation::AdjustY:
+        case nmix::Operation::PositionSelectionY:
             
             result.setInfo("Adjust Y", "Adjust Selected Node Y Position", "", 0);
             
@@ -161,7 +161,7 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
             
             break;
             
-        case nmix::Operation::AdjustVolume:
+        case nmix::Operation::PositionSelectionDistance:
             
             result.setInfo("Adjust Volume", "Adjust Selected Node Volumes", "", 0);
             
@@ -169,7 +169,7 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
             
             break;
             
-        case nmix::Operation::AdjustBalance:
+        case nmix::Operation::PositionSelectionAzimuth:
             
             result.setInfo("Adjust Balance", "Adjust Selected Node Balances", "", 0);
             
@@ -255,27 +255,27 @@ bool nmix::MainWindow::perform(const juce::ApplicationCommandTarget::InvocationI
             
             break;
             
-        case nmix::Operation::AdjustX:
+        case nmix::Operation::PositionSelectionX:
             
-            operationHandler.currentOperation = nmix::Operation::AdjustX;
-            
-            break;
-            
-        case nmix::Operation::AdjustY:
-            
-            operationHandler.currentOperation = nmix::Operation::AdjustY;
+            operationHandler.currentOperation = nmix::Operation::PositionSelectionX;
             
             break;
             
-        case nmix::Operation::AdjustVolume:
+        case nmix::Operation::PositionSelectionY:
             
-            operationHandler.currentOperation = nmix::Operation::AdjustVolume;
+            operationHandler.currentOperation = nmix::Operation::PositionSelectionY;
             
             break;
             
-        case nmix::Operation::AdjustBalance:
+        case nmix::Operation::PositionSelectionDistance:
             
-            operationHandler.currentOperation = nmix::Operation::AdjustBalance;
+            operationHandler.currentOperation = nmix::Operation::PositionSelectionDistance;
+            
+            break;
+            
+        case nmix::Operation::PositionSelectionAzimuth:
+            
+            operationHandler.currentOperation = nmix::Operation::PositionSelectionAzimuth;
             
             break;
             

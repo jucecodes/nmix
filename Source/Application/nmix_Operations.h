@@ -37,17 +37,10 @@ enum Operation
     NudgeSelection,
     LockSelection,
     
-    PositionSelection,
     PositionSelectionX,
     PositionSelectionY,
     PositionSelectionDistance,
     PositionSelectionAzimuth,
-    
-    AdjustX,
-    AdjustY,
-    AdjustVolume,
-    AdjustBalance,
-    
 };
 
 }

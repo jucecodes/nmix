@@ -104,7 +104,7 @@ void nmix::Stage::paint(juce::Graphics& g)
             int nHeight = (*n)->getHeight();
             
             int radius;
-            if (operationHandler.currentOperation == nmix::Operation::AdjustBalance)
+            if (operationHandler.currentOperation == nmix::Operation::PositionSelectionAzimuth)
             {
                 radius = (*n)->currentOpOrigin.translated(nWidth/2, nHeight/2).getDistanceFrom(juce::Point<int>(w/2, h/2));
             }

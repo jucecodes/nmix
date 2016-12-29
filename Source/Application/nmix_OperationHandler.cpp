@@ -128,7 +128,7 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
                 switch (currentOperation)
                 {
                         
-                    case nmix::Operation::AdjustVolume:
+                    case nmix::Operation::PositionSelectionDistance:
                     {
                         juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2).translated(-center.x, -center.y);
                         
@@ -142,7 +142,7 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
                         break;
                     }
                         
-                    case nmix::Operation::AdjustBalance:
+                    case nmix::Operation::PositionSelectionAzimuth:
                     {
                         juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2);
                         
@@ -157,13 +157,13 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
                         break;
                     }
                         
-                    case nmix::Operation::AdjustX:
+                    case nmix::Operation::PositionSelectionX:
                         
                         (*n)->setTopLeftPosition((*n)->currentOpOrigin.x + e.getDistanceFromDragStartX(), (*n)->currentOpOrigin.y);
                         
                         break;
                         
-                    case nmix::Operation::AdjustY:
+                    case nmix::Operation::PositionSelectionY:
                         
                         (*n)->setTopLeftPosition((*n)->currentOpOrigin.x, (*n)->currentOpOrigin.y + e.getDistanceFromDragStartY());
                         
