@@ -24,9 +24,15 @@
 namespace nmix
 {
     
-struct MainWindow : public juce::DocumentWindow
+struct MainWindow : public juce::DocumentWindow,
+                    public juce::ApplicationCommandTarget
 {
     MainWindow(juce::String name);
+    
+    juce::ApplicationCommandTarget* getNextCommandTarget() override;
+    void getAllCommands(juce::Array<juce::CommandID>& commands) override;
+    void getCommandInfo(juce::CommandID commandID, juce::ApplicationCommandInfo& result) override;
+    bool perform(const InvocationInfo& info) override;
     
     void closeButtonPressed() override;
     

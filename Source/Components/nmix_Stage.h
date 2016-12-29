@@ -29,8 +29,7 @@ struct Viewport;
 struct OperationHandler;
     
 struct Stage : public juce::Component,
-               public juce::LassoSource<nmix::Node*>,
-               public juce::ApplicationCommandTarget
+               public juce::LassoSource<nmix::Node*>
 {
 public:
     Stage(nmix::Viewport& v, nmix::OperationHandler& o);
@@ -41,13 +40,6 @@ public:
         backgroundColourId,
         foregroundColourId
     };
-    
-    int currentOperation;
-    
-    juce::ApplicationCommandTarget* getNextCommandTarget() override;
-    void getAllCommands(juce::Array<juce::CommandID>& commands) override;
-    void getCommandInfo(juce::CommandID commandID, juce::ApplicationCommandInfo& result) override;
-    bool perform(const InvocationInfo& info) override;
     
     void mouseDown      (const juce::MouseEvent& e) override;
     void mouseDrag      (const juce::MouseEvent& e) override;

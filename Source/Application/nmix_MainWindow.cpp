@@ -18,6 +18,8 @@
 
 #include "nmix_MainWindow.h"
 #include "nmix_Operations.h"
+#include "nmix_OperationHandler.h"
+#include "nmix_Application.h"
 #include "nmix_MainComponent.h"
 
 nmix::MainWindow::MainWindow(juce::String name) : juce::DocumentWindow(name, juce::Colours::lightgrey, DocumentWindow::allButtons)
@@ -26,8 +28,262 @@ nmix::MainWindow::MainWindow(juce::String name) : juce::DocumentWindow(name, juc
     setContentOwned (new nmix::MainComponent(), true);
     setResizable (false, true);
     
+    juce::ApplicationCommandManager& commandManager = nmix::Application::getCommandManager();
+    commandManager.registerAllCommandsForTarget(this);
+    addKeyListener(commandManager.getKeyMappings());
+    
+    setWantsKeyboardFocus(true);
+    
     centreWithSize (getWidth(), getHeight());
     setVisible (true);
+}
+
+juce::ApplicationCommandTarget* nmix::MainWindow::getNextCommandTarget()
+{
+    return nullptr;
+}
+
+void nmix::MainWindow::getAllCommands(juce::Array<juce::CommandID> &commands)
+{
+    const juce::CommandID ids[] =
+    {
+        nmix::Operation::Escape,
+        
+        nmix::Operation::SelectAll,
+        nmix::Operation::InvertSelection,
+        nmix::Operation::DeselectAll,
+        
+        nmix::Operation::AddNode,
+        nmix::Operation::RemoveNode,
+        
+        nmix::Operation::NudgeSelection,
+        nmix::Operation::LockSelection,
+        
+        nmix::Operation::AdjustX,
+        nmix::Operation::AdjustY,
+        nmix::Operation::AdjustVolume,
+        nmix::Operation::AdjustBalance
+    };
+    
+    commands.addArray(ids, juce::numElementsInArray(ids));
+}
+
+void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::ApplicationCommandInfo &result)
+{
+    switch (commandID) {
+            
+        case nmix::Operation::Escape:
+            
+            result.setInfo("Escape", "Cancel Current Operation", "", 0);
+            
+            result.addDefaultKeypress(juce::KeyPress::escapeKey, juce::ModifierKeys::noModifiers);
+            
+            break;
+            
+        case nmix::Operation::SelectAll:
+            
+            result.setInfo("Select All", "Select All Nodes", "", 0);
+            
+            result.addDefaultKeypress('a', juce::ModifierKeys::commandModifier);
+            
+            break;
+            
+        case nmix::Operation::InvertSelection:
+            
+            result.setInfo("Invert Selection", "Invert Selection", "", 0);
+            
+            result.addDefaultKeypress('i', juce::ModifierKeys::commandModifier);
+            
+            break;
+            
+        case nmix::Operation::DeselectAll:
+            
+            result.setInfo("Deselect All", "Deselect All Nodes", "", 0);
+            
+            result.addDefaultKeypress('d', juce::ModifierKeys::commandModifier);
+            
+            break;
+            
+        case nmix::Operation::AddNode:
+            
+            result.setInfo("Add Node", "Add a New Node", "", 0);
+            
+            result.addDefaultKeypress('n', juce::ModifierKeys::commandModifier | juce::ModifierKeys::shiftModifier);
+            
+            break;
+            
+        case nmix::Operation::RemoveNode:
+            
+            result.setInfo("Remove Node", "Remove Selected Nodes", "", 0);
+            
+            result.addDefaultKeypress(juce::KeyPress::backspaceKey, juce::ModifierKeys::noModifiers);
+            result.addDefaultKeypress(juce::KeyPress::deleteKey,    juce::ModifierKeys::noModifiers);
+            
+            break;
+            
+        case nmix::Operation::NudgeSelection:
+            
+            result.setInfo("Nudge", "Nudge Selected Nodes", "", 0);
+            
+            result.addDefaultKeypress(juce::KeyPress::upKey,    juce::ModifierKeys::noModifiers);
+            result.addDefaultKeypress(juce::KeyPress::downKey,  juce::ModifierKeys::noModifiers);
+            result.addDefaultKeypress(juce::KeyPress::leftKey,  juce::ModifierKeys::noModifiers);
+            result.addDefaultKeypress(juce::KeyPress::rightKey, juce::ModifierKeys::noModifiers);
+            
+            result.addDefaultKeypress(juce::KeyPress::upKey,    juce::ModifierKeys::shiftModifier);
+            result.addDefaultKeypress(juce::KeyPress::downKey,  juce::ModifierKeys::shiftModifier);
+            result.addDefaultKeypress(juce::KeyPress::leftKey,  juce::ModifierKeys::shiftModifier);
+            result.addDefaultKeypress(juce::KeyPress::rightKey, juce::ModifierKeys::shiftModifier);
+            
+            break;
+            
+        case nmix::Operation::LockSelection:
+            
+            result.setInfo("Lock Selection", "Lock Selected Nodes", "", 0);
+            
+            result.addDefaultKeypress('l', juce::ModifierKeys::commandModifier);
+            
+            break;
+            
+        case nmix::Operation::AdjustX:
+            
+            result.setInfo("Adjust X", "Adjust Selected Node X Position", "", 0);
+            
+            result.addDefaultKeypress('x', juce::ModifierKeys::noModifiers);
+            
+            break;
+            
+        case nmix::Operation::AdjustY:
+            
+            result.setInfo("Adjust Y", "Adjust Selected Node Y Position", "", 0);
+            
+            result.addDefaultKeypress('y', juce::ModifierKeys::noModifiers);
+            
+            break;
+            
+        case nmix::Operation::AdjustVolume:
+            
+            result.setInfo("Adjust Volume", "Adjust Selected Node Volumes", "", 0);
+            
+            result.addDefaultKeypress('v', juce::ModifierKeys::noModifiers);
+            
+            break;
+            
+        case nmix::Operation::AdjustBalance:
+            
+            result.setInfo("Adjust Balance", "Adjust Selected Node Balances", "", 0);
+            
+            result.addDefaultKeypress('b', juce::ModifierKeys::noModifiers);
+            
+        default:
+            break;
+    }
+}
+
+bool nmix::MainWindow::perform(const juce::ApplicationCommandTarget::InvocationInfo &info)
+{
+    
+    nmix::OperationHandler& operationHandler = nmix::Application::getOperationHandler();
+    
+    switch (info.commandID)
+    {
+        case nmix::Operation::Escape:
+            
+            if (operationHandler.currentOperation == nmix::Operation::None)
+            {
+                operationHandler.currentOperation = nmix::Operation::Escape;
+            }
+            else if (operationHandler.currentOperation == nmix::Operation::Escape)
+            {
+                break;
+            }
+            else
+            {
+                operationHandler.currentOperation = nmix::Operation::None;
+            }
+            
+            break;
+            
+        case nmix::Operation::SelectAll:
+            
+            operationHandler.selectAll();
+            
+            break;
+            
+        case nmix::Operation::InvertSelection:
+            
+            operationHandler.invertSelection();
+            
+            break;
+            
+            
+        case nmix::Operation::DeselectAll:
+            
+            operationHandler.deselectAll();
+            
+            break;
+            
+        case nmix::Operation::AddNode:
+        {
+            
+            operationHandler.addNode();
+            
+            break;
+        }
+            
+        case nmix::Operation::RemoveNode:
+        {
+            
+            operationHandler.deleteSelection();
+            
+            break;
+        }
+            
+        case nmix::Operation::NudgeSelection:
+        {
+            
+            operationHandler.nudgeSelection(info.keyPress);
+            
+            repaint();
+            
+            break;
+        }
+            
+        case nmix::Operation::LockSelection:
+            
+            operationHandler.lockSelection();
+            
+            break;
+            
+        case nmix::Operation::AdjustX:
+            
+            operationHandler.currentOperation = nmix::Operation::AdjustX;
+            
+            break;
+            
+        case nmix::Operation::AdjustY:
+            
+            operationHandler.currentOperation = nmix::Operation::AdjustY;
+            
+            break;
+            
+        case nmix::Operation::AdjustVolume:
+            
+            operationHandler.currentOperation = nmix::Operation::AdjustVolume;
+            
+            break;
+            
+        case nmix::Operation::AdjustBalance:
+            
+            operationHandler.currentOperation = nmix::Operation::AdjustBalance;
+            
+            break;
+            
+        default:
+            return false;
+    }
+    
+    return true;
 }
 
 void nmix::MainWindow::closeButtonPressed()
