@@ -17,7 +17,6 @@
  */
 
 #include "nmix_MainWindow.h"
-#include "nmix_Application.h"
 #include "nmix_Operations.h"
 #include "nmix_MainComponent.h"
 

@@ -21,7 +21,6 @@
 #include "nmix_Colours.h"
 #include "nmix_Operations.h"
 #include "nmix_Node.h"
-#include "nmix_Viewport.h"
 #include "nmix_OperationHandler.h"
 
 nmix::Stage::Stage(nmix::Viewport& v, nmix::OperationHandler& o) : viewport(v), operationHandler(o)
