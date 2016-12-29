@@ -16,9 +16,12 @@
  *
  */
  
- #include "../JuceLibraryCode/JuceHeader.h"
+#ifndef NMIX_VIEWPORT_H
+#define NMIX_VIEWPORT_H
  
- namespace nmix
+#include "../JuceLibraryCode/JuceHeader.h"
+ 
+namespace nmix
 {
  
 struct Viewport : public juce::Component
@@ -36,3 +39,5 @@ struct Viewport : public juce::Component
 };
     
 }
+
+#endif // NMIX_VIEWPORT_H
