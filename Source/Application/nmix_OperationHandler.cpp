@@ -209,6 +209,7 @@ void nmix::OperationHandler::changeListenerCallback(juce::ChangeBroadcaster *sou
     if (selectedNodes.getNumSelected() > 1)
     {
         currentViewport->selectionInfo.setText(juce::String(selectedNodes.getNumSelected()) + " nodes selected", juce::dontSendNotification);
+        currentViewport->selectionInfo.setColour(juce::Label::ColourIds::textColourId, nmix::Colours::White);
     }
     else if (selectedNodes.getNumSelected() == 1)
     {
