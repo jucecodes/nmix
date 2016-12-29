@@ -21,8 +21,9 @@
 #include "nmix_Colours.h"
 #include "nmix_Operations.h"
 #include "nmix_Node.h"
+#include "nmix_Viewport.h"
 
-nmix::Stage::Stage()
+nmix::Stage::Stage(nmix::Viewport& v) : viewport(v)
 {
     currentOperation = nmix::Operations::None;
     
@@ -36,12 +37,6 @@ nmix::Stage::Stage()
     juce::ApplicationCommandManager& commandManager = nmix::Application::getCommandManager();
     commandManager.registerAllCommandsForTarget(this);
     addKeyListener(commandManager.getKeyMappings());
-    
-    infoDisplay.setText("", juce::dontSendNotification);
-    infoDisplay.setColour(juce::Label::ColourIds::textColourId, nmix::Colours::White);
-    infoDisplay.setInterceptsMouseClicks(false, false);
-    infoDisplay.setJustificationType(juce::Justification::centredLeft);
-    addAndMakeVisible(infoDisplay);
     
     nmix::Node* n = new nmix::Node(*this);
     n->setBounds(32, 32, 32, 32);
@@ -403,18 +398,18 @@ void nmix::Stage::changeListenerCallback(juce::ChangeBroadcaster *source)
     
     if (selectedNodes.getNumSelected() > 1)
     {
-        infoDisplay.setText(juce::String(selectedNodes.getNumSelected()) + " nodes selected", juce::dontSendNotification);
+        viewport.selectionInfo.setText(juce::String(selectedNodes.getNumSelected()) + " nodes selected", juce::dontSendNotification);
     }
     else if (selectedNodes.getNumSelected() == 1)
     {
         nmix::Node* n = selectedNodes.getSelectedItem(0);
-        infoDisplay.setText(n->getName(), juce::dontSendNotification);
-        infoDisplay.setColour(juce::Label::ColourIds::textColourId, n->findColour(nmix::Node::backgroundColourId));
+        viewport.selectionInfo.setText(n->getName(), juce::dontSendNotification);
+        viewport.selectionInfo.setColour(juce::Label::ColourIds::textColourId, n->findColour(nmix::Node::backgroundColourId));
     }
     else
     {
-        infoDisplay.setText("", juce::dontSendNotification);
-        infoDisplay.setColour(juce::Label::ColourIds::textColourId, nmix::Colours::White);
+        viewport.selectionInfo.setText("", juce::dontSendNotification);
+        viewport.selectionInfo.setColour(juce::Label::ColourIds::textColourId, nmix::Colours::White);
     }
 }
 
@@ -456,11 +451,9 @@ void nmix::Stage::paint(juce::Graphics& g)
             g.drawLine(w/2, h/2, (*n)->getX() + nWidth/2, (*n)->getY() + nHeight/2, 1);
         }
     }
-    
-    infoDisplay.toFront(false);
 }
 
 void nmix::Stage::resized()
 {
-    infoDisplay.setBounds(0, getHeight() - 20, getWidth(), 20);
+    
 }

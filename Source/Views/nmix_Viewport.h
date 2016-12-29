@@ -15,36 +15,24 @@
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
-#ifndef NMIX_MAINCOMPONENT_H
-#define NMIX_MAINCOMPONENT_H
-
-#include "../JuceLibraryCode/JuceHeader.h"
-
-namespace nmix
+ 
+ #include "../JuceLibraryCode/JuceHeader.h"
+ 
+ namespace nmix
 {
-    
-struct Stage;
-struct Viewport;
-    
-struct MainComponent : public juce::AudioAppComponent
+ 
+struct Viewport : public juce::Component
 {
-    MainComponent();
-    ~MainComponent();
+ 
+    Viewport();
+    ~Viewport();
     
-    void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
-    void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;
-    void releaseResources() override;
-    
-    void paint (juce::Graphics& g) override;
     void resized() override;
     
-    nmix::Viewport* viewport;
-    nmix::Stage* stage;
+    juce::Label selectionInfo;
     
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Viewport)
+    
 };
     
 }
-
-#endif  // NMIX_MAINCOMPONENT_H

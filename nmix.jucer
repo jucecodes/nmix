@@ -34,6 +34,11 @@
         <FILE id="BvFtjL" name="nmix_Stage.h" compile="0" resource="0" file="Source/Components/nmix_Stage.h"/>
         <FILE id="wpDpE5" name="nmix_Stage.cpp" compile="1" resource="0" file="Source/Components/nmix_Stage.cpp"/>
       </GROUP>
+      <GROUP id="{2CBD72EB-9B25-62BC-9FA5-301E5A084D2C}" name="Views">
+        <FILE id="xHj6VA" name="nmix_Viewport.cpp" compile="1" resource="0"
+              file="Source/Views/nmix_Viewport.cpp"/>
+        <FILE id="NEHfzS" name="nmix_Viewport.h" compile="0" resource="0" file="Source/Views/nmix_Viewport.h"/>
+      </GROUP>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

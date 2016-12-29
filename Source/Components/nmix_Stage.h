@@ -25,6 +25,7 @@ namespace nmix
 {
     
 struct Node;
+struct Viewport;
     
 struct Stage : public juce::Component,
                public juce::LassoSource<nmix::Node*>,
@@ -32,7 +33,7 @@ struct Stage : public juce::Component,
                public juce::ApplicationCommandTarget
 {
 public:
-    Stage();
+    Stage(nmix::Viewport& v);
     ~Stage();
     
     enum ColourIds
@@ -64,7 +65,7 @@ public:
     
     juce::LassoComponent<nmix::Node*> lasso;
     
-    juce::Label infoDisplay;
+    nmix::Viewport& viewport;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Stage)
 };

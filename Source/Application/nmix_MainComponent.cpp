@@ -18,12 +18,18 @@
 
 #include "nmix_MainComponent.h"
 #include "nmix_Stage.h"
+#include "nmix_Viewport.h"
 
 nmix::MainComponent::MainComponent()
 {
-    stage = new nmix::Stage();
+    viewport = new nmix::Viewport();
+    viewport->setBounds(0, 0, 675, 675);
+    addAndMakeVisible(viewport);
+    
+    stage = new nmix::Stage(*viewport);
     stage->setBounds(0, 0, 675, 675);
     addAndMakeVisible(stage);
+    
     setSize (675, 675);
     setAudioChannels (0, 2);
 }
@@ -31,6 +37,7 @@ nmix::MainComponent::MainComponent()
 nmix::MainComponent::~MainComponent()
 {
     delete stage;
+    delete viewport;
     shutdownAudio();
 }
 
@@ -56,5 +63,5 @@ void nmix::MainComponent::paint(juce::Graphics &g)
 
 void nmix::MainComponent::resized()
 {
-    
+    viewport->toFront(false);
 }
