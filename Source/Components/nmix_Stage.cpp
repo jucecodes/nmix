@@ -22,31 +22,23 @@
 #include "nmix_Operations.h"
 #include "nmix_Node.h"
 #include "nmix_Viewport.h"
+#include "nmix_OperationHandler.h"
 
-nmix::Stage::Stage(nmix::Viewport& v) : viewport(v)
+nmix::Stage::Stage(nmix::Viewport& v, nmix::OperationHandler& o) : viewport(v), operationHandler(o)
 {
-    currentOperation = nmix::Operations::None;
-    
     setColour(backgroundColourId, nmix::Colours::DarkerGrey);
     setColour(foregroundColourId, nmix::Colours::DarkGrey);
     
     setWantsKeyboardFocus(true);
     
-    selectedNodes.addChangeListener(this);
-    
     juce::ApplicationCommandManager& commandManager = nmix::Application::getCommandManager();
     commandManager.registerAllCommandsForTarget(this);
     addKeyListener(commandManager.getKeyMappings());
-    
-    nmix::Node* n = new nmix::Node(*this);
-    n->setBounds(32, 32, 32, 32);
-    addAndMakeVisible(n);
-    stagedNodes.add(n);
 }
 
 nmix::Stage::~Stage()
 {
-    stagedNodes.clear();
+
 }
 
 juce::ApplicationCommandTarget* nmix::Stage::getNextCommandTarget()
@@ -58,22 +50,22 @@ void nmix::Stage::getAllCommands(juce::Array<juce::CommandID> &commands)
 {
     const juce::CommandID ids[] =
     {
-        nmix::Operations::Escape,
+        nmix::Operation::Escape,
         
-        nmix::Operations::SelectAll,
-        nmix::Operations::InverseSelect,
-        nmix::Operations::DeselectAll,
+        nmix::Operation::SelectAll,
+        nmix::Operation::InvertSelection,
+        nmix::Operation::DeselectAll,
         
-        nmix::Operations::AddNode,
-        nmix::Operations::RemoveNode,
+        nmix::Operation::AddNode,
+        nmix::Operation::RemoveNode,
         
-        nmix::Operations::NudgeSelection,
-        nmix::Operations::LockSelection,
+        nmix::Operation::NudgeSelection,
+        nmix::Operation::LockSelection,
         
-        nmix::Operations::AdjustX,
-        nmix::Operations::AdjustY,
-        nmix::Operations::AdjustVolume,
-        nmix::Operations::AdjustBalance
+        nmix::Operation::AdjustX,
+        nmix::Operation::AdjustY,
+        nmix::Operation::AdjustVolume,
+        nmix::Operation::AdjustBalance
     };
     
     commands.addArray(ids, juce::numElementsInArray(ids));
@@ -83,7 +75,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
 {
     switch (commandID) {
             
-        case nmix::Operations::Escape:
+        case nmix::Operation::Escape:
             
             result.setInfo("Escape", "Cancel Current Operation", "", 0);
             
@@ -91,7 +83,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
             break;
             
-        case nmix::Operations::SelectAll:
+        case nmix::Operation::SelectAll:
             
             result.setInfo("Select All", "Select All Nodes", "", 0);
             
@@ -99,7 +91,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
             break;
             
-        case nmix::Operations::InverseSelect:
+        case nmix::Operation::InvertSelection:
             
             result.setInfo("Invert Selection", "Invert Selection", "", 0);
             
@@ -107,7 +99,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
             break;
             
-        case nmix::Operations::DeselectAll:
+        case nmix::Operation::DeselectAll:
             
             result.setInfo("Deselect All", "Deselect All Nodes", "", 0);
             
@@ -115,7 +107,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
             break;
             
-        case nmix::Operations::AddNode:
+        case nmix::Operation::AddNode:
             
             result.setInfo("Add Node", "Add a New Node", "", 0);
             
@@ -123,7 +115,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
             break;
             
-        case nmix::Operations::RemoveNode:
+        case nmix::Operation::RemoveNode:
             
             result.setInfo("Remove Node", "Remove Selected Nodes", "", 0);
             
@@ -132,7 +124,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
             break;
             
-        case nmix::Operations::NudgeSelection:
+        case nmix::Operation::NudgeSelection:
             
             result.setInfo("Nudge", "Nudge Selected Nodes", "", 0);
             
@@ -148,7 +140,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
             break;
             
-        case nmix::Operations::LockSelection:
+        case nmix::Operation::LockSelection:
             
             result.setInfo("Lock Selection", "Lock Selected Nodes", "", 0);
             
@@ -156,7 +148,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
             break;
             
-        case nmix::Operations::AdjustX:
+        case nmix::Operation::AdjustX:
             
             result.setInfo("Adjust X", "Adjust Selected Node X Position", "", 0);
             
@@ -164,7 +156,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
             break;
             
-        case nmix::Operations::AdjustY:
+        case nmix::Operation::AdjustY:
             
             result.setInfo("Adjust Y", "Adjust Selected Node Y Position", "", 0);
             
@@ -172,7 +164,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
             break;
             
-        case nmix::Operations::AdjustVolume:
+        case nmix::Operation::AdjustVolume:
             
             result.setInfo("Adjust Volume", "Adjust Selected Node Volumes", "", 0);
             
@@ -180,7 +172,7 @@ void nmix::Stage::getCommandInfo(juce::CommandID commandID, juce::ApplicationCom
             
             break;
             
-        case nmix::Operations::AdjustBalance:
+        case nmix::Operation::AdjustBalance:
             
             result.setInfo("Adjust Balance", "Adjust Selected Node Balances", "", 0);
             
@@ -195,133 +187,95 @@ bool nmix::Stage::perform(const juce::ApplicationCommandTarget::InvocationInfo &
 {
     switch (info.commandID)
     {
-        case nmix::Operations::Escape:
+        case nmix::Operation::Escape:
             
-            if (currentOperation == nmix::Operations::None)
+            if (operationHandler.currentOperation == nmix::Operation::None)
             {
-                currentOperation = nmix::Operations::Escape;
+                operationHandler.currentOperation = nmix::Operation::Escape;
             }
-            else if (currentOperation == nmix::Operations::Escape)
+            else if (operationHandler.currentOperation == nmix::Operation::Escape)
             {
                 break;
             }
             else
             {
-                currentOperation = nmix::Operations::None;
+                operationHandler.currentOperation = nmix::Operation::None;
             }
             
             break;
             
-        case nmix::Operations::SelectAll:
+        case nmix::Operation::SelectAll:
             
-            for (nmix::Node** n = stagedNodes.begin(); n != stagedNodes.end(); ++n)
-            {
-                selectedNodes.addToSelection(*n);
-            }
+            operationHandler.selectAll();
             
             break;
             
-        case nmix::Operations::InverseSelect:
+        case nmix::Operation::InvertSelection:
         
-            for (nmix::Node** n = stagedNodes.begin(); n != stagedNodes.end(); ++n)
-            {
-                (selectedNodes.isSelected(*n)) ? selectedNodes.deselect(*n) : selectedNodes.addToSelection(*n);
-            }
+            operationHandler.invertSelection();
             
             break;
         
             
-        case nmix::Operations::DeselectAll:
+        case nmix::Operation::DeselectAll:
             
-            selectedNodes.deselectAll();
+            operationHandler.deselectAll();
             
             break;
             
-        case nmix::Operations::AddNode:
+        case nmix::Operation::AddNode:
         {
-            nmix::Node* n = new nmix::Node(*this);
-            n->setBounds(getWidth()/2, getHeight()/2, 32, 32);
-            addAndMakeVisible(n);
-            stagedNodes.add(n);
+            
+            operationHandler.addNode();
             
             break;
         }
             
-        case nmix::Operations::RemoveNode:
+        case nmix::Operation::RemoveNode:
         {
-            while (selectedNodes.getNumSelected() > 0)
-            {
-                Node* n = selectedNodes.getSelectedItem(0);
-                selectedNodes.deselect(n);
-                stagedNodes.removeObject(n);
-            }
+            
+            operationHandler.deleteSelection();
+            
+            break;
+        }
+            
+        case nmix::Operation::NudgeSelection:
+        {
+            
+            operationHandler.nudgeSelection(info.keyPress);
             
             repaint();
             
             break;
         }
             
-        case nmix::Operations::NudgeSelection:
-        {
+        case nmix::Operation::LockSelection:
             
-            currentOperation = nmix::Operations::NudgeSelection;
-            int nudgeValue = (info.keyPress.getModifiers().isShiftDown()) ? 10 : 1;
-            
-            int deltaX =
-              (info.keyPress.getKeyCode() == juce::KeyPress::upKey)    ? 0
-            : (info.keyPress.getKeyCode() == juce::KeyPress::downKey)  ? 0
-            : (info.keyPress.getKeyCode() == juce::KeyPress::leftKey)  ? -nudgeValue
-            : (info.keyPress.getKeyCode() == juce::KeyPress::rightKey) ? nudgeValue
-            : 0;
-            
-            int deltaY =
-              (info.keyPress.getKeyCode() == juce::KeyPress::upKey)    ? -nudgeValue
-            : (info.keyPress.getKeyCode() == juce::KeyPress::downKey)  ? nudgeValue
-            : (info.keyPress.getKeyCode() == juce::KeyPress::leftKey)  ? 0
-            : (info.keyPress.getKeyCode() == juce::KeyPress::rightKey) ? 0
-            : 0;
-            
-            for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
-            {
-                (*n)->setTopLeftPosition((*n)->getPosition().translated(deltaX, deltaY));
-            }
-            
-            repaint();
-            
-            break;
-        }
-            
-        case nmix::Operations::LockSelection:
-            
-            for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
-            {
-                (*n)->status ^= nmix::Node::Locked;
-                (*n)->repaint();
-            }
+            operationHandler.lockSelection();
             
             break;
             
-        case nmix::Operations::AdjustX:
+        case nmix::Operation::AdjustX:
             
-            currentOperation = nmix::Operations::AdjustX;
-            
-            break;
-            
-        case nmix::Operations::AdjustY:
-            
-            currentOperation = nmix::Operations::AdjustY;
+            operationHandler.currentOperation = nmix::Operation::AdjustX;
             
             break;
             
-        case nmix::Operations::AdjustVolume:
+        case nmix::Operation::AdjustY:
             
-            currentOperation = nmix::Operations::AdjustVolume;
+            operationHandler.currentOperation = nmix::Operation::AdjustY;
             
             break;
             
-        case nmix::Operations::AdjustBalance:
+        case nmix::Operation::AdjustVolume:
             
-            currentOperation = nmix::Operations::AdjustBalance;
+            operationHandler.currentOperation = nmix::Operation::AdjustVolume;
+            
+            break;
+            
+        case nmix::Operation::AdjustBalance:
+            
+            operationHandler.currentOperation = nmix::Operation::AdjustBalance;
             
             break;
             
@@ -358,14 +312,14 @@ void nmix::Stage::mouseUp(const juce::MouseEvent &e)
         removeChildComponent(&lasso);
         if (!e.mouseWasDraggedSinceMouseDown())
         {
-            selectedNodes.deselectAll();
+            operationHandler.deselectAll();
         }
     }
 }
 
 void nmix::Stage::findLassoItemsInArea(juce::Array<nmix::Node *>& results, const juce::Rectangle<int> &area)
 {
-    for (nmix::Node** n = stagedNodes.begin(); n != stagedNodes.end(); ++n)
+    for (nmix::Node** n = operationHandler.stagedNodes.begin(); n != operationHandler.stagedNodes.end(); ++n)
     {
         if ((*n)->getBounds().intersects(area))
         {
@@ -376,41 +330,7 @@ void nmix::Stage::findLassoItemsInArea(juce::Array<nmix::Node *>& results, const
 
 juce::SelectedItemSet<nmix::Node*>& nmix::Stage::getLassoSelection()
 {
-    return selectedNodes;
-}
-
-void nmix::Stage::changeListenerCallback(juce::ChangeBroadcaster *source)
-{
-    for (nmix::Node** n = stagedNodes.begin(); n != stagedNodes.end(); ++n)
-    {
-        if (selectedNodes.isSelected(*n))
-        {
-            (*n)->status |= nmix::Node::Selected;
-        }
-        else
-        {
-            (*n)->status &= ~nmix::Node::Selected;
-        }
-        
-        (*n)->repaint();
-        repaint();
-    }
-    
-    if (selectedNodes.getNumSelected() > 1)
-    {
-        viewport.selectionInfo.setText(juce::String(selectedNodes.getNumSelected()) + " nodes selected", juce::dontSendNotification);
-    }
-    else if (selectedNodes.getNumSelected() == 1)
-    {
-        nmix::Node* n = selectedNodes.getSelectedItem(0);
-        viewport.selectionInfo.setText(n->getName(), juce::dontSendNotification);
-        viewport.selectionInfo.setColour(juce::Label::ColourIds::textColourId, n->findColour(nmix::Node::backgroundColourId));
-    }
-    else
-    {
-        viewport.selectionInfo.setText("", juce::dontSendNotification);
-        viewport.selectionInfo.setColour(juce::Label::ColourIds::textColourId, nmix::Colours::White);
-    }
+    return operationHandler.selectedNodes;
 }
 
 void nmix::Stage::paint(juce::Graphics& g)
@@ -429,15 +349,15 @@ void nmix::Stage::paint(juce::Graphics& g)
         g.drawEllipse((w/8)*i, (h/8)*i, w - (w/4 * i), h - (h/4 * i), 0.5f);
     }
     
-    if (selectedNodes.getNumSelected() > 0)
+    if (operationHandler.selectedNodes.getNumSelected() > 0)
     {
-        for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
+        for (nmix::Node** n = operationHandler.selectedNodes.begin(); n != operationHandler.selectedNodes.end(); ++n)
         {
             int nWidth  = (*n)->getWidth();
             int nHeight = (*n)->getHeight();
             
             int radius;
-            if (currentOperation == nmix::Operations::AdjustBalance)
+            if (operationHandler.currentOperation == nmix::Operation::AdjustBalance)
             {
                 radius = (*n)->currentOpOrigin.translated(nWidth/2, nHeight/2).getDistanceFrom(juce::Point<int>(w/2, h/2));
             }

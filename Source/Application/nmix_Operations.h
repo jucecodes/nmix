@@ -22,13 +22,13 @@
 namespace nmix
 {
 
-enum Operations
+enum Operation
 {
     None = 0,
     Escape,
     
     SelectAll,
-    InverseSelect,
+    InvertSelection,
     DeselectAll,
     
     AddNode,
@@ -36,6 +36,12 @@ enum Operations
     
     NudgeSelection,
     LockSelection,
+    
+    PositionSelection,
+    PositionSelectionX,
+    PositionSelectionY,
+    PositionSelectionDistance,
+    PositionSelectionAzimuth,
     
     AdjustX,
     AdjustY,

@@ -19,9 +19,10 @@
 #include "nmix_Node.h"
 #include "nmix_Stage.h"
 #include "nmix_Operations.h"
+#include "nmix_OperationHandler.h"
 #include "nmix_Colours.h"
 
-nmix::Node::Node(nmix::Stage& s) : juce::Component("Unnamed"), stage(s)
+nmix::Node::Node(nmix::Stage& s, nmix::OperationHandler& o) : juce::Component("Unnamed"), stage(s), operationHandler(o)
 {
     status = 0;
     
@@ -50,9 +51,9 @@ void nmix::Node::mouseDown(const juce::MouseEvent &e)
 {
     toFront(true);
     
-    mouseDownResult = stage.selectedNodes.addToSelectionOnMouseDown(this, e.mods);
+    mouseDownResult = operationHandler.selectedNodes.addToSelectionOnMouseDown(this, e.mods);
     
-    for (nmix::Node** n = stage.selectedNodes.begin(); n != stage.selectedNodes.end(); ++n)
+    for (nmix::Node** n = operationHandler.selectedNodes.begin(); n != operationHandler.selectedNodes.end(); ++n)
     {
         (*n)->currentOpOrigin = (*n)->getPosition();
     }
@@ -60,85 +61,87 @@ void nmix::Node::mouseDown(const juce::MouseEvent &e)
 
 void nmix::Node::mouseDrag(const juce::MouseEvent &e)
 {
-    if(e.mouseWasDraggedSinceMouseDown() && stage.currentOperation != nmix::Operations::Escape)
-    {
-        juce::MouseEvent k = e.getEventRelativeTo(&stage);
-        
-        juce::Point<int> center = juce::Point<int>(stage.getWidth()/2, stage.getHeight()/2);
-        
-        for (nmix::Node** n = stage.selectedNodes.begin(); n != stage.selectedNodes.end(); ++n)
-        {
-            if (!((*n)->status & StatusIds::Locked))
-            {
-            
-                switch (stage.currentOperation)
-                {
-                        
-                case nmix::Operations::AdjustVolume:
-                {
-                    juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2).translated(-center.x, -center.y);
-                    
-                    juce::Point<int> pOffset = juce::Point<int>((*n)->currentOpOrigin.x + (*n)->getWidth()/2 + e.getDistanceFromDragStartX() - center.x, (*n)->currentOpOrigin.y + (*n)->getHeight()/2 + e.getDistanceFromDragStartY() - center.y);
-                    
-                    double dot = p.getDotProduct(pOffset);
-                    double len = p.x * p.x + p.y * p.y;
-                    
-                    (*n)->setCentrePosition((int)(center.x + (dot * p.x) / len), (int)(center.y + (dot * p.y) / len));
-                    
-                    break;
-                }
-                    
-                case nmix::Operations::AdjustBalance:
-                {
-                    juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2);
-                    
-                    float opOriginAngle     = center.getAngleToPoint(p);
-                    float mouseOriginAngle  = center.getAngleToPoint(k.getMouseDownPosition());
-                    float mouseCurrentAngle = center.getAngleToPoint(k.getPosition());
-                    
-                    juce::Point<float> final = center.getPointOnCircumference(center.getDistanceFrom(p), opOriginAngle - (mouseOriginAngle - mouseCurrentAngle));
-                    
-                    (*n)->setCentrePosition(final.x, final.y);
-                    
-                    break;
-                }
-                    
-                case nmix::Operations::AdjustX:
-                    
-                    (*n)->setTopLeftPosition((*n)->currentOpOrigin.x + e.getDistanceFromDragStartX(), (*n)->currentOpOrigin.y);
-                    
-                    break;
-                
-                case nmix::Operations::AdjustY:
-                        
-                    (*n)->setTopLeftPosition((*n)->currentOpOrigin.x, (*n)->currentOpOrigin.y + e.getDistanceFromDragStartY());
-                        
-                    break;
-                        
-                default:
-                    
-                    (*n)->setTopLeftPosition((*n)->currentOpOrigin.x + e.getDistanceFromDragStartX(), (*n)->currentOpOrigin.y + e.getDistanceFromDragStartY());
-                    
-                    break;
-                }
-            }
-        }
-    }
-    else
-    {
-        for (nmix::Node** n = stage.selectedNodes.begin(); n != stage.selectedNodes.end(); ++n)
-        {
-            (*n)->setTopLeftPosition((*n)->currentOpOrigin);
-        }
-    }
+    
+    operationHandler.positionSelection(e);
+//    if(e.mouseWasDraggedSinceMouseDown() && stage.currentOperation != nmix::Operation::Escape)
+//    {
+//        juce::MouseEvent k = e.getEventRelativeTo(&stage);
+//        
+//        juce::Point<int> center = juce::Point<int>(stage.getWidth()/2, stage.getHeight()/2);
+//        
+//        for (nmix::Node** n = stage.selectedNodes.begin(); n != stage.selectedNodes.end(); ++n)
+//        {
+//            if (!((*n)->status & StatusIds::Locked))
+//            {
+//            
+//                switch (stage.currentOperation)
+//                {
+//                        
+//                case nmix::Operation::AdjustVolume:
+//                {
+//                    juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2).translated(-center.x, -center.y);
+//                    
+//                    juce::Point<int> pOffset = juce::Point<int>((*n)->currentOpOrigin.x + (*n)->getWidth()/2 + e.getDistanceFromDragStartX() - center.x, (*n)->currentOpOrigin.y + (*n)->getHeight()/2 + e.getDistanceFromDragStartY() - center.y);
+//                    
+//                    double dot = p.getDotProduct(pOffset);
+//                    double len = p.x * p.x + p.y * p.y;
+//                    
+//                    (*n)->setCentrePosition((int)(center.x + (dot * p.x) / len), (int)(center.y + (dot * p.y) / len));
+//                    
+//                    break;
+//                }
+//                    
+//                case nmix::Operation::AdjustBalance:
+//                {
+//                    juce::Point<int> p = (*n)->currentOpOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2);
+//                    
+//                    float opOriginAngle     = center.getAngleToPoint(p);
+//                    float mouseOriginAngle  = center.getAngleToPoint(k.getMouseDownPosition());
+//                    float mouseCurrentAngle = center.getAngleToPoint(k.getPosition());
+//                    
+//                    juce::Point<float> final = center.getPointOnCircumference(center.getDistanceFrom(p), opOriginAngle - (mouseOriginAngle - mouseCurrentAngle));
+//                    
+//                    (*n)->setCentrePosition(final.x, final.y);
+//                    
+//                    break;
+//                }
+//                    
+//                case nmix::Operation::AdjustX:
+//                    
+//                    (*n)->setTopLeftPosition((*n)->currentOpOrigin.x + e.getDistanceFromDragStartX(), (*n)->currentOpOrigin.y);
+//                    
+//                    break;
+//                
+//                case nmix::Operation::AdjustY:
+//                        
+//                    (*n)->setTopLeftPosition((*n)->currentOpOrigin.x, (*n)->currentOpOrigin.y + e.getDistanceFromDragStartY());
+//                        
+//                    break;
+//                        
+//                default:
+//                    
+//                    (*n)->setTopLeftPosition((*n)->currentOpOrigin.x + e.getDistanceFromDragStartX(), (*n)->currentOpOrigin.y + e.getDistanceFromDragStartY());
+//                    
+//                    break;
+//                }
+//            }
+//        }
+//    }
+//    else
+//    {
+//        for (nmix::Node** n = stage.selectedNodes.begin(); n != stage.selectedNodes.end(); ++n)
+//        {
+//            (*n)->setTopLeftPosition((*n)->currentOpOrigin);
+//        }
+//    }
     
     stage.repaint();
 }
 
 void nmix::Node::mouseUp(const juce::MouseEvent &e)
 {
-    stage.selectedNodes.addToSelectionOnMouseUp(this, e.mods, e.mouseWasDraggedSinceMouseDown(), mouseDownResult);
-    stage.currentOperation = nmix::Operations::None;
+    operationHandler.selectedNodes.addToSelectionOnMouseUp(this, e.mods, e.mouseWasDraggedSinceMouseDown(), mouseDownResult);
+    operationHandler.currentOperation = nmix::Operation::None;
     stage.repaint();
 }
 

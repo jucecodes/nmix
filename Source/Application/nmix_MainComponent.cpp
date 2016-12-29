@@ -19,16 +19,21 @@
 #include "nmix_MainComponent.h"
 #include "nmix_Stage.h"
 #include "nmix_Viewport.h"
+#include "nmix_Application.h"
+#include "nmix_OperationHandler.h"
 
 nmix::MainComponent::MainComponent()
 {
     viewport = new nmix::Viewport();
-//    viewport->setBounds(0, 0, 675, 675);
     addAndMakeVisible(viewport);
     
-    stage = new nmix::Stage(*viewport);
-//    stage->setBounds(0, 0, 675, 675);
+    nmix::OperationHandler& op = nmix::Application::getOperationHandler();
+    
+    stage = new nmix::Stage(*viewport, op);
     addAndMakeVisible(stage);
+    
+    op.currentStage    = stage;
+    op.currentViewport = viewport;
     
     setSize (675, 675);
     setAudioChannels (0, 2);
@@ -36,8 +41,8 @@ nmix::MainComponent::MainComponent()
 
 nmix::MainComponent::~MainComponent()
 {
-    delete stage;
-    delete viewport;
+    viewport = nullptr;
+    stage    = nullptr;
     shutdownAudio();
 }
 

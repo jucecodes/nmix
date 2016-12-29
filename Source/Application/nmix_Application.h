@@ -25,6 +25,7 @@ namespace nmix
 {
     
 struct MainWindow;
+struct OperationHandler;
     
 struct Application : public juce::JUCEApplication
 {
@@ -42,9 +43,12 @@ struct Application : public juce::JUCEApplication
     
     static nmix::Application& getApp();
     static juce::ApplicationCommandManager& getCommandManager();
+    static nmix::OperationHandler&          getOperationHandler();
     
     juce::ScopedPointer<nmix::MainWindow> mainWindow;
     juce::ScopedPointer<juce::ApplicationCommandManager> commandManager;
+    
+    juce::ScopedPointer<nmix::OperationHandler> operationHandler;
 };
     
 }

@@ -20,6 +20,7 @@
 
 #include "nmix_Application.h"
 #include "nmix_MainWindow.h"
+#include "nmix_OperationHandler.h"
 
 nmix::Application::Application()
 {
@@ -43,8 +44,9 @@ bool nmix::Application::moreThanOneInstanceAllowed()
 
 void nmix::Application::initialise(const juce::String &commandLine)
 {
-    commandManager = new juce::ApplicationCommandManager();
-    mainWindow     = new nmix::MainWindow(getApplicationName());
+    commandManager   = new juce::ApplicationCommandManager();
+    operationHandler = new nmix::OperationHandler();
+    mainWindow       = new nmix::MainWindow(getApplicationName());
 }
 
 void nmix::Application::anotherInstanceStarted(const juce::String &commandLine)
@@ -54,8 +56,9 @@ void nmix::Application::anotherInstanceStarted(const juce::String &commandLine)
 
 void nmix::Application::shutdown()
 {
-    mainWindow     = nullptr;
-    commandManager = nullptr;
+    mainWindow       = nullptr;
+    operationHandler = nullptr;
+    commandManager   = nullptr;
 }
 
 void nmix::Application::systemRequestedQuit()
@@ -69,6 +72,14 @@ juce::ApplicationCommandManager& nmix::Application::getCommandManager()
     juce::ApplicationCommandManager* cmd = app->commandManager;
     jassert(cmd != nullptr);
     return *cmd;
+}
+
+nmix::OperationHandler& nmix::Application::getOperationHandler()
+{
+    nmix::Application* const app = dynamic_cast<nmix::Application*>(JUCEApplication::getInstance());
+    nmix::OperationHandler* op = app->operationHandler;
+    jassert(op != nullptr);
+    return *op;
 }
 
 START_JUCE_APPLICATION (nmix::Application)

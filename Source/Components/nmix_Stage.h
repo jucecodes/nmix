@@ -26,14 +26,14 @@ namespace nmix
     
 struct Node;
 struct Viewport;
+struct OperationHandler;
     
 struct Stage : public juce::Component,
                public juce::LassoSource<nmix::Node*>,
-               public juce::ChangeListener,
                public juce::ApplicationCommandTarget
 {
 public:
-    Stage(nmix::Viewport& v);
+    Stage(nmix::Viewport& v, nmix::OperationHandler& o);
     ~Stage();
     
     enum ColourIds
@@ -55,17 +55,14 @@ public:
 
     void findLassoItemsInArea(juce::Array<nmix::Node*>& results, const juce::Rectangle<int>& area) override;
     juce::SelectedItemSet<Node*>& getLassoSelection() override;
-    void changeListenerCallback(juce::ChangeBroadcaster* source) override;
     
     void paint(juce::Graphics& g) override;
     void resized() override;
     
-    juce::SelectedItemSet<nmix::Node*> selectedNodes;
-    juce::OwnedArray<nmix::Node> stagedNodes;
-    
     juce::LassoComponent<nmix::Node*> lasso;
     
     nmix::Viewport& viewport;
+    nmix::OperationHandler& operationHandler;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Stage)
 };

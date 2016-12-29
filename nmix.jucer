@@ -14,6 +14,10 @@
               file="Source/Application/nmix_Application.cpp"/>
         <FILE id="Tncg0V" name="nmix_Operations.h" compile="0" resource="0"
               file="Source/Application/nmix_Operations.h"/>
+        <FILE id="oPIIOf" name="nmix_OperationHandler.h" compile="0" resource="0"
+              file="Source/Application/nmix_OperationHandler.h"/>
+        <FILE id="kuCWjJ" name="nmix_OperationHandler.cpp" compile="1" resource="0"
+              file="Source/Application/nmix_OperationHandler.cpp"/>
         <FILE id="Hwo9Ke" name="nmix_MainComponent.h" compile="0" resource="0"
               file="Source/Application/nmix_MainComponent.h"/>
         <FILE id="j5HF9X" name="nmix_MainComponent.cpp" compile="1" resource="0"

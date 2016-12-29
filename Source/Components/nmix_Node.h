@@ -25,10 +25,11 @@ namespace nmix
 {
 
 struct Stage;
+struct OperationHandler;
     
 struct Node : public juce::Component
 {
-    Node(nmix::Stage& s);
+    Node(nmix::Stage& s, nmix::OperationHandler& o);
     ~Node();
     
     enum ColourIds
@@ -61,6 +62,7 @@ struct Node : public juce::Component
     juce::Point<int> currentOpOrigin;
     
     nmix::Stage& stage;
+    nmix::OperationHandler& operationHandler;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Node)
 };
