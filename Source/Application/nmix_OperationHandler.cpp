@@ -149,7 +149,7 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
                         juce::Point<int> p = (*n)->currentModOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2);
                         
                         float opOriginAngle     = center.getAngleToPoint(p);
-                        float mouseOriginAngle  = center.getAngleToPoint(k.getMouseDownPosition());
+                        float mouseOriginAngle  = center.getAngleToPoint(mouseModOrigin);
                         float mouseCurrentAngle = center.getAngleToPoint(k.getPosition());
                         
                         juce::Point<float> final = center.getPointOnCircumference(center.getDistanceFrom(p), opOriginAngle - ((mouseOriginAngle - mouseCurrentAngle) * precision));
