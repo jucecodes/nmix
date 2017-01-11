@@ -20,6 +20,7 @@
 #include "nmix_Stage.h"
 #include "nmix_Operations.h"
 #include "nmix_OperationHandler.h"
+#include "nmix_Viewport.h"
 #include "nmix_Colours.h"
 
 nmix::Node::Node(nmix::Stage& s, nmix::OperationHandler& o) : juce::Component("Unnamed"), stage(s), operationHandler(o)
@@ -49,15 +50,23 @@ void nmix::Node::mouseExit(const juce::MouseEvent &e)
 
 void nmix::Node::mouseDown(const juce::MouseEvent &e)
 {
-    toFront(true);
-    
-    mouseDownResult = operationHandler.selectedNodes.addToSelectionOnMouseDown(this, e.mods);
-
-    operationHandler.mouseModOrigin = operationHandler.mouseOpOrigin = stage.getLocalPoint(this, e.getMouseDownPosition());
-
-    for (nmix::Node** n = operationHandler.selectedNodes.begin(); n != operationHandler.selectedNodes.end(); ++n)
+    if (e.mods.isLeftButtonDown())
     {
-        (*n)->currentModOrigin = (*n)->currentOpOrigin = (*n)->getPosition();
+        toFront(true);
+        
+        mouseDownResult = operationHandler.selectedNodes.addToSelectionOnMouseDown(this, e.mods);
+
+        operationHandler.mouseModOrigin = operationHandler.mouseOpOrigin = stage.getLocalPoint(this, e.getMouseDownPosition());
+
+        for (nmix::Node** n = operationHandler.selectedNodes.begin(); n != operationHandler.selectedNodes.end(); ++n)
+        {
+            (*n)->currentModOrigin = (*n)->currentOpOrigin = (*n)->getPosition();
+        }
+    }
+    else if (e.mods.isRightButtonDown())
+    {
+        if (operationHandler.selectedNodes.isSelected(this))
+            operationHandler.currentViewport->invokeContextualMenu(e);
     }
 }
 

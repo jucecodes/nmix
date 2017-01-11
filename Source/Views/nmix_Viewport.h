@@ -23,13 +23,18 @@
  
 namespace nmix
 {
- 
+
+struct Stage;
+struct Node;
+
 struct Viewport : public juce::Component
 {
  
     Viewport();
     ~Viewport();
-    
+
+    void invokeContextualMenu(juce::MouseEvent e);
+
     void resized() override;
     
     juce::Label selectionInfo;

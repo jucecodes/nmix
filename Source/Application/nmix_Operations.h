@@ -26,7 +26,9 @@ enum Operation
 {
     None = 0,
     Escape,
-    
+
+// Singleton Operations
+
     SelectAll,
     InvertSelection,
     DeselectAll,
@@ -36,11 +38,14 @@ enum Operation
     
     NudgeSelection,
     LockSelection,
-    
+
+// Stateful Operations
+
     PositionSelectionX,
     PositionSelectionY,
     PositionSelectionDistance,
     PositionSelectionAzimuth,
+
 };
 
 }

@@ -21,6 +21,7 @@
 #include "nmix_Operations.h"
 #include "nmix_Node.h"
 #include "nmix_OperationHandler.h"
+#include "nmix_Viewport.h"
 
 nmix::Stage::Stage(nmix::OperationHandler& o) : operationHandler(o)
 {
@@ -61,6 +62,11 @@ void nmix::Stage::mouseUp(const juce::MouseEvent &e)
         {
             operationHandler.deselectAll();
         }
+    }
+
+    if(e.mods.isRightButtonDown())
+    {
+        operationHandler.currentViewport->invokeContextualMenu(e);
     }
 }
 

@@ -26,7 +26,8 @@ namespace nmix
     
 struct Node;
 struct OperationHandler;
-    
+struct Viewport;
+
 struct Stage : public juce::Component,
                public juce::LassoSource<nmix::Node*>
 {

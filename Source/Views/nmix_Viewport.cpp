@@ -18,6 +18,10 @@
  
 #include "nmix_Viewport.h"
 #include "nmix_Colours.h"
+#include "nmix_Application.h"
+#include "nmix_Operations.h"
+#include "nmix_Stage.h"
+#include "nmix_Node.h"
 
 nmix::Viewport::Viewport()
 {
@@ -33,6 +37,31 @@ nmix::Viewport::Viewport()
 nmix::Viewport::~Viewport()
 {
     
+}
+
+void nmix::Viewport::invokeContextualMenu(juce::MouseEvent e)
+{
+
+    juce::PopupMenu menu;
+
+    juce::ApplicationCommandManager* cmd = &nmix::Application::getCommandManager();
+
+    if (dynamic_cast<nmix::Stage*>(e.eventComponent))
+    {
+
+        menu.addCommandItem(cmd, nmix::Operation::AddNode);
+
+    }
+    else if (dynamic_cast<nmix::Node*>(e.eventComponent))
+    {
+
+        menu.addCommandItem(cmd, nmix::Operation::LockSelection);
+        menu.addCommandItem(cmd, nmix::Operation::RemoveNode);
+
+    }
+
+    menu.show();
+
 }
 
 void nmix::Viewport::resized()
