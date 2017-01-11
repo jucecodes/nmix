@@ -31,8 +31,6 @@ nmix::OperationHandler::OperationHandler()
 nmix::OperationHandler::~OperationHandler()
 {
     stagedNodes.clear();
-    currentStage    = nullptr;
-    currentViewport = nullptr;
 }
 
 void nmix::OperationHandler::selectAll()
@@ -91,14 +89,14 @@ void nmix::OperationHandler::nudgeSelection(const juce::KeyPress& k)
     int nudgeValue = (k.getModifiers().isShiftDown()) ? 10 : 1;
     
     int deltaX =
-    (k.getKeyCode() == juce::KeyPress::upKey)    ? 0
+      (k.getKeyCode() == juce::KeyPress::upKey)    ? 0
     : (k.getKeyCode() == juce::KeyPress::downKey)  ? 0
     : (k.getKeyCode() == juce::KeyPress::leftKey)  ? -nudgeValue
     : (k.getKeyCode() == juce::KeyPress::rightKey) ? nudgeValue
     : 0;
     
     int deltaY =
-    (k.getKeyCode() == juce::KeyPress::upKey)    ? -nudgeValue
+      (k.getKeyCode() == juce::KeyPress::upKey)    ? -nudgeValue
     : (k.getKeyCode() == juce::KeyPress::downKey)  ? nudgeValue
     : (k.getKeyCode() == juce::KeyPress::leftKey)  ? 0
     : (k.getKeyCode() == juce::KeyPress::rightKey) ? 0
