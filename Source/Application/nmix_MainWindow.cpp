@@ -225,8 +225,8 @@ bool nmix::MainWindow::perform(const juce::ApplicationCommandTarget::InvocationI
             
         case nmix::Operation::AddNode:
         {
-            
-            operationHandler.addNode();
+            bool fromKeyPress = (info.invocationMethod == info.fromKeyPress) ? true : false;
+            operationHandler.addNode(fromKeyPress);
             
             break;
         }

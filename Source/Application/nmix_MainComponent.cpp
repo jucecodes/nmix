@@ -40,6 +40,7 @@ nmix::MainComponent::MainComponent()
     setAudioChannels (0, 2);
 
     stage->master = new nmix::Node(*stage, op, true);
+    stage->master->setCentrePosition(stage->getWidth()/2, stage->getHeight()/2);
     op.stagedNodes.add(stage->master);
 }
 

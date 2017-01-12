@@ -43,7 +43,7 @@ nmix::Node::Node(nmix::Stage& s, nmix::OperationHandler& o, bool isMaster) : juc
     setRepaintsOnMouseActivity(true);
 
     s.addAndMakeVisible(this);
-    centreWithSize(s.nodeSize, s.nodeSize);
+    setSize(s.nodeSize, s.nodeSize);
 }
 
 nmix::Node::~Node()

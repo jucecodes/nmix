@@ -39,7 +39,7 @@ struct OperationHandler : public juce::ChangeListener
     void invertSelection();
     void deselectAll();
     
-    void addNode();
+    void addNode(bool fromKeyPress);
     void deleteSelection();
     void lockSelection();
     

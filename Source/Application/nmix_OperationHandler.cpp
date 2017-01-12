@@ -54,9 +54,21 @@ void nmix::OperationHandler::deselectAll()
     selectedNodes.deselectAll();
 }
 
-void nmix::OperationHandler::addNode()
+void nmix::OperationHandler::addNode(bool fromKeyPress)
 {
     nmix::Node* n = new nmix::Node(*currentStage, *this);
+
+    juce::Point<int> placement;
+
+    if (fromKeyPress)
+    {
+        placement = juce::Point<int>(currentStage->getWidth()/2, currentStage->getHeight()/2);
+    } else {
+        placement = currentStage->getLocalPoint(nullptr, juce::Desktop::getLastMouseDownPosition());
+    }
+
+    n->setCentrePosition(placement.x, placement.y);
+
     stagedNodes.add(n);
 }
 
