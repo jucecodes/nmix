@@ -42,6 +42,7 @@ struct OperationHandler : public juce::ChangeListener
     void addNode(bool fromKeyPress);
     void deleteSelection();
     void lockSelection();
+    void unlockSelection();
     
     void nudgeSelection(const juce::KeyPress& k);
     void centreSelection();

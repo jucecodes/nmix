@@ -37,6 +37,7 @@ enum Operation
     RemoveNode,
 
     LockSelection,
+    UnlockSelection,
 
     NudgeSelection,
     CentreSelection,

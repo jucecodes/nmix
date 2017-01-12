@@ -91,7 +91,16 @@ void nmix::OperationHandler::lockSelection()
 {
     for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
     {
-        (*n)->status ^= nmix::Node::Locked;
+        (*n)->status |= nmix::Node::Locked;
+        (*n)->repaint();
+    }
+}
+
+void nmix::OperationHandler::unlockSelection()
+{
+    for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
+    {
+        (*n)->status &= ~nmix::Node::Locked;
         (*n)->repaint();
     }
 }
@@ -129,8 +138,13 @@ void nmix::OperationHandler::centreSelection()
 
     for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
     {
-        (*n)->setCentrePosition(centre.x, centre.y);
+        if (!((*n)->status & nmix::Node::StatusIds::Locked))
+        {
+            (*n)->setCentrePosition(centre.x, centre.y);
+        }
     }
+
+    currentStage->repaint();
 }
 
 void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)

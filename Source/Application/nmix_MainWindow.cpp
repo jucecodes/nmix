@@ -57,6 +57,7 @@ void nmix::MainWindow::getAllCommands(juce::Array<juce::CommandID> &commands)
         nmix::Operation::RemoveNode,
 
         nmix::Operation::LockSelection,
+        nmix::Operation::UnlockSelection,
 
         nmix::Operation::NudgeSelection,
         nmix::Operation::CentreSelection,
@@ -129,6 +130,14 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
             
             result.addDefaultKeypress('l', juce::ModifierKeys::commandModifier);
             
+            break;
+
+        case nmix::Operation::UnlockSelection:
+
+            result.setInfo("Unlock Selection", "Unlock Selected Nodes", "", 0);
+
+            result.addDefaultKeypress('l', juce::ModifierKeys::commandModifier | juce::ModifierKeys::shiftModifier);
+
             break;
 
         case nmix::Operation::NudgeSelection:
@@ -269,6 +278,12 @@ bool nmix::MainWindow::perform(const juce::ApplicationCommandTarget::InvocationI
             
             operationHandler.lockSelection();
             
+            break;
+
+        case nmix::Operation::UnlockSelection:
+
+            operationHandler.unlockSelection();
+
             break;
             
         case nmix::Operation::PositionSelectionX:
