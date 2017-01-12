@@ -27,6 +27,9 @@ nmix::Node::Node(nmix::Stage& s, nmix::OperationHandler& o, bool isMaster) : juc
 {
     status = 0;
 
+    distance = 0;
+    azimuth  = 0;
+
     if (isMaster)
     {
         setName("Output");
@@ -128,4 +131,11 @@ void nmix::Node::paint(juce::Graphics &g)
 void nmix::Node::resized()
 {
     
+}
+
+void nmix::Node::moved()
+{
+    juce::Point<int> centre = stage.master->getPosition().translated(stage.nodeSize/2, stage.nodeSize/2);
+    distance = getPosition().translated(stage.nodeSize/2, stage.nodeSize/2).getDistanceFrom(centre);
+    azimuth  = centre.getAngleToPoint(getPosition().translated(stage.nodeSize/2, stage.nodeSize/2));
 }

@@ -55,9 +55,14 @@ struct Node : public juce::Component
     void mouseUp    (const juce::MouseEvent& e) override;
     
     void paint(juce::Graphics& g) override;
+
     void resized() override;
+    void moved() override;
     
     bool mouseDownResult;
+
+    float distance;
+    float azimuth;
     
     juce::Point<int> currentOpOrigin;
     juce::Point<int> currentModOrigin;
