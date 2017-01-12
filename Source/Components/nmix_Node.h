@@ -29,7 +29,7 @@ struct OperationHandler;
     
 struct Node : public juce::Component
 {
-    Node(nmix::Stage& s, nmix::OperationHandler& o);
+    Node(nmix::Stage& s, nmix::OperationHandler& o, bool isMaster=false);
     ~Node();
     
     enum ColourIds

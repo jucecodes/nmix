@@ -50,7 +50,11 @@ public:
     
     void paint(juce::Graphics& g) override;
     void resized() override;
-    
+
+    int nodeSize;
+
+    nmix::Node* master;
+
     juce::LassoComponent<nmix::Node*> lasso;
     
     nmix::OperationHandler& operationHandler;

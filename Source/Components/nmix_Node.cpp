@@ -23,14 +23,27 @@
 #include "nmix_Viewport.h"
 #include "nmix_Colours.h"
 
-nmix::Node::Node(nmix::Stage& s, nmix::OperationHandler& o) : juce::Component("Unnamed"), stage(s), operationHandler(o)
+nmix::Node::Node(nmix::Stage& s, nmix::OperationHandler& o, bool isMaster) : juce::Component("Unnamed"), stage(s), operationHandler(o)
 {
     status = 0;
-    
-    setColour(backgroundColourId, nmix::Colours::Blue);
+
+    if (isMaster)
+    {
+        setName("Output");
+        status ^= Locked;
+        setColour(backgroundColourId, nmix::Colours::Yellow);
+    }
+    else
+    {
+        setColour(backgroundColourId, nmix::Colours::Blue);
+    }
+
     setColour(highlightColourId,  nmix::Colours::White);
     
     setRepaintsOnMouseActivity(true);
+
+    s.addAndMakeVisible(this);
+    centreWithSize(s.nodeSize, s.nodeSize);
 }
 
 nmix::Node::~Node()
