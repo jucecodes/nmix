@@ -55,6 +55,10 @@ void nmix::Viewport::invokeContextualMenu(juce::MouseEvent e)
     else if (dynamic_cast<nmix::Node*>(e.eventComponent))
     {
 
+        menu.addCommandItem(cmd, nmix::Operation::CentreSelection);
+
+        menu.addSeparator();
+
         menu.addCommandItem(cmd, nmix::Operation::LockSelection);
         menu.addCommandItem(cmd, nmix::Operation::RemoveNode);
 

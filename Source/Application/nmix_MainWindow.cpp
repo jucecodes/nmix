@@ -55,10 +55,12 @@ void nmix::MainWindow::getAllCommands(juce::Array<juce::CommandID> &commands)
         
         nmix::Operation::AddNode,
         nmix::Operation::RemoveNode,
-        
-        nmix::Operation::NudgeSelection,
+
         nmix::Operation::LockSelection,
-        
+
+        nmix::Operation::NudgeSelection,
+        nmix::Operation::CentreSelection,
+
         nmix::Operation::PositionSelectionX,
         nmix::Operation::PositionSelectionY,
         nmix::Operation::PositionSelectionDistance,
@@ -121,22 +123,6 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
             
             break;
             
-        case nmix::Operation::NudgeSelection:
-            
-            result.setInfo("Nudge", "Nudge Selected Nodes", "", 0);
-            
-            result.addDefaultKeypress(juce::KeyPress::upKey,    juce::ModifierKeys::noModifiers);
-            result.addDefaultKeypress(juce::KeyPress::downKey,  juce::ModifierKeys::noModifiers);
-            result.addDefaultKeypress(juce::KeyPress::leftKey,  juce::ModifierKeys::noModifiers);
-            result.addDefaultKeypress(juce::KeyPress::rightKey, juce::ModifierKeys::noModifiers);
-            
-            result.addDefaultKeypress(juce::KeyPress::upKey,    juce::ModifierKeys::shiftModifier);
-            result.addDefaultKeypress(juce::KeyPress::downKey,  juce::ModifierKeys::shiftModifier);
-            result.addDefaultKeypress(juce::KeyPress::leftKey,  juce::ModifierKeys::shiftModifier);
-            result.addDefaultKeypress(juce::KeyPress::rightKey, juce::ModifierKeys::shiftModifier);
-            
-            break;
-            
         case nmix::Operation::LockSelection:
             
             result.setInfo("Lock Selection", "Lock Selected Nodes", "", 0);
@@ -144,7 +130,29 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
             result.addDefaultKeypress('l', juce::ModifierKeys::commandModifier);
             
             break;
-            
+
+        case nmix::Operation::NudgeSelection:
+
+            result.setInfo("Nudge", "Nudge Selected Nodes", "", 0);
+
+            result.addDefaultKeypress(juce::KeyPress::upKey,    juce::ModifierKeys::noModifiers);
+            result.addDefaultKeypress(juce::KeyPress::downKey,  juce::ModifierKeys::noModifiers);
+            result.addDefaultKeypress(juce::KeyPress::leftKey,  juce::ModifierKeys::noModifiers);
+            result.addDefaultKeypress(juce::KeyPress::rightKey, juce::ModifierKeys::noModifiers);
+
+            result.addDefaultKeypress(juce::KeyPress::upKey,    juce::ModifierKeys::shiftModifier);
+            result.addDefaultKeypress(juce::KeyPress::downKey,  juce::ModifierKeys::shiftModifier);
+            result.addDefaultKeypress(juce::KeyPress::leftKey,  juce::ModifierKeys::shiftModifier);
+            result.addDefaultKeypress(juce::KeyPress::rightKey, juce::ModifierKeys::shiftModifier);
+
+            break;
+
+        case nmix::Operation::CentreSelection:
+
+            result.setInfo("Centre Selection", "Snap Selected Nodes To Stage Centre", "", 0);
+
+            break;
+
         case nmix::Operation::PositionSelectionX:
             
             result.setInfo("Adjust X", "Adjust Selected Node X Position", "", 0);
@@ -246,6 +254,14 @@ bool nmix::MainWindow::perform(const juce::ApplicationCommandTarget::InvocationI
             
             repaint();
             
+            break;
+        }
+
+        case nmix::Operation::CentreSelection:
+        {
+
+            operationHandler.centreSelection();
+
             break;
         }
             

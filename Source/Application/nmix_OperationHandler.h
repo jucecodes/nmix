@@ -44,6 +44,7 @@ struct OperationHandler : public juce::ChangeListener
     void lockSelection();
     
     void nudgeSelection(const juce::KeyPress& k);
+    void centreSelection();
     void positionSelection(const juce::MouseEvent& e);
 
     void modifierKeysChanged(const juce::ModifierKeys& mods);

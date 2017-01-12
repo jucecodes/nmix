@@ -35,9 +35,11 @@ enum Operation
     
     AddNode,
     RemoveNode,
-    
-    NudgeSelection,
+
     LockSelection,
+
+    NudgeSelection,
+    CentreSelection,
 
 // Stateful Operations
 

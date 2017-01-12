@@ -123,6 +123,16 @@ void nmix::OperationHandler::nudgeSelection(const juce::KeyPress& k)
     currentStage->repaint();
 }
 
+void nmix::OperationHandler::centreSelection()
+{
+    juce::Point<int> centre = juce::Point<int>(currentStage->getWidth()/2, currentStage->getHeight()/2);
+
+    for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
+    {
+        (*n)->setCentrePosition(centre.x, centre.y);
+    }
+}
+
 void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
 {
     if(e.mouseWasDraggedSinceMouseDown() && currentOperation != nmix::Operation::Escape)
