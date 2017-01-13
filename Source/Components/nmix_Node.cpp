@@ -52,10 +52,11 @@ void nmix::Node::mouseExit(const juce::MouseEvent &e)
 
 void nmix::Node::mouseDown(const juce::MouseEvent &e)
 {
+
+    toFront(true);
+
     if (e.mods.isLeftButtonDown())
     {
-        toFront(true);
-        
         mouseDownResult = operationHandler.selectedNodes.addToSelectionOnMouseDown(this, e.mods);
 
         operationHandler.mouseModOrigin = operationHandler.mouseOpOrigin = stage.getLocalPoint(this, e.getMouseDownPosition());
@@ -70,6 +71,7 @@ void nmix::Node::mouseDown(const juce::MouseEvent &e)
         mouseDownResult = operationHandler.selectedNodes.addToSelectionOnMouseDown(this, e.mods);
         operationHandler.currentViewport->invokeContextualMenu(e);
     }
+
 }
 
 void nmix::Node::mouseDrag(const juce::MouseEvent &e)
