@@ -60,6 +60,8 @@ struct Node : public juce::Component
     
     juce::Point<int> currentOpOrigin;
     juce::Point<int> currentModOrigin;
+
+    juce::Point<int> currentAnchor;
     
     nmix::Stage& stage;
     nmix::OperationHandler& operationHandler;

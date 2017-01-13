@@ -26,6 +26,8 @@ nmix::Output::Output(nmix::Stage& s, nmix::OperationHandler& o) : nmix::Node(s, 
     setName("Output");
     status ^= Locked;
     setColour(backgroundColourId, nmix::Colours::Yellow);
+
+    currentAnchor = juce::Point<int>(s.getWidth()/2, s.getHeight()/2);
 }
 
 nmix::Output::~Output()

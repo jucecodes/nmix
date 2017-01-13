@@ -135,6 +135,19 @@ void nmix::Stage::paint(juce::Graphics& g)
     }
 }
 
+void nmix::Stage::paintOverChildren(juce::Graphics& g)
+{
+    if (operationHandler.selectedNodes.getNumSelected() > 0)
+    {
+        g.setColour(nmix::Colours::White);
+
+        for (nmix::Node** n = operationHandler.selectedNodes.begin(); n != operationHandler.selectedNodes.end(); ++n)
+        {
+            g.fillEllipse((*n)->currentAnchor.x - 4, (*n)->currentAnchor.y - 4, 8, 8);
+        }
+    }
+}
+
 void nmix::Stage::resized()
 {
     

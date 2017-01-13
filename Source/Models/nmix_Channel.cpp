@@ -22,7 +22,7 @@
 
 nmix::Channel::Channel(nmix::Stage& s, nmix::OperationHandler& o) : nmix::Node(s, o)
 {
-
+    currentAnchor = s.master->getPosition().translated(s.nodeSize/2, s.nodeSize/2);
 }
 
 nmix::Channel::~Channel()
