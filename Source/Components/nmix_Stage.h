@@ -25,6 +25,7 @@ namespace nmix
 {
     
 struct Node;
+struct Output;
 struct OperationHandler;
 struct Viewport;
 
@@ -53,7 +54,7 @@ public:
 
     int nodeSize;
 
-    nmix::Node* master;
+    nmix::Output* master;
 
     juce::LassoComponent<nmix::Node*> lasso;
     

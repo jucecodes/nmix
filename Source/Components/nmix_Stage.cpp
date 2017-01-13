@@ -22,6 +22,8 @@
 #include "nmix_Node.h"
 #include "nmix_OperationHandler.h"
 #include "nmix_Viewport.h"
+#include "nmix_Channel.h"
+#include "nmix_Output.h"
 
 nmix::Stage::Stage(nmix::OperationHandler& o) : operationHandler(o)
 {

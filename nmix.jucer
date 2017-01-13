@@ -33,10 +33,17 @@
               file="Source/Common/nmix_Colours.cpp"/>
       </GROUP>
       <GROUP id="{162380F6-867D-697E-0B72-3E829FCE75E3}" name="Components">
-        <FILE id="pa6o1M" name="nmix_Node.h" compile="0" resource="0" file="Source/Components/nmix_Node.h"/>
-        <FILE id="VJSLV8" name="nmix_Node.cpp" compile="1" resource="0" file="Source/Components/nmix_Node.cpp"/>
         <FILE id="BvFtjL" name="nmix_Stage.h" compile="0" resource="0" file="Source/Components/nmix_Stage.h"/>
         <FILE id="wpDpE5" name="nmix_Stage.cpp" compile="1" resource="0" file="Source/Components/nmix_Stage.cpp"/>
+        <FILE id="pa6o1M" name="nmix_Node.h" compile="0" resource="0" file="Source/Components/nmix_Node.h"/>
+        <FILE id="VJSLV8" name="nmix_Node.cpp" compile="1" resource="0" file="Source/Components/nmix_Node.cpp"/>
+      </GROUP>
+      <GROUP id="{FEB545ED-5267-1AF8-499D-243717D2BFD9}" name="Models">
+        <FILE id="tOvCE4" name="nmix_Channel.h" compile="0" resource="0" file="Source/Models/nmix_Channel.h"/>
+        <FILE id="h5bIli" name="nmix_Channel.cpp" compile="1" resource="0"
+              file="Source/Models/nmix_Channel.cpp"/>
+        <FILE id="uHCIu0" name="nmix_Output.h" compile="0" resource="0" file="Source/Models/nmix_Output.h"/>
+        <FILE id="WQNtXG" name="nmix_Output.cpp" compile="1" resource="0" file="Source/Models/nmix_Output.cpp"/>
       </GROUP>
       <GROUP id="{2CBD72EB-9B25-62BC-9FA5-301E5A084D2C}" name="Views">
         <FILE id="xHj6VA" name="nmix_Viewport.cpp" compile="1" resource="0"

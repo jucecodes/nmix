@@ -21,6 +21,8 @@
 #include "nmix_Viewport.h"
 #include "nmix_Stage.h"
 #include "nmix_Node.h"
+#include "nmix_Channel.h"
+#include "nmix_Output.h"
 
 nmix::OperationHandler::OperationHandler()
 {
@@ -56,7 +58,7 @@ void nmix::OperationHandler::deselectAll()
 
 void nmix::OperationHandler::addNode(bool fromKeyPress)
 {
-    nmix::Node* n = new nmix::Node(*currentStage, *this);
+    nmix::Node* n = new nmix::Channel(*currentStage, *this);
 
     juce::Point<int> placement;
 
@@ -69,6 +71,7 @@ void nmix::OperationHandler::addNode(bool fromKeyPress)
 
     n->setCentrePosition(placement.x, placement.y);
 
+    currentStage->addAndMakeVisible(n);
     stagedNodes.add(n);
 }
 

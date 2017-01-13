@@ -23,29 +23,15 @@
 #include "nmix_Viewport.h"
 #include "nmix_Colours.h"
 
-nmix::Node::Node(nmix::Stage& s, nmix::OperationHandler& o, bool isMaster) : juce::Component("Unnamed"), stage(s), operationHandler(o)
+nmix::Node::Node(nmix::Stage& s, nmix::OperationHandler& o) : juce::Component("Unnamed"), stage(s), operationHandler(o)
 {
     status = 0;
 
-    distance = 0;
-    azimuth  = 0;
-
-    if (isMaster)
-    {
-        setName("Output");
-        status ^= Locked;
-        setColour(backgroundColourId, nmix::Colours::Yellow);
-    }
-    else
-    {
-        setColour(backgroundColourId, nmix::Colours::Blue);
-    }
-
+    setColour(backgroundColourId, nmix::Colours::Blue);
     setColour(highlightColourId,  nmix::Colours::White);
     
     setRepaintsOnMouseActivity(true);
-
-    s.addAndMakeVisible(this);
+    
     setSize(s.nodeSize, s.nodeSize);
 }
 
@@ -126,16 +112,4 @@ void nmix::Node::paint(juce::Graphics &g)
     
     g.setColour(highlight);
     g.drawEllipse(1, 1, w-2, h-2, 2);
-}
-
-void nmix::Node::resized()
-{
-    
-}
-
-void nmix::Node::moved()
-{
-    juce::Point<int> centre = stage.master->getPosition().translated(stage.nodeSize/2, stage.nodeSize/2);
-    distance = getPosition().translated(stage.nodeSize/2, stage.nodeSize/2).getDistanceFrom(centre);
-    azimuth  = centre.getAngleToPoint(getPosition().translated(stage.nodeSize/2, stage.nodeSize/2));
 }

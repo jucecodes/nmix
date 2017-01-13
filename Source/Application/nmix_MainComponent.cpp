@@ -22,6 +22,8 @@
 #include "nmix_Viewport.h"
 #include "nmix_Application.h"
 #include "nmix_OperationHandler.h"
+#include "nmix_Channel.h"
+#include "nmix_Output.h"
 
 nmix::MainComponent::MainComponent()
 {
@@ -39,8 +41,9 @@ nmix::MainComponent::MainComponent()
     setSize (675, 675);
     setAudioChannels (0, 2);
 
-    stage->master = new nmix::Node(*stage, op, true);
+    stage->master = new nmix::Output(*stage, op);
     stage->master->setCentrePosition(stage->getWidth()/2, stage->getHeight()/2);
+    stage->addAndMakeVisible(stage->master);
     op.stagedNodes.add(stage->master);
 }
 
@@ -74,7 +77,6 @@ void nmix::MainComponent::paint(juce::Graphics &g)
 void nmix::MainComponent::resized()
 {
     stage->setBounds(getBounds());
-    
     viewport->setBounds(getBounds());
     viewport->toFront(false);
 }
