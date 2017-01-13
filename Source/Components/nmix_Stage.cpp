@@ -141,9 +141,12 @@ void nmix::Stage::paint(juce::Graphics& g)
                 radius = (*n)->getPosition().translated(nWidth/2, nHeight/2).getDistanceFrom(anchorPoint);
             }
 
-            g.setColour((*n)->findColour(nmix::Node::backgroundColourId));
-            g.drawEllipse(anchorPoint.x - radius, anchorPoint.y - radius, radius*2, radius*2, 1);
-            g.drawLine(anchorPoint.x, anchorPoint.y, (*n)->getX() + nWidth/2, (*n)->getY() + nHeight/2, 1);
+            if (radius > 0)
+            {
+                g.setColour((*n)->findColour(nmix::Node::backgroundColourId));
+                g.drawEllipse(anchorPoint.x - radius, anchorPoint.y - radius, radius*2, radius*2, 1);
+                g.drawLine(anchorPoint.x, anchorPoint.y, (*n)->getX() + nWidth/2, (*n)->getY() + nHeight/2, 1);
+            }
 
             g.setColour(nmix::Colours::White);
             g.fillEllipse(anchorPoint.x - 4, anchorPoint.y - 4, 8, 8);
