@@ -30,12 +30,14 @@ nmix::Stage::Stage(nmix::OperationHandler& o) : operationHandler(o)
     setColour(backgroundColourId, nmix::Colours::DarkerGrey);
     setColour(foregroundColourId, nmix::Colours::DarkGrey);
 
+    anchor = new Anchor(*this);
+
     nodeSize = 32;
 }
 
 nmix::Stage::~Stage()
 {
-
+    delete anchor;
 }
 
 void nmix::Stage::mouseDown(const juce::MouseEvent &e)
@@ -103,6 +105,11 @@ void nmix::Stage::paint(juce::Graphics& g)
 {
     int w = getWidth();
     int h = getHeight();
+
+    if (anchor->isVisible())
+    {
+        anchor->toFront(false);
+    }
     
     g.fillAll(findColour(backgroundColourId));
     
@@ -124,40 +131,25 @@ void nmix::Stage::paint(juce::Graphics& g)
                 int nWidth  = (*n)->getWidth();
                 int nHeight = (*n)->getHeight();
 
-                juce::Point<int> masterCenter = juce::Point<int>(master->getX() + master->getWidth()/2, master->getY() + master->getHeight()/2);
+                juce::Point<int> anchorPoint = juce::Point<int>((*n)->currentAnchor.x, (*n)->currentAnchor.y);
 
                 int radius;
                 if (operationHandler.currentOperation == nmix::Operation::PositionSelectionAzimuth)
                 {
-                    radius = (*n)->currentOpOrigin.translated(nWidth/2, nHeight/2).getDistanceFrom(masterCenter);
+                    radius = (*n)->currentOpOrigin.translated(nWidth/2, nHeight/2).getDistanceFrom(anchorPoint);
                 }
                 else
                 {
-                    radius = (*n)->getPosition().translated(nWidth/2, nHeight/2).getDistanceFrom(masterCenter);
+                    radius = (*n)->getPosition().translated(nWidth/2, nHeight/2).getDistanceFrom(anchorPoint);
                 }
 
                 g.setColour((*n)->findColour(nmix::Node::backgroundColourId));
-                g.drawEllipse(masterCenter.x - radius, masterCenter.y - radius, radius*2, radius*2, 1);
-                g.drawLine(masterCenter.x, masterCenter.y, (*n)->getX() + nWidth/2, (*n)->getY() + nHeight/2, 1);
+                g.drawEllipse(anchorPoint.x - radius, anchorPoint.y - radius, radius*2, radius*2, 1);
+                g.drawLine(anchorPoint.x, anchorPoint.y, (*n)->getX() + nWidth/2, (*n)->getY() + nHeight/2, 1);
+
+                g.setColour(nmix::Colours::White);
+                g.fillEllipse(anchorPoint.x - 4, anchorPoint.y - 4, 8, 8);
             }
         }
     }
-}
-
-void nmix::Stage::paintOverChildren(juce::Graphics& g)
-{
-    if (operationHandler.selectedNodes.getNumSelected() > 0)
-    {
-        g.setColour(nmix::Colours::White);
-
-        for (nmix::Node** n = operationHandler.selectedNodes.begin(); n != operationHandler.selectedNodes.end(); ++n)
-        {
-            g.fillEllipse((*n)->currentAnchor.x - 4, (*n)->currentAnchor.y - 4, 8, 8);
-        }
-    }
-}
-
-void nmix::Stage::resized()
-{
-    
 }

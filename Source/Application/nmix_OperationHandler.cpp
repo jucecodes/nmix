@@ -156,8 +156,6 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
     if(e.mouseWasDraggedSinceMouseDown() && currentOperation != nmix::Operation::Escape)
     {
         juce::MouseEvent k = e.getEventRelativeTo(currentStage);
-        
-        juce::Point<int> center = juce::Point<int>(currentStage->master->getPosition().translated(currentStage->nodeSize/2, currentStage->nodeSize/2));
 
         float precision = (currentModifiers.isShiftDown()) ? 0.25 : 1;
 
@@ -165,6 +163,8 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
         {
             if (!((*n)->status & nmix::Node::StatusIds::Locked))
             {
+
+                juce::Point<int> center = (*n)->currentAnchor;
                 
                 switch (currentOperation)
                 {
@@ -268,18 +268,27 @@ void nmix::OperationHandler::changeListenerCallback(juce::ChangeBroadcaster *sou
     
     if (selectedNodes.getNumSelected() > 1)
     {
+        currentStage->anchor->currentNode = nullptr;
+        currentStage->removeChildComponent(currentStage->anchor);
+
         currentViewport->selectionInfo.setText(juce::String(selectedNodes.getNumSelected()) + " nodes selected", juce::dontSendNotification);
         currentViewport->selectionInfo.setColour(juce::Label::ColourIds::textColourId, nmix::Colours::White);
     }
     else if (selectedNodes.getNumSelected() == 1)
     {
         nmix::Node* n = selectedNodes.getSelectedItem(0);
+        currentStage->anchor->setNode(n);
+        currentStage->addAndMakeVisible(currentStage->anchor);
+
         currentViewport->selectionInfo.setText(n->getName(), juce::dontSendNotification);
         currentViewport->selectionInfo.setColour(juce::Label::ColourIds::textColourId, n->findColour(nmix::Node::backgroundColourId));
     }
     else
     {
+        currentStage->removeChildComponent(currentStage->anchor);
+
         currentViewport->selectionInfo.setText("", juce::dontSendNotification);
         currentViewport->selectionInfo.setColour(juce::Label::ColourIds::textColourId, nmix::Colours::White);
     }
+
 }

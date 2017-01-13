@@ -20,6 +20,7 @@
 #define NMIX_STAGE_H
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "nmix_Anchor.h"
 
 namespace nmix
 {
@@ -28,6 +29,7 @@ struct Node;
 struct Output;
 struct OperationHandler;
 struct Viewport;
+struct Anchor;
 
 struct Stage : public juce::Component,
                public juce::LassoSource<nmix::Node*>
@@ -50,12 +52,11 @@ public:
     juce::SelectedItemSet<Node*>& getLassoSelection() override;
     
     void paint(juce::Graphics& g) override;
-    void paintOverChildren(juce::Graphics& g) override;
-    void resized() override;
 
     int nodeSize;
 
     nmix::Output* master;
+    nmix::Anchor* anchor;
 
     juce::LassoComponent<nmix::Node*> lasso;
     

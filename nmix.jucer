@@ -37,6 +37,8 @@
         <FILE id="wpDpE5" name="nmix_Stage.cpp" compile="1" resource="0" file="Source/Components/nmix_Stage.cpp"/>
         <FILE id="pa6o1M" name="nmix_Node.h" compile="0" resource="0" file="Source/Components/nmix_Node.h"/>
         <FILE id="VJSLV8" name="nmix_Node.cpp" compile="1" resource="0" file="Source/Components/nmix_Node.cpp"/>
+        <FILE id="c1Polj" name="nmix_Anchor.h" compile="0" resource="0" file="Source/Components/nmix_Anchor.h"/>
+        <FILE id="p5rAwJ" name="nmix_Anchor.cpp" compile="1" resource="0" file="Source/Components/nmix_Anchor.cpp"/>
       </GROUP>
       <GROUP id="{FEB545ED-5267-1AF8-499D-243717D2BFD9}" name="Models">
         <FILE id="tOvCE4" name="nmix_Channel.h" compile="0" resource="0" file="Source/Models/nmix_Channel.h"/>
