@@ -40,6 +40,10 @@ struct Anchor : public juce::Component
     
     void paint(juce::Graphics& g) override;
 
+    void moved() override;
+
+    bool snapsToOutput;
+
     juce::ComponentDragger dragger;
 
     nmix::Node* currentNode;

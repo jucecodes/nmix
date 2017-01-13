@@ -34,3 +34,11 @@ nmix::Output::~Output()
 {
 
 }
+
+void nmix::Output::moved()
+{
+    if (stage.anchor->snapsToOutput == true)
+    {
+        stage.anchor->setCentrePosition(getX() + getWidth()/2, getY() + getHeight()/2);
+    }
+}

@@ -26,6 +26,7 @@
 nmix::Anchor::Anchor(nmix::Stage& s) : currentStage(s)
 {
     setSize(8, 8);
+    snapsToOutput = true;
 }
 
 nmix::Anchor::~Anchor()
@@ -41,6 +42,8 @@ void nmix::Anchor::setNode(nmix::Node* n)
 
 void nmix::Anchor::mouseDown(const juce::MouseEvent& e)
 {
+    snapsToOutput = false;
+
     if (e.mods.isLeftButtonDown())
     {
         dragger.startDraggingComponent(this, e);
@@ -63,4 +66,15 @@ void nmix::Anchor::mouseDrag(const juce::MouseEvent& e)
 void nmix::Anchor::paint(juce::Graphics& g)
 {
     g.fillAll(nmix::Colours::White);
+}
+
+void nmix::Anchor::moved()
+{
+    if (snapsToOutput == true)
+    {
+        for (int i = 0; i < currentStage.operationHandler.stagedNodes.size(); ++i)
+        {
+            currentStage.operationHandler.stagedNodes[i]->currentAnchor = getPosition().translated(getWidth()/2, getHeight()/2);
+        }
+    }
 }

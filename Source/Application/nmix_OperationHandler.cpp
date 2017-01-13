@@ -233,6 +233,7 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
 void nmix::OperationHandler::resetAnchor()
 {
     juce::Point<int> centre = currentStage->master->getPosition().translated(currentStage->nodeSize/2, currentStage->nodeSize/2);
+    currentStage->anchor->snapsToOutput = true;
     currentStage->anchor->setCentrePosition(centre.x, centre.y);
     currentStage->anchor->currentNode->currentAnchor = centre;
     currentStage->repaint();

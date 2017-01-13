@@ -33,6 +33,8 @@ struct Output : public nmix::Node
   
     Output(nmix::Stage& s, nmix::OperationHandler& o);
     ~Output();
+
+    void moved() override;
     
 };
     
