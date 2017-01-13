@@ -45,6 +45,7 @@ void nmix::Stage::mouseDown(const juce::MouseEvent &e)
 
         if (e.mods.isCtrlDown())
         {
+            operationHandler.mouseOpOrigin = e.getMouseDownPosition();
             operationHandler.currentViewport->invokeContextualMenu(e);
         }
         else
@@ -55,6 +56,7 @@ void nmix::Stage::mouseDown(const juce::MouseEvent &e)
     }
     else if(e.mods.isRightButtonDown())
     {
+        operationHandler.mouseOpOrigin = e.getMouseDownPosition();
         operationHandler.currentViewport->invokeContextualMenu(e);
     }
 }

@@ -66,7 +66,7 @@ void nmix::OperationHandler::addNode(bool fromKeyPress)
     {
         placement = juce::Point<int>(currentStage->getWidth()/2, currentStage->getHeight()/2);
     } else {
-        placement = currentStage->getLocalPoint(nullptr, juce::Desktop::getLastMouseDownPosition());
+        placement = mouseOpOrigin;
     }
 
     n->setCentrePosition(placement.x, placement.y);
