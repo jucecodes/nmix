@@ -95,8 +95,9 @@ void nmix::OperationHandler::lockSelection()
     for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
     {
         (*n)->status |= nmix::Node::Locked;
-        (*n)->repaint();
     }
+
+    selectedNodes.deselectAll();
 }
 
 void nmix::OperationHandler::unlockSelection()
