@@ -42,8 +42,20 @@ void nmix::Stage::mouseDown(const juce::MouseEvent &e)
 {
     if (e.mods.isLeftButtonDown())
     {
-        addAndMakeVisible(lasso);
-        lasso.beginLasso(e, this);
+
+        if (e.mods.isCtrlDown())
+        {
+            operationHandler.currentViewport->invokeContextualMenu(e);
+        }
+        else
+        {
+            addAndMakeVisible(lasso);
+            lasso.beginLasso(e, this);
+        }
+    }
+    else if(e.mods.isRightButtonDown())
+    {
+        operationHandler.currentViewport->invokeContextualMenu(e);
     }
 }
 
@@ -66,11 +78,6 @@ void nmix::Stage::mouseUp(const juce::MouseEvent &e)
         {
             operationHandler.deselectAll();
         }
-    }
-
-    if(e.mods.isRightButtonDown())
-    {
-        operationHandler.currentViewport->invokeContextualMenu(e);
     }
 }
 

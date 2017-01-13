@@ -57,13 +57,21 @@ void nmix::Node::mouseDown(const juce::MouseEvent &e)
 
     if (e.mods.isLeftButtonDown())
     {
-        mouseDownResult = operationHandler.selectedNodes.addToSelectionOnMouseDown(this, e.mods);
-
-        operationHandler.mouseModOrigin = operationHandler.mouseOpOrigin = stage.getLocalPoint(this, e.getMouseDownPosition());
-
-        for (nmix::Node** n = operationHandler.selectedNodes.begin(); n != operationHandler.selectedNodes.end(); ++n)
+        if (e.mods.isCtrlDown())
         {
-            (*n)->currentModOrigin = (*n)->currentOpOrigin = (*n)->getPosition();
+            mouseDownResult = operationHandler.selectedNodes.addToSelectionOnMouseDown(this, e.mods);
+            operationHandler.currentViewport->invokeContextualMenu(e);
+        }
+        else
+        {
+            mouseDownResult = operationHandler.selectedNodes.addToSelectionOnMouseDown(this, e.mods);
+
+            operationHandler.mouseModOrigin = operationHandler.mouseOpOrigin = stage.getLocalPoint(this, e.getMouseDownPosition());
+
+            for (nmix::Node** n = operationHandler.selectedNodes.begin(); n != operationHandler.selectedNodes.end(); ++n)
+            {
+                (*n)->currentModOrigin = (*n)->currentOpOrigin = (*n)->getPosition();
+            }
         }
     }
     else if (e.mods.isRightButtonDown())
