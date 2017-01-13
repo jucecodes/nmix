@@ -171,34 +171,30 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
                         
                     case nmix::Operation::PositionSelectionDistance:
                     {
-                        if ((*n) != currentStage->master)
-                        {
-                            juce::Point<int> p = (*n)->currentModOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2).translated(-center.x, -center.y);
-                            
-                            juce::Point<int> pOffset = juce::Point<int>((*n)->currentModOrigin.x + (*n)->getWidth()/2 + ((k.x - mouseModOrigin.x) * precision) - center.x, (*n)->currentModOrigin.y + (*n)->getHeight()/2 + ((k.y - mouseModOrigin.y) * precision) - center.y);
-                            
-                            double dot = p.getDotProduct(pOffset);
-                            double len = p.x * p.x + p.y * p.y;
-                            
-                            (*n)->setCentrePosition((int)(center.x + (dot * p.x) / len), (int)(center.y + (dot * p.y) / len));
-                        }
+                        juce::Point<int> p = (*n)->currentModOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2).translated(-center.x, -center.y);
+                        
+                        juce::Point<int> pOffset = juce::Point<int>((*n)->currentModOrigin.x + (*n)->getWidth()/2 + ((k.x - mouseModOrigin.x) * precision) - center.x, (*n)->currentModOrigin.y + (*n)->getHeight()/2 + ((k.y - mouseModOrigin.y) * precision) - center.y);
+                        
+                        double dot = p.getDotProduct(pOffset);
+                        double len = p.x * p.x + p.y * p.y;
+                        
+                        (*n)->setCentrePosition((int)(center.x + (dot * p.x) / len), (int)(center.y + (dot * p.y) / len));
+
                         break;
                     }
                         
                     case nmix::Operation::PositionSelectionAzimuth:
                     {
-                        if ((*n) != currentStage->master)
-                        {
-                            juce::Point<int> p = (*n)->currentModOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2);
-                            
-                            float opOriginAngle     = center.getAngleToPoint(p);
-                            float mouseOriginAngle  = center.getAngleToPoint(mouseModOrigin);
-                            float mouseCurrentAngle = center.getAngleToPoint(k.getPosition());
-                            
-                            juce::Point<float> final = center.getPointOnCircumference(center.getDistanceFrom(p), opOriginAngle - ((mouseOriginAngle - mouseCurrentAngle) * precision));
-                            
-                            (*n)->setCentrePosition(final.x, final.y);
-                        }
+                        juce::Point<int> p = (*n)->currentModOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2);
+                        
+                        float opOriginAngle     = center.getAngleToPoint(p);
+                        float mouseOriginAngle  = center.getAngleToPoint(mouseModOrigin);
+                        float mouseCurrentAngle = center.getAngleToPoint(k.getPosition());
+                        
+                        juce::Point<float> final = center.getPointOnCircumference(center.getDistanceFrom(p), opOriginAngle - ((mouseOriginAngle - mouseCurrentAngle) * precision));
+                        
+                        (*n)->setCentrePosition(final.x, final.y);
+
                         break;
                     }
                         
@@ -231,6 +227,24 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
         }
     }
     
+    currentStage->repaint();
+}
+
+void nmix::OperationHandler::resetAnchor()
+{
+    juce::Point<int> centre = currentStage->master->getPosition().translated(currentStage->nodeSize/2, currentStage->nodeSize/2);
+    currentStage->anchor->setCentrePosition(centre.x, centre.y);
+    currentStage->anchor->currentNode->currentAnchor = centre;
+    currentStage->repaint();
+}
+
+void nmix::OperationHandler::centreAnchor()
+{
+    juce::Point<int> centre = juce::Point<int>(currentStage->getWidth()/2, currentStage->getHeight()/2);
+
+    currentStage->anchor->setCentrePosition(centre.x, centre.y);
+    currentStage->anchor->currentNode->currentAnchor = centre;
+
     currentStage->repaint();
 }
 

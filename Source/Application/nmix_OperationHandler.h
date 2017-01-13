@@ -48,6 +48,9 @@ struct OperationHandler : public juce::ChangeListener
     void centreSelection();
     void positionSelection(const juce::MouseEvent& e);
 
+    void resetAnchor();
+    void centreAnchor();
+
     void modifierKeysChanged(const juce::ModifierKeys& mods);
     void changeListenerCallback(juce::ChangeBroadcaster* source);
     

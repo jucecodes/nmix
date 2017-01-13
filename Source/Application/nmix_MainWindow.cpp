@@ -62,6 +62,9 @@ void nmix::MainWindow::getAllCommands(juce::Array<juce::CommandID> &commands)
         nmix::Operation::NudgeSelection,
         nmix::Operation::CentreSelection,
 
+        nmix::Operation::ResetAnchor,
+        nmix::Operation::CentreAnchor,
+
         nmix::Operation::PositionSelectionX,
         nmix::Operation::PositionSelectionY,
         nmix::Operation::PositionSelectionDistance,
@@ -159,6 +162,18 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
         case nmix::Operation::CentreSelection:
 
             result.setInfo("Centre Selection", "Snap Selected Nodes To Stage Centre", "", 0);
+
+            break;
+
+        case nmix::Operation::ResetAnchor:
+
+            result.setInfo("Reset Anchor", "Reset Anchor To Output Position", "", 0);
+
+            break;
+
+        case nmix::Operation::CentreAnchor:
+
+            result.setInfo("Centre Anchor", "Centre Anchor To Stage", "", 0);
 
             break;
 
@@ -273,6 +288,18 @@ bool nmix::MainWindow::perform(const juce::ApplicationCommandTarget::InvocationI
 
             break;
         }
+
+        case nmix::Operation::ResetAnchor:
+
+            operationHandler.resetAnchor();
+
+            break;
+
+        case nmix::Operation::CentreAnchor:
+
+            operationHandler.centreAnchor();
+
+            break;
             
         case nmix::Operation::LockSelection:
             

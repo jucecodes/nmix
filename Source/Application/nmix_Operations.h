@@ -29,6 +29,8 @@ enum Operation
 
 // Singleton Operations
 
+    //Nodes
+
     SelectAll,
     InvertSelection,
     DeselectAll,
@@ -41,6 +43,11 @@ enum Operation
 
     NudgeSelection,
     CentreSelection,
+
+    // Anchor
+
+    ResetAnchor,
+    CentreAnchor,
 
 // Stateful Operations
 

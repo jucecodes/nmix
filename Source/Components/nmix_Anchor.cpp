@@ -20,6 +20,8 @@
 #include "nmix_Node.h"
 #include "nmix_Stage.h"
 #include "nmix_Colours.h"
+#include "nmix_Viewport.h"
+#include "nmix_OperationHandler.h"
 
 nmix::Anchor::Anchor(nmix::Stage& s) : currentStage(s)
 {
@@ -39,7 +41,14 @@ void nmix::Anchor::setNode(nmix::Node* n)
 
 void nmix::Anchor::mouseDown(const juce::MouseEvent& e)
 {
-    dragger.startDraggingComponent(this, e);
+    if (e.mods.isLeftButtonDown())
+    {
+        dragger.startDraggingComponent(this, e);
+    }
+    else if (e.mods.isRightButtonDown())
+    {
+        currentStage.operationHandler.currentViewport->invokeContextualMenu(e);
+    }
 }
 
 void nmix::Anchor::mouseDrag(const juce::MouseEvent& e)
