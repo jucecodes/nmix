@@ -238,6 +238,15 @@ void nmix::OperationHandler::setAnchor()
     currentStage->repaint();
 }
 
+void nmix::OperationHandler::snapAnchor()
+{
+    currentStage->anchor->snapsToOutput = true;
+    nmix::Node* n = selectedNodes.getSelectedItem(0);
+    currentStage->anchor->currentSnap = n;
+    currentStage->anchor->setCentrePosition(n->getX() + currentStage->nodeSize/2, n->getY() + currentStage->nodeSize/2);
+    currentStage->repaint();
+}
+
 void nmix::OperationHandler::resetAnchor()
 {
     juce::Point<int> centre = currentStage->master->getPosition().translated(currentStage->nodeSize/2, currentStage->nodeSize/2);

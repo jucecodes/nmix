@@ -63,6 +63,10 @@ void nmix::Viewport::invokeContextualMenu(juce::MouseEvent e)
 
         menu.addSeparator();
 
+        menu.addCommandItem(cmd, nmix::Operation::SnapAnchor);
+
+        menu.addSeparator();
+
         menu.addCommandItem(cmd, nmix::Operation::LockSelection);
         menu.addCommandItem(cmd, nmix::Operation::UnlockSelection);
 

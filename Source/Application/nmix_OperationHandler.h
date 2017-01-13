@@ -49,6 +49,7 @@ struct OperationHandler : public juce::ChangeListener
     void positionSelection(const juce::MouseEvent& e);
 
     void setAnchor();
+    void snapAnchor();
     void resetAnchor();
     void centreAnchor();
 

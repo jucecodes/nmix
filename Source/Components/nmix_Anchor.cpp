@@ -22,6 +22,8 @@
 #include "nmix_Colours.h"
 #include "nmix_Viewport.h"
 #include "nmix_OperationHandler.h"
+#include "nmix_Output.h"
+#include "nmix_Channel.h"
 
 nmix::Anchor::Anchor(nmix::Stage& s) : currentStage(s)
 {

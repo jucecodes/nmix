@@ -45,6 +45,9 @@ nmix::MainComponent::MainComponent()
     stage->master->setCentrePosition(stage->getWidth()/2, stage->getHeight()/2);
     stage->addAndMakeVisible(stage->master);
     op.stagedNodes.add(stage->master);
+
+    stage->anchor->currentSnap = stage->master;
+    stage->master->moved();
 }
 
 nmix::MainComponent::~MainComponent()

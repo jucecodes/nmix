@@ -63,6 +63,7 @@ void nmix::MainWindow::getAllCommands(juce::Array<juce::CommandID> &commands)
         nmix::Operation::CentreSelection,
 
         nmix::Operation::SetAnchor,
+        nmix::Operation::SnapAnchor,
         nmix::Operation::ResetAnchor,
         nmix::Operation::CentreAnchor,
 
@@ -169,6 +170,12 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
         case nmix::Operation::SetAnchor:
 
             result.setInfo("Set Anchor", "Set Anchor To Current Mouse Position", "", 0);
+
+            break;
+
+        case nmix::Operation::SnapAnchor:
+
+            result.setInfo("Snap Anchor", "Snap Anchor To The Currently Selected Node", "", 0);
 
             break;
 
@@ -299,6 +306,12 @@ bool nmix::MainWindow::perform(const juce::ApplicationCommandTarget::InvocationI
         case nmix::Operation::SetAnchor:
 
             operationHandler.setAnchor();
+
+            break;
+
+        case nmix::Operation::SnapAnchor:
+
+            operationHandler.snapAnchor();
 
             break;
 

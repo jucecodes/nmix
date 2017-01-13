@@ -22,7 +22,7 @@
 
 nmix::Channel::Channel(nmix::Stage& s, nmix::OperationHandler& o) : nmix::Node(s, o)
 {
-    currentAnchor = s.master->getPosition().translated(s.nodeSize/2, s.nodeSize/2);
+    currentAnchor = s.anchor->getPosition().translated(4, 4);
 }
 
 nmix::Channel::~Channel()
@@ -35,4 +35,9 @@ void nmix::Channel::moved()
     juce::Point<int> centre = stage.master->getPosition().translated(stage.nodeSize/2, stage.nodeSize/2);
     distance = getPosition().translated(stage.nodeSize/2, stage.nodeSize/2).getDistanceFrom(centre);
     azimuth  = centre.getAngleToPoint(getPosition().translated(stage.nodeSize/2, stage.nodeSize/2));
+
+    if (stage.anchor->currentSnap == this)
+    {
+        stage.anchor->setCentrePosition(getX() + getWidth()/2, getY() + getHeight()/2);
+    }
 }

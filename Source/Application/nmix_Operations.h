@@ -47,6 +47,7 @@ enum Operation
     // Anchor
 
     SetAnchor,
+    SnapAnchor,
     ResetAnchor,
     CentreAnchor,
 

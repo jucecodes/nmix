@@ -47,6 +47,7 @@ struct Anchor : public juce::Component
     juce::ComponentDragger dragger;
 
     nmix::Node* currentNode;
+    nmix::Node* currentSnap;
     
     nmix::Stage& currentStage;
     
