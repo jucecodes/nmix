@@ -59,7 +59,7 @@ void nmix::Node::mouseDown(const juce::MouseEvent &e)
     {
         if (e.mods.isCtrlDown())
         {
-            mouseDownResult = operationHandler.selectedNodes.addToSelectionOnMouseDown(this, e.mods);
+            operationHandler.selectedNodes.selectOnly(this);
             operationHandler.currentViewport->invokeContextualMenu(e);
         }
         else
@@ -76,7 +76,7 @@ void nmix::Node::mouseDown(const juce::MouseEvent &e)
     }
     else if (e.mods.isRightButtonDown())
     {
-        mouseDownResult = operationHandler.selectedNodes.addToSelectionOnMouseDown(this, e.mods);
+        operationHandler.selectedNodes.selectOnly(this);
         operationHandler.currentViewport->invokeContextualMenu(e);
     }
 
