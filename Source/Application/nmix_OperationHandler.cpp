@@ -92,12 +92,22 @@ void nmix::OperationHandler::deleteSelection()
 
 void nmix::OperationHandler::lockSelection()
 {
-    for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
-    {
-        (*n)->status |= nmix::Node::Locked;
-    }
 
-    selectedNodes.deselectAll();
+    if (!selectedNodes.isSelected(currentOpSource))
+    {
+        currentOpSource->status |= nmix::Node::Locked;
+        selectedNodes.deselect(currentOpSource);
+        currentOpSource->repaint();
+    }
+    else
+    {
+        for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
+        {
+            (*n)->status |= nmix::Node::Locked;
+        }
+
+        selectedNodes.deselectAll();
+    }
 }
 
 void nmix::OperationHandler::unlockSelection()
