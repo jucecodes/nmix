@@ -122,7 +122,7 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
             
         case nmix::Operation::RemoveNode:
             
-            result.setInfo("Remove Node", "Remove Selected Nodes", "", 0);
+            result.setInfo("Remove", "Remove Nodes", "", 0);
             
             result.addDefaultKeypress(juce::KeyPress::backspaceKey, juce::ModifierKeys::noModifiers);
             result.addDefaultKeypress(juce::KeyPress::deleteKey,    juce::ModifierKeys::noModifiers);
@@ -131,7 +131,7 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
             
         case nmix::Operation::LockSelection:
             
-            result.setInfo("Lock Selection", "Lock Selected Nodes", "", 0);
+            result.setInfo("Lock", "Lock Nodes", "", 0);
             
             result.addDefaultKeypress('l', juce::ModifierKeys::commandModifier);
             
@@ -139,7 +139,7 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
 
         case nmix::Operation::UnlockSelection:
 
-            result.setInfo("Unlock Selection", "Unlock Selected Nodes", "", 0);
+            result.setInfo("Unlock", "Unlock Nodes", "", 0);
 
             result.addDefaultKeypress('l', juce::ModifierKeys::commandModifier | juce::ModifierKeys::shiftModifier);
 
@@ -163,7 +163,7 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
 
         case nmix::Operation::CentreSelection:
 
-            result.setInfo("Centre Selection", "Snap Selected Nodes To Stage Centre", "", 0);
+            result.setInfo("Centre", "Snap To Stage Centre", "", 0);
 
             break;
 
@@ -193,7 +193,7 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
 
         case nmix::Operation::PositionSelectionX:
             
-            result.setInfo("Adjust X", "Adjust Selected Node X Position", "", 0);
+            result.setInfo("Adjust X", "Adjust Selected Node X Positions", "", 0);
             
             result.addDefaultKeypress('x', juce::ModifierKeys::noModifiers);
             
@@ -201,7 +201,7 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
             
         case nmix::Operation::PositionSelectionY:
             
-            result.setInfo("Adjust Y", "Adjust Selected Node Y Position", "", 0);
+            result.setInfo("Adjust Y", "Adjust Selected Node Y Positions", "", 0);
             
             result.addDefaultKeypress('y', juce::ModifierKeys::noModifiers);
             
@@ -209,7 +209,7 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
             
         case nmix::Operation::PositionSelectionDistance:
             
-            result.setInfo("Adjust Volume", "Adjust Selected Node Volumes", "", 0);
+            result.setInfo("Adjust Distance", "Adjust Selected Node Distances", "", 0);
             
             result.addDefaultKeypress('v', juce::ModifierKeys::noModifiers);
             
@@ -217,7 +217,7 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
             
         case nmix::Operation::PositionSelectionAzimuth:
             
-            result.setInfo("Adjust Balance", "Adjust Selected Node Balances", "", 0);
+            result.setInfo("Adjust Azimuth", "Adjust Selected Node Azimuths", "", 0);
             
             result.addDefaultKeypress('b', juce::ModifierKeys::noModifiers);
             
