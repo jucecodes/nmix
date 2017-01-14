@@ -241,7 +241,7 @@ void nmix::OperationHandler::setAnchor()
 void nmix::OperationHandler::snapAnchor()
 {
     currentStage->anchor->snapsToOutput = true;
-    nmix::Node* n = selectedNodes.getSelectedItem(0);
+    nmix::Node* n = currentOpSource;
     currentStage->anchor->currentSnap = n;
     currentStage->anchor->setCentrePosition(n->getX() + currentStage->nodeSize/2, n->getY() + currentStage->nodeSize/2);
     currentStage->repaint();

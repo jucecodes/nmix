@@ -62,6 +62,8 @@ struct OperationHandler : public juce::ChangeListener
     juce::Point<int> mouseOpOrigin;
     juce::Point<int> mouseModOrigin;
 
+    nmix::Node* currentOpSource;
+
     juce::OwnedArray<nmix::Node>       stagedNodes;
     juce::SelectedItemSet<nmix::Node*> selectedNodes;
     

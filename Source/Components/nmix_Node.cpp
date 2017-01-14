@@ -55,11 +55,12 @@ void nmix::Node::mouseDown(const juce::MouseEvent &e)
 
     toFront(true);
 
+    operationHandler.currentOpSource = this;
+
     if (e.mods.isLeftButtonDown())
     {
         if (e.mods.isCtrlDown())
         {
-            operationHandler.selectedNodes.selectOnly(this);
             operationHandler.currentViewport->invokeContextualMenu(e);
         }
         else
@@ -76,7 +77,6 @@ void nmix::Node::mouseDown(const juce::MouseEvent &e)
     }
     else if (e.mods.isRightButtonDown())
     {
-        operationHandler.selectedNodes.selectOnly(this);
         operationHandler.currentViewport->invokeContextualMenu(e);
     }
 
