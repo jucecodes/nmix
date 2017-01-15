@@ -28,7 +28,7 @@
 nmix::Anchor::Anchor(nmix::Stage& s) : currentStage(s)
 {
     setSize(8, 8);
-    snapsToOutput = true;
+    isSnapping = true;
 }
 
 nmix::Anchor::~Anchor()
@@ -44,7 +44,7 @@ void nmix::Anchor::setNode(nmix::Node* n)
 
 void nmix::Anchor::mouseDown(const juce::MouseEvent& e)
 {
-    snapsToOutput = false;
+    isSnapping = false;
 
     if (e.mods.isLeftButtonDown())
     {
@@ -72,7 +72,7 @@ void nmix::Anchor::paint(juce::Graphics& g)
 
 void nmix::Anchor::moved()
 {
-    if (snapsToOutput == true)
+    if (isSnapping == true)
     {
         for (int i = 0; i < currentStage.operationHandler.stagedNodes.size(); ++i)
         {

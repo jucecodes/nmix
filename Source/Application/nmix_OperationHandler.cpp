@@ -273,15 +273,15 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
 
 void nmix::OperationHandler::setAnchor()
 {
-    currentStage->anchor->snapsToOutput = true;
+    currentStage->anchor->isSnapping = true;
     currentStage->anchor->setCentrePosition(mouseOpOrigin.x, mouseOpOrigin.y);
-    currentStage->anchor->snapsToOutput = false;
+    currentStage->anchor->isSnapping = false;
     currentStage->repaint();
 }
 
 void nmix::OperationHandler::snapAnchor()
 {
-    currentStage->anchor->snapsToOutput = true;
+    currentStage->anchor->isSnapping = true;
     nmix::Node* n = currentOpSource;
     currentStage->anchor->currentSnap = n;
     currentStage->anchor->setCentrePosition(n->getX() + currentStage->nodeSize/2, n->getY() + currentStage->nodeSize/2);
@@ -291,7 +291,7 @@ void nmix::OperationHandler::snapAnchor()
 void nmix::OperationHandler::resetAnchor()
 {
     juce::Point<int> centre = currentStage->master->getPosition().translated(currentStage->nodeSize/2, currentStage->nodeSize/2);
-    currentStage->anchor->snapsToOutput = true;
+    currentStage->anchor->isSnapping = true;
     currentStage->anchor->setCentrePosition(centre.x, centre.y);
     currentStage->anchor->currentNode->currentAnchor = centre;
     currentStage->repaint();

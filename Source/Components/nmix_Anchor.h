@@ -42,7 +42,7 @@ struct Anchor : public juce::Component
 
     void moved() override;
 
-    bool snapsToOutput;
+    bool isSnapping;
 
     juce::ComponentDragger dragger;
 
