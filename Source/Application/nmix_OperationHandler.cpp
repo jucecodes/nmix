@@ -205,21 +205,21 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
             if (!((*n)->status & nmix::Node::StatusIds::Locked))
             {
 
-                juce::Point<int> center = (*n)->currentAnchor;
+                juce::Point<int> centre = (*n)->currentAnchor;
                 
                 switch (currentOperation)
                 {
                         
                     case nmix::Operation::PositionSelectionDistance:
                     {
-                        juce::Point<int> p = (*n)->currentModOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2).translated(-center.x, -center.y);
+                        juce::Point<int> p = (*n)->currentModOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2).translated(-centre.x, -centre.y);
                         
-                        juce::Point<int> pOffset = juce::Point<int>((*n)->currentModOrigin.x + (*n)->getWidth()/2 + ((k.x - mouseModOrigin.x) * precision) - center.x, (*n)->currentModOrigin.y + (*n)->getHeight()/2 + ((k.y - mouseModOrigin.y) * precision) - center.y);
+                        juce::Point<int> pOffset = juce::Point<int>((*n)->currentModOrigin.x + (*n)->getWidth()/2 + ((k.x - mouseModOrigin.x) * precision) - centre.x, (*n)->currentModOrigin.y + (*n)->getHeight()/2 + ((k.y - mouseModOrigin.y) * precision) - centre.y);
                         
                         double dot = p.getDotProduct(pOffset);
                         double len = p.x * p.x + p.y * p.y;
                         
-                        (*n)->setCentrePosition((int)(center.x + (dot * p.x) / len), (int)(center.y + (dot * p.y) / len));
+                        (*n)->setCentrePosition((int)(centre.x + (dot * p.x) / len), (int)(centre.y + (dot * p.y) / len));
 
                         break;
                     }
@@ -228,11 +228,11 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
                     {
                         juce::Point<int> p = (*n)->currentModOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2);
                         
-                        float opOriginAngle     = center.getAngleToPoint(p);
-                        float mouseOriginAngle  = center.getAngleToPoint(mouseModOrigin);
-                        float mouseCurrentAngle = center.getAngleToPoint(k.getPosition());
+                        float opOriginAngle     = centre.getAngleToPoint(p);
+                        float mouseOriginAngle  = centre.getAngleToPoint(mouseModOrigin);
+                        float mouseCurrentAngle = centre.getAngleToPoint(k.getPosition());
                         
-                        juce::Point<float> final = center.getPointOnCircumference(center.getDistanceFrom(p), opOriginAngle - ((mouseOriginAngle - mouseCurrentAngle) * precision));
+                        juce::Point<float> final = centre.getPointOnCircumference(centre.getDistanceFrom(p), opOriginAngle - ((mouseOriginAngle - mouseCurrentAngle) * precision));
                         
                         (*n)->setCentrePosition(final.x, final.y);
 
