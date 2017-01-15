@@ -77,14 +77,30 @@ void nmix::OperationHandler::addNode(bool fromKeyPress)
 
 void nmix::OperationHandler::deleteSelection()
 {
-
-    selectedNodes.deselect(currentStage->master);
-
-    while (selectedNodes.getNumSelected() > 0)
+    if (!selectedNodes.isSelected(currentOpSource))
     {
-        Node* n = selectedNodes.getSelectedItem(0);
-        selectedNodes.deselect(n);
-        stagedNodes.removeObject(n);
+        if (currentOpSource != currentStage->master)
+        {
+            selectedNodes.deselect(currentOpSource);
+            stagedNodes.removeObject(currentOpSource);
+            currentOpSource = nullptr;
+        }
+        else
+        {
+            // warning
+            return;
+        }
+    }
+    else
+    {
+        selectedNodes.deselect(currentStage->master);
+
+        while (selectedNodes.getNumSelected() > 0)
+        {
+            Node* n = selectedNodes.getSelectedItem(0);
+            selectedNodes.deselect(n);
+            stagedNodes.removeObject(n);
+        }
     }
 
     currentStage->repaint();
@@ -112,10 +128,18 @@ void nmix::OperationHandler::lockSelection()
 
 void nmix::OperationHandler::unlockSelection()
 {
-    for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
+    if (!selectedNodes.isSelected(currentOpSource))
     {
-        (*n)->status &= ~nmix::Node::Locked;
-        (*n)->repaint();
+        currentOpSource->status &= ~nmix::Node::Locked;
+        currentOpSource->repaint();
+    }
+    else
+    {
+        for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
+        {
+            (*n)->status &= ~nmix::Node::Locked;
+            (*n)->repaint();
+        }
     }
 }
 
@@ -150,11 +174,18 @@ void nmix::OperationHandler::centreSelection()
 {
     juce::Point<int> centre = juce::Point<int>(currentStage->getWidth()/2, currentStage->getHeight()/2);
 
-    for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
+    if (!selectedNodes.isSelected(currentOpSource))
     {
-        if (!((*n)->status & nmix::Node::StatusIds::Locked))
+        currentOpSource->setCentrePosition(centre.x, centre.y);
+    }
+    else
+    {
+        for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
         {
-            (*n)->setCentrePosition(centre.x, centre.y);
+            if (!((*n)->status & nmix::Node::StatusIds::Locked))
+            {
+                (*n)->setCentrePosition(centre.x, centre.y);
+            }
         }
     }
 
