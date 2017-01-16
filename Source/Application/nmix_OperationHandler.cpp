@@ -203,7 +203,7 @@ void nmix::OperationHandler::centreSelection()
 
 void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
 {
-    if(e.mouseWasDraggedSinceMouseDown() && currentOperation != nmix::Operation::Escape)
+    if (currentOperation != nmix::Operation::Escape)
     {
         juce::MouseEvent k = e.getEventRelativeTo(currentStage);
 

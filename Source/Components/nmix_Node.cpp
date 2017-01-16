@@ -52,8 +52,6 @@ void nmix::Node::mouseExit(const juce::MouseEvent &e)
 
 void nmix::Node::mouseDown(const juce::MouseEvent &e)
 {
-    e.source.enableUnboundedMouseMovement(true);
-
     toFront(true);
 
     operationHandler.currentOpSource = this;
@@ -74,6 +72,8 @@ void nmix::Node::mouseDown(const juce::MouseEvent &e)
             {
                 (*n)->currentModOrigin = (*n)->currentOpOrigin = (*n)->getPosition();
             }
+
+            e.source.enableUnboundedMouseMovement(true);
         }
     }
     else if (e.mods.isRightButtonDown())
@@ -85,7 +85,10 @@ void nmix::Node::mouseDown(const juce::MouseEvent &e)
 
 void nmix::Node::mouseDrag(const juce::MouseEvent &e)
 {
-    operationHandler.positionSelection(e);
+    if (e.mouseWasDraggedSinceMouseDown())
+    {
+        operationHandler.positionSelection(e);
+    }
 }
 
 void nmix::Node::mouseUp(const juce::MouseEvent &e)
