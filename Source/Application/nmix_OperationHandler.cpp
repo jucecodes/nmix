@@ -224,6 +224,9 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
                         
                     case nmix::Operation::PositionSelectionDistance:
                     {
+
+                        if (currentStage->anchor->currentSnap == (*n)) { continue; }
+
                         juce::Point<int> p = (*n)->currentModOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2).translated(-centre.x, -centre.y);
                         
                         juce::Point<int> pOffset = juce::Point<int>((*n)->currentModOrigin.x + (*n)->getWidth()/2 + ((k.x - mouseModOrigin.x) * precision) - centre.x, (*n)->currentModOrigin.y + (*n)->getHeight()/2 + ((k.y - mouseModOrigin.y) * precision) - centre.y);
@@ -238,6 +241,9 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
                         
                     case nmix::Operation::PositionSelectionAzimuth:
                     {
+
+                        if (currentStage->anchor->currentSnap == (*n)) { continue; }
+
                         juce::Point<int> p = (*n)->currentModOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2);
                         
                         float opOriginAngle     = centre.getAngleToPoint(p);
