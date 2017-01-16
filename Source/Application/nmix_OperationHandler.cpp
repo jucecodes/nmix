@@ -318,7 +318,7 @@ void nmix::OperationHandler::centreAnchor()
 
 void nmix::OperationHandler::modifierKeysChanged(const juce::ModifierKeys &mods)
 {
-    if (mods.isShiftDown() && juce::Desktop::getInstance().getNumDraggingMouseSources())
+    if (juce::Desktop::getInstance().getNumDraggingMouseSources())
     {
         for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
         {

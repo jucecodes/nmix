@@ -52,6 +52,7 @@ void nmix::Node::mouseExit(const juce::MouseEvent &e)
 
 void nmix::Node::mouseDown(const juce::MouseEvent &e)
 {
+    e.source.enableUnboundedMouseMovement(true);
 
     toFront(true);
 
