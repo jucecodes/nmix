@@ -93,7 +93,10 @@ void nmix::Node::mouseDrag(const juce::MouseEvent &e)
 
 void nmix::Node::mouseUp(const juce::MouseEvent &e)
 {
-    operationHandler.selectedNodes.addToSelectionOnMouseUp(this, e.mods, e.mouseWasDraggedSinceMouseDown(), mouseDownResult);
+    if (e.mods.isLeftButtonDown())
+    {
+        operationHandler.selectedNodes.addToSelectionOnMouseUp(this, e.mods, e.mouseWasDraggedSinceMouseDown(), mouseDownResult);
+    }
     operationHandler.currentOperation = nmix::Operation::None;
 }
 
