@@ -134,7 +134,7 @@ void nmix::Stage::paint(juce::Graphics& g)
             int radius;
             if (operationHandler.currentOperation == nmix::Operation::PositionSelectionAzimuth)
             {
-                radius = (*n)->currentOpOrigin.translated(nWidth/2, nHeight/2).getDistanceFrom(anchorPoint);
+                radius = (*n)->currentModOrigin.translated(nWidth/2, nHeight/2).getDistanceFrom(anchorPoint);
             }
             else
             {
