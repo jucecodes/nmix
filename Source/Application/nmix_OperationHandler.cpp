@@ -211,6 +211,9 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
 
         for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
         {
+
+            if (currentModifiers.isCommandDown() && (*n) != currentOpSource) { continue; }
+
             if (!((*n)->status & nmix::Node::StatusIds::Locked))
             {
 
