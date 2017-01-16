@@ -79,7 +79,7 @@ void nmix::OperationHandler::deleteSelection()
 {
     if (!selectedNodes.isSelected(currentOpSource))
     {
-        if (currentOpSource != currentStage->master)
+        if (currentOpSource != currentStage->master && !(currentOpSource->status & nmix::Node::Locked))
         {
             selectedNodes.deselect(currentOpSource);
             stagedNodes.removeObject(currentOpSource);
@@ -95,11 +95,20 @@ void nmix::OperationHandler::deleteSelection()
     {
         selectedNodes.deselect(currentStage->master);
 
-        while (selectedNodes.getNumSelected() > 0)
+        juce::Array<nmix::Node*> nodesToDelete;
+
+        for (int i = 0; i < selectedNodes.getNumSelected(); ++i)
         {
-            Node* n = selectedNodes.getSelectedItem(0);
-            selectedNodes.deselect(n);
-            stagedNodes.removeObject(n);
+            if (!(selectedNodes.getSelectedItem(i)->status & nmix::Node::Locked))
+            {
+                nodesToDelete.add(selectedNodes.getSelectedItem(i));
+            }
+        }
+
+        for (nmix::Node** n = nodesToDelete.begin(); n != nodesToDelete.end(); ++n)
+        {
+            selectedNodes.deselect((*n));
+            stagedNodes.removeObject((*n));
         }
     }
 
