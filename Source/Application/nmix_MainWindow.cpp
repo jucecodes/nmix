@@ -230,7 +230,9 @@ bool nmix::MainWindow::perform(const juce::ApplicationCommandTarget::InvocationI
 {
     
     nmix::OperationHandler& operationHandler = nmix::Application::getOperationHandler();
-    
+
+    operationHandler.modifierKeysChanged(info.keyPress.getModifiers());
+
     switch (info.commandID)
     {
         case nmix::Operation::Escape:
