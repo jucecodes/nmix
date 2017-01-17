@@ -60,5 +60,16 @@ void nmix::Anchor::mouseDrag(const juce::MouseEvent& e)
 
 void nmix::Anchor::paint(juce::Graphics& g)
 {
-    g.fillAll(nmix::Colours::White);
+
+    if (currentSnap != nullptr)
+    {
+        g.setColour(currentSnap->findColour(nmix::Node::backgroundColourId).contrasting());
+    }
+    else
+    {
+        g.setColour(nmix::Colours::White);
+    }
+
+    g.drawLine(4, 0, 4, 8, 2);
+    g.drawLine(0, 4, 8, 4, 2);
 }

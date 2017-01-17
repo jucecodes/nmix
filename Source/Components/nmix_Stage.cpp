@@ -148,9 +148,6 @@ void nmix::Stage::paint(juce::Graphics& g)
                 g.drawEllipse(anchorPoint.x - radius, anchorPoint.y - radius, radius*2, radius*2, 1);
                 g.drawLine(anchorPoint.x, anchorPoint.y, (*n)->getX() + nWidth/2, (*n)->getY() + nHeight/2, 1);
             }
-
-            g.setColour(nmix::Colours::White);
-            g.fillEllipse(anchorPoint.x - 4, anchorPoint.y - 4, 8, 8);
         }
     }
 }
