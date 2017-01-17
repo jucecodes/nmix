@@ -292,8 +292,6 @@ bool nmix::MainWindow::perform(const juce::ApplicationCommandTarget::InvocationI
             
             operationHandler.nudgeSelection(info.keyPress);
             
-            repaint();
-            
             break;
         }
 
