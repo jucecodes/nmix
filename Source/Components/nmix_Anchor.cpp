@@ -28,7 +28,6 @@
 nmix::Anchor::Anchor(nmix::Stage& s) : currentStage(s)
 {
     setSize(8, 8);
-    isSnapping = true;
 }
 
 nmix::Anchor::~Anchor()
@@ -36,16 +35,8 @@ nmix::Anchor::~Anchor()
     
 }
 
-void nmix::Anchor::setNode(nmix::Node* n)
-{
-    currentNode = n;
-    setCentrePosition(n->currentAnchor.x, n->currentAnchor.y);
-}
-
 void nmix::Anchor::mouseDown(const juce::MouseEvent& e)
 {
-    isSnapping = false;
-
     if (e.mods.isLeftButtonDown())
     {
         dragger.startDraggingComponent(this, e);
@@ -58,25 +49,16 @@ void nmix::Anchor::mouseDown(const juce::MouseEvent& e)
 
 void nmix::Anchor::mouseDrag(const juce::MouseEvent& e)
 {
+    if (e.mouseWasDraggedSinceMouseDown() && currentSnap != nullptr)
+    {
+        currentSnap = nullptr;
+    }
+
     dragger.dragComponent(this, e, nullptr);
-
-    currentNode->currentAnchor = getPosition().translated(getWidth()/2, getHeight()/2);
-
     currentStage.repaint();
 }
 
 void nmix::Anchor::paint(juce::Graphics& g)
 {
     g.fillAll(nmix::Colours::White);
-}
-
-void nmix::Anchor::moved()
-{
-    if (isSnapping == true)
-    {
-        for (int i = 0; i < currentStage.operationHandler.stagedNodes.size(); ++i)
-        {
-            currentStage.operationHandler.stagedNodes[i]->currentAnchor = getPosition().translated(getWidth()/2, getHeight()/2);
-        }
-    }
 }

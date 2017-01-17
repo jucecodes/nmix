@@ -217,7 +217,7 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
             if (!((*n)->status & nmix::Node::StatusIds::Locked))
             {
 
-                juce::Point<int> centre = (*n)->currentAnchor;
+                juce::Point<int> centre = currentStage->anchor->getPosition().translated(4, 4);
                 
                 switch (currentOperation)
                 {
@@ -291,15 +291,12 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
 
 void nmix::OperationHandler::setAnchor()
 {
-    currentStage->anchor->isSnapping = true;
     currentStage->anchor->setCentrePosition(mouseOpOrigin.x, mouseOpOrigin.y);
-    currentStage->anchor->isSnapping = false;
     currentStage->repaint();
 }
 
 void nmix::OperationHandler::snapAnchor()
 {
-    currentStage->anchor->isSnapping = true;
     nmix::Node* n = currentOpSource;
     currentStage->anchor->currentSnap = n;
     currentStage->anchor->setCentrePosition(n->getX() + currentStage->nodeSize/2, n->getY() + currentStage->nodeSize/2);
@@ -309,19 +306,16 @@ void nmix::OperationHandler::snapAnchor()
 void nmix::OperationHandler::resetAnchor()
 {
     juce::Point<int> centre = currentStage->master->getPosition().translated(currentStage->nodeSize/2, currentStage->nodeSize/2);
-    currentStage->anchor->isSnapping = true;
     currentStage->anchor->setCentrePosition(centre.x, centre.y);
-    currentStage->anchor->currentNode->currentAnchor = centre;
+    currentStage->anchor->currentSnap = currentStage->master;
     currentStage->repaint();
 }
 
 void nmix::OperationHandler::centreAnchor()
 {
     juce::Point<int> centre = juce::Point<int>(currentStage->getWidth()/2, currentStage->getHeight()/2);
-
     currentStage->anchor->setCentrePosition(centre.x, centre.y);
-    currentStage->anchor->currentNode->currentAnchor = centre;
-
+    currentStage->anchor->currentSnap = nullptr;
     currentStage->repaint();
 }
 
@@ -359,25 +353,17 @@ void nmix::OperationHandler::changeListenerCallback(juce::ChangeBroadcaster *sou
     
     if (selectedNodes.getNumSelected() > 1)
     {
-        currentStage->anchor->currentNode = nullptr;
-        currentStage->removeChildComponent(currentStage->anchor);
-
         currentViewport->selectionInfo.setText(juce::String(selectedNodes.getNumSelected()) + " nodes selected", juce::dontSendNotification);
         currentViewport->selectionInfo.setColour(juce::Label::ColourIds::textColourId, nmix::Colours::White);
     }
     else if (selectedNodes.getNumSelected() == 1)
     {
         nmix::Node* n = selectedNodes.getSelectedItem(0);
-        currentStage->anchor->setNode(n);
-        currentStage->addAndMakeVisible(currentStage->anchor);
-
         currentViewport->selectionInfo.setText(n->getName(), juce::dontSendNotification);
         currentViewport->selectionInfo.setColour(juce::Label::ColourIds::textColourId, n->findColour(nmix::Node::backgroundColourId));
     }
     else
     {
-        currentStage->removeChildComponent(currentStage->anchor);
-
         currentViewport->selectionInfo.setText("", juce::dontSendNotification);
         currentViewport->selectionInfo.setColour(juce::Label::ColourIds::textColourId, nmix::Colours::White);
     }

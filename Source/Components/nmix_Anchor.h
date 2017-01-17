@@ -33,20 +33,13 @@ struct Anchor : public juce::Component
     Anchor(nmix::Stage& s);
     ~Anchor();
 
-    void setNode(nmix::Node* n);
-
     void mouseDown(const juce::MouseEvent& e) override;
     void mouseDrag(const juce::MouseEvent& e) override;
     
     void paint(juce::Graphics& g) override;
 
-    void moved() override;
-
-    bool isSnapping;
-
     juce::ComponentDragger dragger;
 
-    nmix::Node* currentNode;
     nmix::Node* currentSnap;
     
     nmix::Stage& currentStage;

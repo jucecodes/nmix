@@ -31,6 +31,7 @@ nmix::Stage::Stage(nmix::OperationHandler& o) : operationHandler(o)
     setColour(foregroundColourId, nmix::Colours::DarkGrey);
 
     anchor = new Anchor(*this);
+    addAndMakeVisible(anchor);
 
     nodeSize = 32;
 }
@@ -129,7 +130,7 @@ void nmix::Stage::paint(juce::Graphics& g)
             int nWidth  = (*n)->getWidth();
             int nHeight = (*n)->getHeight();
 
-            juce::Point<int> anchorPoint = juce::Point<int>((*n)->currentAnchor.x, (*n)->currentAnchor.y);
+            juce::Point<int> anchorPoint = anchor->getPosition().translated(4, 4);
 
             int radius;
             if (operationHandler.currentOperation == nmix::Operation::PositionSelectionAzimuth)
