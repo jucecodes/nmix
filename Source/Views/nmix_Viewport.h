@@ -38,6 +38,8 @@ struct Viewport : public juce::Component
     void resized() override;
     
     juce::Label selectionInfo;
+
+    juce::Label operationInfo;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Viewport)
     

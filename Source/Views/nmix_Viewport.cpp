@@ -32,6 +32,12 @@ nmix::Viewport::Viewport()
     selectionInfo.setInterceptsMouseClicks(false, false);
     selectionInfo.setJustificationType(juce::Justification::centredLeft);
     addAndMakeVisible(selectionInfo);
+
+    operationInfo.setText("Parallel", juce::dontSendNotification);
+    operationInfo.setColour(juce::Label::ColourIds::textColourId, nmix::Colours::White);
+    operationInfo.setInterceptsMouseClicks(false, false);
+    operationInfo.setJustificationType(juce::Justification::centredRight);
+    addAndMakeVisible(operationInfo);
 }
 
 nmix::Viewport::~Viewport()
@@ -88,4 +94,5 @@ void nmix::Viewport::invokeContextualMenu(juce::MouseEvent e)
 void nmix::Viewport::resized()
 {
     selectionInfo.setBounds(0, getHeight() - 20, getWidth(), 20);
+    operationInfo.setBounds(0, getHeight() - 20, getWidth(), 20);
 }

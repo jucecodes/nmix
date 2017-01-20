@@ -48,7 +48,9 @@ void nmix::MainWindow::getAllCommands(juce::Array<juce::CommandID> &commands)
     const juce::CommandID ids[] =
     {
         nmix::Operation::Escape,
-        
+
+        nmix::Operation::CycleEditMode,
+
         nmix::Operation::SelectAll,
         nmix::Operation::InvertSelection,
         nmix::Operation::DeselectAll,
@@ -86,6 +88,14 @@ void nmix::MainWindow::getCommandInfo(juce::CommandID commandID, juce::Applicati
             
             result.addDefaultKeypress(juce::KeyPress::escapeKey, juce::ModifierKeys::noModifiers);
             
+            break;
+
+        case nmix::Operation::CycleEditMode:
+
+            result.setInfo("Cycle Edit Mode", "Change The Current Edit Mode", "", 0);
+
+            result.addDefaultKeypress(juce::KeyPress::tabKey, juce::ModifierKeys::noModifiers);
+
             break;
             
         case nmix::Operation::SelectAll:
@@ -250,6 +260,12 @@ bool nmix::MainWindow::perform(const juce::ApplicationCommandTarget::InvocationI
                 operationHandler.currentOperation = nmix::Operation::None;
             }
             
+            break;
+
+        case nmix::Operation::CycleEditMode:
+
+            operationHandler.cycleEditMode();
+
             break;
             
         case nmix::Operation::SelectAll:

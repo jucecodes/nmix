@@ -27,12 +27,28 @@
 nmix::OperationHandler::OperationHandler()
 {
     currentOperation = nmix::Operation::None;
+    currentEditMode  = nmix::EditMode::Parallel;
+    currentModifiers = juce::ModifierKeys::noModifiers;
     selectedNodes.addChangeListener(this);
 }
 
 nmix::OperationHandler::~OperationHandler()
 {
     stagedNodes.clear();
+}
+
+void nmix::OperationHandler::cycleEditMode()
+{
+    if (currentEditMode == nmix::EditMode::Parallel)
+    {
+        currentEditMode = nmix::EditMode::Inverse;
+        currentViewport->operationInfo.setText("Inverse", juce::dontSendNotification);
+    }
+    else
+    {
+        currentEditMode = nmix::EditMode::Parallel;
+        currentViewport->operationInfo.setText("Parallel", juce::dontSendNotification);
+    }
 }
 
 void nmix::OperationHandler::selectAll()
@@ -207,12 +223,24 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
     {
         juce::MouseEvent k = e.getEventRelativeTo(currentStage);
 
-        float precision = (currentModifiers.isShiftDown()) ? 0.25 : 1;
+        float precision  = (currentModifiers.isShiftDown()) ? 0.25 : 1;
+        int   proportion = 1;
 
         for (nmix::Node** n = selectedNodes.begin(); n != selectedNodes.end(); ++n)
         {
 
-            if (currentModifiers.isCommandDown() && (*n) != currentOpSource) { continue; }
+            if ((*n) != currentOpSource)
+            {
+                if (currentEditMode == nmix::EditMode::Inverse)
+                {
+                    proportion = -1;
+                }
+
+                if (currentModifiers.isCommandDown())
+                {
+                    continue;
+                }
+            }
 
             if (!((*n)->status & nmix::Node::StatusIds::Locked))
             {
@@ -229,7 +257,7 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
 
                         juce::Point<int> p = (*n)->currentModOrigin.translated((*n)->getWidth()/2, (*n)->getHeight()/2).translated(-centre.x, -centre.y);
                         
-                        juce::Point<int> pOffset = juce::Point<int>((*n)->currentModOrigin.x + (*n)->getWidth()/2 + ((k.x - mouseModOrigin.x) * precision) - centre.x, (*n)->currentModOrigin.y + (*n)->getHeight()/2 + ((k.y - mouseModOrigin.y) * precision) - centre.y);
+                        juce::Point<int> pOffset = juce::Point<int>((*n)->currentModOrigin.x + (*n)->getWidth()/2 + ((k.x - mouseModOrigin.x) * precision * proportion) - centre.x, (*n)->currentModOrigin.y + (*n)->getHeight()/2 + ((k.y - mouseModOrigin.y) * precision * proportion) - centre.y);
                         
                         double dot = p.getDotProduct(pOffset);
                         double len = p.x * p.x + p.y * p.y;
@@ -250,7 +278,7 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
                         float mouseOriginAngle  = centre.getAngleToPoint(mouseModOrigin);
                         float mouseCurrentAngle = centre.getAngleToPoint(k.getPosition());
                         
-                        juce::Point<float> final = centre.getPointOnCircumference(centre.getDistanceFrom(p), opOriginAngle - ((mouseOriginAngle - mouseCurrentAngle) * precision));
+                        juce::Point<float> final = centre.getPointOnCircumference(centre.getDistanceFrom(p), opOriginAngle - ((mouseOriginAngle - mouseCurrentAngle) * precision * proportion));
                         
                         (*n)->setCentrePosition(final.x, final.y);
 
@@ -259,19 +287,19 @@ void nmix::OperationHandler::positionSelection(const juce::MouseEvent &e)
                         
                     case nmix::Operation::PositionSelectionX:
                         
-                        (*n)->setTopLeftPosition((*n)->currentModOrigin.x + (k.x - mouseModOrigin.x) * precision, (*n)->currentOpOrigin.y);
+                        (*n)->setTopLeftPosition((*n)->currentModOrigin.x + (k.x - mouseModOrigin.x) * precision * proportion, (*n)->currentOpOrigin.y);
                         
                         break;
                         
                     case nmix::Operation::PositionSelectionY:
                         
-                        (*n)->setTopLeftPosition((*n)->currentModOrigin.x, (*n)->currentModOrigin.y + (k.y - mouseModOrigin.y) * precision);
+                        (*n)->setTopLeftPosition((*n)->currentModOrigin.x, (*n)->currentModOrigin.y + (k.y - mouseModOrigin.y) * precision * proportion);
                         
                         break;
                         
                     default:
                         
-                        (*n)->setTopLeftPosition((*n)->currentModOrigin.x + (k.x - mouseModOrigin.x) * precision, (*n)->currentModOrigin.y + (k.y - mouseModOrigin.y) * precision);
+                        (*n)->setTopLeftPosition((*n)->currentModOrigin.x + (k.x - mouseModOrigin.x) * precision * proportion, (*n)->currentModOrigin.y + (k.y - mouseModOrigin.y) * precision * proportion);
                         
                         break;
                 }

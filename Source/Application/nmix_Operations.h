@@ -29,6 +29,10 @@ enum Operation
 
 // Singleton Operations
 
+    // General
+
+    CycleEditMode,
+
     //Nodes
 
     SelectAll,
@@ -57,6 +61,14 @@ enum Operation
     PositionSelectionY,
     PositionSelectionDistance,
     PositionSelectionAzimuth,
+
+};
+
+enum EditMode
+{
+
+    Parallel = 0,
+    Inverse,
 
 };
 

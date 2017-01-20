@@ -35,6 +35,10 @@ struct OperationHandler : public juce::ChangeListener
     OperationHandler();
     ~OperationHandler();
 
+    void cycleEditMode();
+
+    void showProperties();
+
     void selectAll();
     void invertSelection();
     void deselectAll();
@@ -55,7 +59,8 @@ struct OperationHandler : public juce::ChangeListener
 
     void modifierKeysChanged(const juce::ModifierKeys& mods);
     void changeListenerCallback(juce::ChangeBroadcaster* source);
-    
+
+    nmix::EditMode     currentEditMode;
     nmix::Operation    currentOperation;
     juce::ModifierKeys currentModifiers;
 
