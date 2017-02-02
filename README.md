@@ -1,10 +1,21 @@
 # nmix
 
-nmix is a [Juce](https://www.juce.com) powered prototype exploring the  functionality of object oriented audio mixing.
+nmix is a [Juce](https://www.juce.com) powered prototype exploring the  functionality of coordinate oriented audio mixing.
 
-### Setting Up
+## Setup
 
-[Download Juce](https://www.juce.com/get-juce) and open the nmix project with the included Projucer app. You will need to [configure your Juce module paths](https://www.juce.com/doc/tutorial_manage_projucer_project) to point to your local installation of Juce first. After the modules are set choose "File > Save And Open in IDE.." to open the project in your IDE of choice.
+### Cloning
+
+
+	git clone --recursive https://github.com/lassandroan/nmix.git
+
+When cloning this repository, make sure you include the ```--recursive``` flag to include the juce submodule.
+
+### Building
+
+Because juce has been included as a submodule, there is no need to install or configure juce itself. However, the [Projucer](juce/extras/Projucer) must be built first in order to load the nmix jucer project. The Projucer includes [IDE projects](juce/extras/Projucer/Builds) already, so simply load the project in your IDE and hit build.
+
+After the Projucer has been built, it can be used to load the nmix jucer project and generate an IDE project for nmix.
 
 ## License
 
