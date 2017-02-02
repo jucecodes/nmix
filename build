@@ -1,0 +1,50 @@
+#!/bin/sh
+
+PROJUCER='juce/extras/Projucer/Builds/MacOSX/build/Release/Projucer.app/Contents/MacOS/Projucer'
+
+if [ ! -e "$PROJUCER" ]
+then
+
+echo "Projucer not built, building...\n"
+
+pushd juce/extras/Projucer/Builds/MacOSX/
+xcodebuild -configuration Release > /dev/null
+popd
+
+echo "\nFinished building Projucer!\n"
+
+fi
+
+./$PROJUCER --resave nmix.jucer
+ 
+XCTARGETS=()
+
+while getopts ":t:" opt; do
+    case $opt in
+	t)
+	    if [ "$OPTARG" == "iOS" ]
+	    then
+		XCTARGETS[0]="iOS"
+	    elif [ "$OPTARG" = "MacOSX" ]
+	    then
+	        XCTARGETS[0]="MacOSX"
+	    elif [ "$OPTARG" = "All" ]
+	    then
+		XCTARGETS+=("iOS")
+		XCTARGETS+=("MacOSX")
+	    else
+		echo "Invalid target name: $OPTARG"
+		exit 1;
+	    fi
+    esac
+done
+
+for i in "${XCTARGETS[@]}"
+do
+    pushd Builds/$i > /dev/null
+    echo "\nBuilding from Builds/$i...\n"
+    xcodebuild
+    popd > /dev/null
+done
+
+
